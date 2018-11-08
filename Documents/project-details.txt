@@ -27,6 +27,15 @@ Kääntäjää testataan jokaisen projektin vaiheen jälkeen esimerkki
 haskellohjelmien avulla.
 Yksikkötestit toteutuksen yhteydessä (xUnit)
 
+Työnjako / vastuut:
+	Rami: Versionhallinta, C#
+	Jose: Kohdekieli, ANTLR4
+	Milla: Testaus, Haskellguru
+
+	Pyrimme koodaamaan projektia pääosin yhdessä, sprinttien palaverit yhdistetään
+	sovittuihin koodaussessioihin. Tällöin sovitaan myös mitä kukin tekee itsenäisesti
+	jos koodaamista on tarve jatkaa tapaamisten ulkopuolella.
+
 Aikataulu:
 
 	Alustavasti Millan tavoite on tehdä kurssista 3 OP suoritus
@@ -36,10 +45,7 @@ Aikataulu:
 	4 ja 5 tarkoitus saada valmiiksi tammikuun loppuun mennessä.
 
 	Projekti on tarkoitus toteuttaa kahden viikon sprinteissä.
-	Pyrimme koodaamaan projektia pääosin yhdessä, sprinttien palaverit yhdistetään
-	sovittuihin koodaussessioihin. Tällöin sovitaan myös mitä kukin tekee itsenäisesti
-	jos koodaamista on tarve jatkaa tapaamisten ulkopuolella.
-
+	
 	Sprint 1: 30/10/2018 - 7/11/2018 (Poikkeuskesto koska teimme suunnitelmaa)
 	Sprint 2: 8/11/2018  - 22/11/2018
 	Sprint 3: 23/11/2018 - 7/12/2018
