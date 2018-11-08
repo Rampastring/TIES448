@@ -2,7 +2,7 @@ Kääntäjäprojekti
 
 Jäsenet:
 	Jose Saarimaa: jose.saarimaa@gmail.com
-	Milla Koivuniemi: miemkoiv@studentjyu.fi
+	Milla Koivuniemi: miemkoiv@student.jyu.fi
 	Rami Pasanen: rami_p@outlook.com
 
 Lähdekieli: Rajattu Haskell
@@ -24,7 +24,7 @@ Työkalut:
 	Visual Studio / VS Code
 
 Kääntäjää testataan jokaisen projektin vaiheen jälkeen esimerkki
-haskellohjelmien avulla.
+haskell-ohjelmien avulla.
 Yksikkötestit toteutuksen yhteydessä (xUnit)
 
 Työnjako / vastuut:
