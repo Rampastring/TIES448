@@ -1,0 +1,75 @@
+Kääntäjäprojekti
+
+Jäsenet:
+	Jose Saarimaa: jose.saarimaa@gmail.com
+	Milla Koivuniemi: miemkoiv@studentjyu.fi
+	Rami Pasanen: rami_p@outlook.com
+
+Lähdekieli: Rajattu Haskell
+
+	Toteutettavat ominaisuudet:
+	- Perus aritmetiikka
+	- Listat (äärelliset)
+	- Muuttujat
+	- IF-lauseet
+	- Funktiot
+	- Rekursio
+	- Yksinkertaiset tyypit
+
+Kohdekieli: Webassembly
+
+Työkalut:
+	Isäntäkieli: C#
+	ANTLR4 (ainakin alustavasti)
+	Visual Studio / VS Code
+
+Kääntäjää testataan jokaisen projektin vaiheen jälkeen esimerkki
+haskellohjelmien avulla.
+Yksikkötestit toteutuksen yhteydessä (xUnit)
+
+Aikataulu:
+
+	Alustavasti Millan tavoite on tehdä kurssista 3 OP suoritus
+	Tämän jälkeen Jose ja Rami jatkavat 7 OP asti.
+
+	Pyrimme saamaan vaiheet 1 - 3 valmiiksi ennen joululomaa.
+	4 ja 5 tarkoitus saada valmiiksi tammikuun loppuun mennessä.
+
+	Projekti on tarkoitus toteuttaa kahden viikon sprinteissä.
+	Pyrimme koodaamaan projektia pääosin yhdessä, sprinttien palaverit yhdistetään
+	sovittuihin koodaussessioihin. Tällöin sovitaan myös mitä kukin tekee itsenäisesti
+	jos koodaamista on tarve jatkaa tapaamisten ulkopuolella.
+
+	Sprint 1: 30/10/2018 - 7/11/2018 (Poikkeuskesto koska teimme suunnitelmaa)
+	Sprint 2: 8/11/2018  - 22/11/2018
+	Sprint 3: 23/11/2018 - 7/12/2018
+	Sprint 4: 8/12/2018  - 20/12/2018
+
+	Joululoma
+
+	Sprint 5: 7/1/2019  - 22/1/2019
+	Sprint 6: 23/1/2019 - 31/1/2019
+
+Projektin vaiheet alustavasti:
+
+1 : Suunnitelma
+
+2 : Parser - Lexer - Tulkki, (+ ja - laskut)
+
+3 : Muuttujat (binding)
+
+4 : if (valinnat)
+
+5 : Funktiot (häntärekursio)
+
+--- 3,5 OP --- (Milla jättää ryhmän)
+
+6 : Rekursio
+
+7 : Haskell tyypit (yksinkertaiset)
+
+--- 5 OP ---
+
+8 : Kääntäjä webassemblylle
+
+--- 7 OP ---
