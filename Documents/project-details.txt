@@ -46,15 +46,20 @@ Aikataulu:
 
 	Projekti on tarkoitus toteuttaa kahden viikon sprinteissä.
 	
-	Sprint 1: 30/10/2018 - 7/11/2018 (Poikkeuskesto koska teimme suunnitelmaa)
-	Sprint 2: 8/11/2018  - 22/11/2018
-	Sprint 3: 23/11/2018 - 7/12/2018
-	Sprint 4: 8/12/2018  - 20/12/2018
+	Sprintti 1: 30/10/2018 - 7/11/2018 (Poikkeuskesto koska teimme suunnitelmaa)
+	Sprintti 2: 8/11/2018  - 22/11/2018
+	Sprintti 3: 23/11/2018 - 7/12/2018
+	Sprintti 4: 8/12/2018  - 20/12/2018
 
 	Joululoma
 
-	Sprint 5: 7/1/2019  - 22/1/2019
-	Sprint 6: 23/1/2019 - 31/1/2019
+	Sprintti 5: 7/1/2019  - 22/1/2019
+	Sprintti 6: 23/1/2019 - 31/1/2019
+
+	3 OP:n version palautus sprintin 6 aikana
+
+	Tämän jälkeen lisää sprinttejä tarpeen mukaan
+	7 OP:n version palautus 12/3/2019 mennessä
 
 Projektin vaiheet alustavasti:
 
