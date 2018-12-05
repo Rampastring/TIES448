@@ -3,10 +3,10 @@ grammar Haskellmm;
 
 prog:	(f_defi NEWLINE)* ;
 
-expr:	expr ('*'|'/') expr
-    |	expr ('+'|'-') expr
-    |	INT
-    |	'(' expr ')'
+expr:	'(' expr ')'            # parenExp
+	|   expr ('*'|'/') expr     # multExp
+    |	expr ('+'|'-') expr     # addExp
+    |	INT                     # intVar
     ;
 
 f_defi: f_name '=' expr;
