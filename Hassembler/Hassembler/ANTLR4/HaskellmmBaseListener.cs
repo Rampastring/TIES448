@@ -58,6 +58,30 @@ public partial class HaskellmmBaseListener : IHaskellmmListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitExpr([NotNull] HaskellmmParser.ExprContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterF_defi([NotNull] HaskellmmParser.F_defiContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitF_defi([NotNull] HaskellmmParser.F_defiContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.f_name"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterF_name([NotNull] HaskellmmParser.F_nameContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.f_name"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitF_name([NotNull] HaskellmmParser.F_nameContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

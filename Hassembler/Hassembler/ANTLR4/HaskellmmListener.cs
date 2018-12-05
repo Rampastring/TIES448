@@ -50,4 +50,24 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitExpr([NotNull] HaskellmmParser.ExprContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterF_defi([NotNull] HaskellmmParser.F_defiContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitF_defi([NotNull] HaskellmmParser.F_defiContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.f_name"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterF_name([NotNull] HaskellmmParser.F_nameContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.f_name"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitF_name([NotNull] HaskellmmParser.F_nameContext context);
 }
