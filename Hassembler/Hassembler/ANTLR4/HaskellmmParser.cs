@@ -45,7 +45,7 @@ public partial class HaskellmmParser : Parser {
 	};
 
 	private static readonly string[] _LiteralNames = {
-		null, "'*'", "'/'", "'+'", "'-'", "'('", "')'", "'='"
+		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'='"
 	};
 	private static readonly string[] _SymbolicNames = {
 		null, null, null, null, null, null, null, null, "NEWLINE", "INT", "NAME_F_LETTER", 
@@ -149,29 +149,94 @@ public partial class HaskellmmParser : Parser {
 	}
 
 	public partial class ExprContext : ParserRuleContext {
+		public ExprContext(ParserRuleContext parent, int invokingState)
+			: base(parent, invokingState)
+		{
+		}
+		public override int RuleIndex { get { return RULE_expr; } }
+	 
+		public ExprContext() { }
+		public virtual void CopyFrom(ExprContext context) {
+			base.CopyFrom(context);
+		}
+	}
+	public partial class IntVarContext : ExprContext {
 		public ITerminalNode INT() { return GetToken(HaskellmmParser.INT, 0); }
+		public IntVarContext(ExprContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IHaskellmmListener typedListener = listener as IHaskellmmListener;
+			if (typedListener != null) typedListener.EnterIntVar(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IHaskellmmListener typedListener = listener as IHaskellmmListener;
+			if (typedListener != null) typedListener.ExitIntVar(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IHaskellmmVisitor<TResult> typedVisitor = visitor as IHaskellmmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitIntVar(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class MultExpContext : ExprContext {
 		public ExprContext[] expr() {
 			return GetRuleContexts<ExprContext>();
 		}
 		public ExprContext expr(int i) {
 			return GetRuleContext<ExprContext>(i);
 		}
-		public ExprContext(ParserRuleContext parent, int invokingState)
-			: base(parent, invokingState)
-		{
-		}
-		public override int RuleIndex { get { return RULE_expr; } }
+		public MultExpContext(ExprContext context) { CopyFrom(context); }
 		public override void EnterRule(IParseTreeListener listener) {
 			IHaskellmmListener typedListener = listener as IHaskellmmListener;
-			if (typedListener != null) typedListener.EnterExpr(this);
+			if (typedListener != null) typedListener.EnterMultExp(this);
 		}
 		public override void ExitRule(IParseTreeListener listener) {
 			IHaskellmmListener typedListener = listener as IHaskellmmListener;
-			if (typedListener != null) typedListener.ExitExpr(this);
+			if (typedListener != null) typedListener.ExitMultExp(this);
 		}
 		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
 			IHaskellmmVisitor<TResult> typedVisitor = visitor as IHaskellmmVisitor<TResult>;
-			if (typedVisitor != null) return typedVisitor.VisitExpr(this);
+			if (typedVisitor != null) return typedVisitor.VisitMultExp(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class ParenExpContext : ExprContext {
+		public ExprContext expr() {
+			return GetRuleContext<ExprContext>(0);
+		}
+		public ParenExpContext(ExprContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IHaskellmmListener typedListener = listener as IHaskellmmListener;
+			if (typedListener != null) typedListener.EnterParenExp(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IHaskellmmListener typedListener = listener as IHaskellmmListener;
+			if (typedListener != null) typedListener.ExitParenExp(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IHaskellmmVisitor<TResult> typedVisitor = visitor as IHaskellmmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitParenExp(this);
+			else return visitor.VisitChildren(this);
+		}
+	}
+	public partial class AddExpContext : ExprContext {
+		public ExprContext[] expr() {
+			return GetRuleContexts<ExprContext>();
+		}
+		public ExprContext expr(int i) {
+			return GetRuleContext<ExprContext>(i);
+		}
+		public AddExpContext(ExprContext context) { CopyFrom(context); }
+		public override void EnterRule(IParseTreeListener listener) {
+			IHaskellmmListener typedListener = listener as IHaskellmmListener;
+			if (typedListener != null) typedListener.EnterAddExp(this);
+		}
+		public override void ExitRule(IParseTreeListener listener) {
+			IHaskellmmListener typedListener = listener as IHaskellmmListener;
+			if (typedListener != null) typedListener.ExitAddExp(this);
+		}
+		public override TResult Accept<TResult>(IParseTreeVisitor<TResult> visitor) {
+			IHaskellmmVisitor<TResult> typedVisitor = visitor as IHaskellmmVisitor<TResult>;
+			if (typedVisitor != null) return typedVisitor.VisitAddExp(this);
 			else return visitor.VisitChildren(this);
 		}
 	}
@@ -196,16 +261,23 @@ public partial class HaskellmmParser : Parser {
 			State = 22;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
-			case INT:
+			case T__0:
 				{
-				State = 17; Match(INT);
+				_localctx = new ParenExpContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+
+				State = 17; Match(T__0);
+				State = 18; expr(0);
+				State = 19; Match(T__1);
 				}
 				break;
-			case T__4:
+			case INT:
 				{
-				State = 18; Match(T__4);
-				State = 19; expr(0);
-				State = 20; Match(T__5);
+				_localctx = new IntVarContext(_localctx);
+				Context = _localctx;
+				_prevctx = _localctx;
+				State = 21; Match(INT);
 				}
 				break;
 			default:
@@ -226,29 +298,11 @@ public partial class HaskellmmParser : Parser {
 					switch ( Interpreter.AdaptivePredict(TokenStream,2,Context) ) {
 					case 1:
 						{
-						_localctx = new ExprContext(_parentctx, _parentState);
+						_localctx = new MultExpContext(new ExprContext(_parentctx, _parentState));
 						PushNewRecursionContext(_localctx, _startState, RULE_expr);
 						State = 24;
-						if (!(Precpred(Context, 4))) throw new FailedPredicateException(this, "Precpred(Context, 4)");
-						State = 25;
-						_la = TokenStream.LA(1);
-						if ( !(_la==T__0 || _la==T__1) ) {
-						ErrorHandler.RecoverInline(this);
-						}
-						else {
-							ErrorHandler.ReportMatch(this);
-						    Consume();
-						}
-						State = 26; expr(5);
-						}
-						break;
-					case 2:
-						{
-						_localctx = new ExprContext(_parentctx, _parentState);
-						PushNewRecursionContext(_localctx, _startState, RULE_expr);
-						State = 27;
 						if (!(Precpred(Context, 3))) throw new FailedPredicateException(this, "Precpred(Context, 3)");
-						State = 28;
+						State = 25;
 						_la = TokenStream.LA(1);
 						if ( !(_la==T__2 || _la==T__3) ) {
 						ErrorHandler.RecoverInline(this);
@@ -257,7 +311,25 @@ public partial class HaskellmmParser : Parser {
 							ErrorHandler.ReportMatch(this);
 						    Consume();
 						}
-						State = 29; expr(4);
+						State = 26; expr(4);
+						}
+						break;
+					case 2:
+						{
+						_localctx = new AddExpContext(new ExprContext(_parentctx, _parentState));
+						PushNewRecursionContext(_localctx, _startState, RULE_expr);
+						State = 27;
+						if (!(Precpred(Context, 2))) throw new FailedPredicateException(this, "Precpred(Context, 2)");
+						State = 28;
+						_la = TokenStream.LA(1);
+						if ( !(_la==T__4 || _la==T__5) ) {
+						ErrorHandler.RecoverInline(this);
+						}
+						else {
+							ErrorHandler.ReportMatch(this);
+						    Consume();
+						}
+						State = 29; expr(3);
 						}
 						break;
 					}
@@ -399,8 +471,8 @@ public partial class HaskellmmParser : Parser {
 	}
 	private bool expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return Precpred(Context, 4);
-		case 1: return Precpred(Context, 3);
+		case 0: return Precpred(Context, 3);
+		case 1: return Precpred(Context, 2);
 		}
 		return true;
 	}
@@ -418,24 +490,24 @@ public partial class HaskellmmParser : Parser {
 		'\x4', '\x3', '\x4', '\x3', '\x5', '\x3', '\x5', '\a', '\x5', ',', '\n', 
 		'\x5', '\f', '\x5', '\xE', '\x5', '/', '\v', '\x5', '\x3', '\x5', '\x2', 
 		'\x3', '\x4', '\x6', '\x2', '\x4', '\x6', '\b', '\x2', '\x4', '\x3', '\x2', 
-		'\x3', '\x4', '\x3', '\x2', '\x5', '\x6', '\x2', '\x31', '\x2', '\xF', 
-		'\x3', '\x2', '\x2', '\x2', '\x4', '\x18', '\x3', '\x2', '\x2', '\x2', 
-		'\x6', '%', '\x3', '\x2', '\x2', '\x2', '\b', ')', '\x3', '\x2', '\x2', 
-		'\x2', '\n', '\v', '\x5', '\x6', '\x4', '\x2', '\v', '\f', '\a', '\n', 
-		'\x2', '\x2', '\f', '\xE', '\x3', '\x2', '\x2', '\x2', '\r', '\n', '\x3', 
-		'\x2', '\x2', '\x2', '\xE', '\x11', '\x3', '\x2', '\x2', '\x2', '\xF', 
-		'\r', '\x3', '\x2', '\x2', '\x2', '\xF', '\x10', '\x3', '\x2', '\x2', 
-		'\x2', '\x10', '\x3', '\x3', '\x2', '\x2', '\x2', '\x11', '\xF', '\x3', 
-		'\x2', '\x2', '\x2', '\x12', '\x13', '\b', '\x3', '\x1', '\x2', '\x13', 
-		'\x19', '\a', '\v', '\x2', '\x2', '\x14', '\x15', '\a', '\a', '\x2', '\x2', 
-		'\x15', '\x16', '\x5', '\x4', '\x3', '\x2', '\x16', '\x17', '\a', '\b', 
-		'\x2', '\x2', '\x17', '\x19', '\x3', '\x2', '\x2', '\x2', '\x18', '\x12', 
-		'\x3', '\x2', '\x2', '\x2', '\x18', '\x14', '\x3', '\x2', '\x2', '\x2', 
-		'\x19', '\"', '\x3', '\x2', '\x2', '\x2', '\x1A', '\x1B', '\f', '\x6', 
+		'\x5', '\x6', '\x3', '\x2', '\a', '\b', '\x2', '\x31', '\x2', '\xF', '\x3', 
+		'\x2', '\x2', '\x2', '\x4', '\x18', '\x3', '\x2', '\x2', '\x2', '\x6', 
+		'%', '\x3', '\x2', '\x2', '\x2', '\b', ')', '\x3', '\x2', '\x2', '\x2', 
+		'\n', '\v', '\x5', '\x6', '\x4', '\x2', '\v', '\f', '\a', '\n', '\x2', 
+		'\x2', '\f', '\xE', '\x3', '\x2', '\x2', '\x2', '\r', '\n', '\x3', '\x2', 
+		'\x2', '\x2', '\xE', '\x11', '\x3', '\x2', '\x2', '\x2', '\xF', '\r', 
+		'\x3', '\x2', '\x2', '\x2', '\xF', '\x10', '\x3', '\x2', '\x2', '\x2', 
+		'\x10', '\x3', '\x3', '\x2', '\x2', '\x2', '\x11', '\xF', '\x3', '\x2', 
+		'\x2', '\x2', '\x12', '\x13', '\b', '\x3', '\x1', '\x2', '\x13', '\x14', 
+		'\a', '\x3', '\x2', '\x2', '\x14', '\x15', '\x5', '\x4', '\x3', '\x2', 
+		'\x15', '\x16', '\a', '\x4', '\x2', '\x2', '\x16', '\x19', '\x3', '\x2', 
+		'\x2', '\x2', '\x17', '\x19', '\a', '\v', '\x2', '\x2', '\x18', '\x12', 
+		'\x3', '\x2', '\x2', '\x2', '\x18', '\x17', '\x3', '\x2', '\x2', '\x2', 
+		'\x19', '\"', '\x3', '\x2', '\x2', '\x2', '\x1A', '\x1B', '\f', '\x5', 
 		'\x2', '\x2', '\x1B', '\x1C', '\t', '\x2', '\x2', '\x2', '\x1C', '!', 
-		'\x5', '\x4', '\x3', '\a', '\x1D', '\x1E', '\f', '\x5', '\x2', '\x2', 
+		'\x5', '\x4', '\x3', '\x6', '\x1D', '\x1E', '\f', '\x4', '\x2', '\x2', 
 		'\x1E', '\x1F', '\t', '\x3', '\x2', '\x2', '\x1F', '!', '\x5', '\x4', 
-		'\x3', '\x6', ' ', '\x1A', '\x3', '\x2', '\x2', '\x2', ' ', '\x1D', '\x3', 
+		'\x3', '\x5', ' ', '\x1A', '\x3', '\x2', '\x2', '\x2', ' ', '\x1D', '\x3', 
 		'\x2', '\x2', '\x2', '!', '$', '\x3', '\x2', '\x2', '\x2', '\"', ' ', 
 		'\x3', '\x2', '\x2', '\x2', '\"', '#', '\x3', '\x2', '\x2', '\x2', '#', 
 		'\x5', '\x3', '\x2', '\x2', '\x2', '$', '\"', '\x3', '\x2', '\x2', '\x2', 

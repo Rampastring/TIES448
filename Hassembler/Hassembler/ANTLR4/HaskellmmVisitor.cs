@@ -38,11 +38,33 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProg([NotNull] HaskellmmParser.ProgContext context);
 	/// <summary>
-	/// Visit a parse tree produced by <see cref="HaskellmmParser.expr"/>.
+	/// Visit a parse tree produced by the <c>intVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
-	Result VisitExpr([NotNull] HaskellmmParser.ExprContext context);
+	Result VisitIntVar([NotNull] HaskellmmParser.IntVarContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>multExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitMultExp([NotNull] HaskellmmParser.MultExpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>parenExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitParenExp([NotNull] HaskellmmParser.ParenExpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>addExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitAddExp([NotNull] HaskellmmParser.AddExpContext context);
 	/// <summary>
 	/// Visit a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
 	/// </summary>

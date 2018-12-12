@@ -41,15 +41,53 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] HaskellmmParser.ProgContext context);
 	/// <summary>
-	/// Enter a parse tree produced by <see cref="HaskellmmParser.expr"/>.
+	/// Enter a parse tree produced by the <c>intVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void EnterExpr([NotNull] HaskellmmParser.ExprContext context);
+	void EnterIntVar([NotNull] HaskellmmParser.IntVarContext context);
 	/// <summary>
-	/// Exit a parse tree produced by <see cref="HaskellmmParser.expr"/>.
+	/// Exit a parse tree produced by the <c>intVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
-	void ExitExpr([NotNull] HaskellmmParser.ExprContext context);
+	void ExitIntVar([NotNull] HaskellmmParser.IntVarContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>multExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterMultExp([NotNull] HaskellmmParser.MultExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>multExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitMultExp([NotNull] HaskellmmParser.MultExpContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>parenExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterParenExp([NotNull] HaskellmmParser.ParenExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>parenExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitParenExp([NotNull] HaskellmmParser.ParenExpContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>addExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterAddExp([NotNull] HaskellmmParser.AddExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>addExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitAddExp([NotNull] HaskellmmParser.AddExpContext context);
 	/// <summary>
 	/// Enter a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
 	/// </summary>
