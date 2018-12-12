@@ -18,30 +18,4 @@ namespace Hassembler
             Console.WriteLine(tree.GetChild(2).ToStringTree());
         }
     }
-
-    abstract class Node 
-    {
-        private Node right {get; set;}
-        private Node left {get; set;}
-
-        private String content;
-
-        public override String ToString()
-        {
-            return content + "Left: " + left.ToString() + "Right: "
-            + right.ToString();
-        }
-
-
-    }
-
-    class Prog : Node
-    {
-
-    }
-
-    class Expr : Node
-    {
-
-    }
 }
