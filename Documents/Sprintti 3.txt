@@ -1,0 +1,9 @@
+Sprintti 3: 23/11/2018 - 7/12/2018
+
+Alkupalaveri pe 23.11.
+    - käsiksi Antlriin
+
+Loppupalaveri ke 5.12. 
+    - Työstettiin Main -ohjelmaa Hassemblerille
+        * Main hakee nyt ANTLR:in generoimien Lexerin ja Parserin avulla AST:n
+    - Kysyttiin ohjauksessa, miten toteuttaa Visitor: vaihtoehtoina toteuttaa joko yksi tai sitten useampi. Jätettiin pohdinta myöhemmäksi. 
