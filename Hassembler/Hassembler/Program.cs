@@ -23,7 +23,6 @@ namespace Hassembler
             Console.WriteLine("Found functions: ");
             visitor.Functions.ForEach(f => Console.WriteLine(f.Name));
             
-            
             while (true)
             {
                 Console.WriteLine();
