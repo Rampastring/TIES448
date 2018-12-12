@@ -1,0 +1,7 @@
+﻿namespace Hassembler
+{
+    class VisitorResult
+    {
+
+    }
+}
