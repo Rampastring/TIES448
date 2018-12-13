@@ -1,5 +1,4 @@
 Sprintti 2: 8/11/2018  - 22/11/2018
 
 Alkupalaveri 14.11
-    
-Loppupalaveri 21.11
+    - Kiireistä, joten päätettiin olla tekemättä vielä mitään tässä sprintissä
