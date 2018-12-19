@@ -12,6 +12,9 @@ namespace Hassembler
         protected Node Right {get; set;}
         protected Node Parent {get; set;}
 
+        protected int CodeLineNumber {get; set;}
+        protected int CodeColumnNumber {get; set;}
+
         public override String ToString() => "Oispa lanka";
 
         public virtual Result Solve()
@@ -38,7 +41,7 @@ namespace Hassembler
     {
         public override Result Solve()
         {
-            return new Result(Left.Solve().Int_result + Right.Solve().Int_result);
+            return new Result(Left.Solve().GetResult<int>() + Right.Solve().GetResult<int>());
         }
     }
 
@@ -46,7 +49,7 @@ namespace Hassembler
     {
         public override Result Solve()
         {
-            return new Result(Left.Solve().Int_result - Right.Solve().Int_result);
+            return new Result(Left.Solve().GetResult<int>() - Right.Solve().GetResult<int>());
         }
     }
 
@@ -64,6 +67,6 @@ namespace Hassembler
 
     class F_name_node : Node
     {
-
+        private String Name {get; set;}
     }
 }
