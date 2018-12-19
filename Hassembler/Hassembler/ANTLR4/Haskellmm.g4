@@ -6,6 +6,7 @@ prog:	(f_defi NEWLINE)* ;
 expr:	'(' expr ')'            # parenExp
 	|   expr ('*'|'/') expr     # multExp
     |	expr ('+'|'-') expr     # addExp
+    |   f_name                  # fRefVar                            
     |	INT                     # intVar
     ;
 
