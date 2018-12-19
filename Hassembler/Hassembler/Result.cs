@@ -4,11 +4,7 @@ namespace Hassembler
 {
     class Result
     {
-
-        public Result(object result)
-        {
-            this.result = result;
-        }
+        public Result(object result) => this.result = result;
 
         private Type[] typeWhitelist = new Type[]
          {
@@ -49,9 +45,6 @@ namespace Hassembler
         }
 
 
-        public override string ToString()
-        {
-            return result.ToString();
-        }
+        public override string ToString() => result.ToString();
     }
 }
