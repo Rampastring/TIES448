@@ -7,13 +7,13 @@ namespace Hassembler
         public Result(object result) => this.result = result;
 
         private Type[] typeWhitelist = new Type[]
-         {
-             typeof(int),
-             typeof(bool),
-             typeof(float),
-             typeof(string),
-             typeof(char),
-         };
+        {
+            typeof(int),
+            typeof(bool),
+            typeof(float),
+            typeof(string),
+            typeof(char),
+        };
 
         private object result;
         public T GetResult<T>() 

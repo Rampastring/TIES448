@@ -8,9 +8,21 @@ namespace Hassembler
     /// </summary>
     class EvalVisitor : HaskellmmBaseVisitor<VisitorResult>
     {
+        public EvalVisitor()
+        {
+            env = new Env();
+
+            // Note: we're passing the function list as reference -
+            // if the function list is modified in Env, the changes wil
+            // also apply here
+            env.SetFunctions(Functions);
+        }
+
         public List<Function> Functions = new List<Function>();
-        Function currentFunction;
-        ExprNode currentNode;
+
+        private Env env;
+        private Function currentFunction;
+        private ExprNode currentNode;
 
         public override VisitorResult VisitAddExp([NotNull] HaskellmmParser.AddExpContext context)
         {
@@ -30,13 +42,16 @@ namespace Hassembler
                     throw new VisitException("ei");
             }
 
-            AddExprNode(new SumNode(currentNode, operation));
+            AddExprNode(new SumNode(currentNode, env, operation));
 
             return base.VisitAddExp(context);
         }
 
         public override VisitorResult VisitF_defi([NotNull] HaskellmmParser.F_defiContext context)
         {
+            // Function definition - set the current function to null
+            // so VisitF_name knows to define a new function
+            currentFunction = null;
             return base.VisitF_defi(context);
         }
 
@@ -47,10 +62,27 @@ namespace Hassembler
         public override VisitorResult VisitF_name([NotNull] HaskellmmParser.F_nameContext context)
         {
             string s = context.GetText();
-            currentFunction = new Function(s);
-            Functions.Add(currentFunction);
-            currentNode = null;
+            if (currentFunction == null)
+            {
+                currentFunction = new Function(s);
+                if (Functions.Find(f => f.Name == s) != null)
+                    throw new VisitException("Duplicate definitions for function " + s);
+                Functions.Add(currentFunction);
+                currentNode = null;
+            }
             return base.VisitF_name(context);
+        }
+
+        /// <summary>
+        /// The visit subroutine for an expression that references a function.
+        /// </summary>
+        public override VisitorResult VisitFRefVar([NotNull] HaskellmmParser.FRefVarContext context)
+        {
+            string s = context.GetText();
+            var node = new ReferenceNode(currentNode, env, s);
+            AddExprNode(node);
+            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+            return base.VisitFRefVar(context);
         }
 
         public override VisitorResult VisitIntVar([NotNull] HaskellmmParser.IntVarContext context)
@@ -59,7 +91,7 @@ namespace Hassembler
 
             int value = int.Parse(s);
 
-            IntNode node = new IntNode(currentNode, value);
+            IntNode node = new IntNode(currentNode, env, value);
             AddExprNode(node);
             // An integer constant has no parents, so find the next node to fill
             // by traversing the tree upwards
@@ -86,7 +118,7 @@ namespace Hassembler
                     throw new VisitException("ei");
             }
 
-            AddExprNode(new MultNode(currentNode, operation));
+            AddExprNode(new MultNode(currentNode, env, operation));
             return base.VisitMultExp(context);
         }
 
@@ -94,7 +126,7 @@ namespace Hassembler
         {
             string s = context.GetText();
 
-            AddExprNode(new ParNode(currentNode));
+            AddExprNode(new ParNode(currentNode, env));
 
             return base.VisitParenExp(context);
         }

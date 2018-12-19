@@ -1,17 +1,21 @@
-﻿namespace Hassembler
+﻿using System;
+
+namespace Hassembler
 {
     /// <summary>
     /// Base class for an expression node.
     /// </summary>
     abstract class ExprNode
     {
-        public ExprNode(ExprNode parent)
+        public ExprNode(ExprNode parent, IEnv env)
         {
             Parent = parent;
+            Env = env ?? throw new ArgumentNullException("env");
         }
 
         public ExprNode Parent { get; private set; }
-        
+        protected IEnv Env { get; private set; }
+
         public abstract Result GetValue();
     }
 
@@ -21,7 +25,7 @@
     /// </summary>
     abstract class ParentNode : ExprNode
     {
-        public ParentNode(ExprNode parent) : base(parent)
+        public ParentNode(ExprNode parent, IEnv env) : base(parent, env)
         {
         }
 
@@ -35,7 +39,7 @@
     /// </summary>
     class ParNode : ExprNode
     {
-        public ParNode(ExprNode parent) : base(parent)
+        public ParNode(ExprNode parent, IEnv env) : base(parent, env)
         {
         }
 
@@ -52,7 +56,7 @@
     /// </summary>
     class IntNode : ExprNode
     {
-        public IntNode(ExprNode parent, int value) : base(parent)
+        public IntNode(ExprNode parent, IEnv env, int value) : base(parent, env)
         {
             Value = value;
         }
@@ -63,11 +67,26 @@
     }
 
     /// <summary>
+    /// An expression node that refers to a function.
+    /// </summary>
+    class ReferenceNode : ExprNode
+    {
+        public ReferenceNode(ExprNode parent, IEnv env, string functionName) : base(parent, env)
+        {
+            FunctionName = functionName;
+        }
+
+        public string FunctionName { get; private set; }
+
+        public override Result GetValue() => Env.GetReferenceValue(FunctionName);
+    }
+
+    /// <summary>
     /// An expression node that is a sum or subtract operation.
     /// </summary>
     class SumNode : ParentNode
     {
-        public SumNode(ExprNode parent, SumOperation operation) : base(parent)
+        public SumNode(ExprNode parent, IEnv env, SumOperation operation) : base(parent, env)
         {
             Operation = operation;
         }
@@ -92,7 +111,7 @@
     /// </summary>
     class MultNode : ParentNode
     {
-        public MultNode(ExprNode parent, MultOperation operation) : base(parent)
+        public MultNode(ExprNode parent, IEnv env, MultOperation operation) : base(parent, env)
         {
             Operation = operation;
         }

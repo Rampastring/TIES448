@@ -9,5 +9,5 @@ Loppupalaveri 19.12.
     - yhdistettiin filuja ja funktioita
     - mietittiin koko ohjelman rakennetta syntaksipuiden kannalta (esim. funktioiden viittaaminen
     toisiin
-    - Ensi sprintissä tehdään muuttujat loppuun (eli ollaan hieman aikataulusta jäljessä)   
+    - Lisättiin tuki muuttujille
 

@@ -8,7 +8,7 @@ namespace Hassembler
     {
         static void Main(string[] args)
         {
-            string testifunktio = "a=1+1+1*3\nf=2+4\ng=2*(4+5)\nh=2*4+5\n";
+            string testifunktio = "a=1+1+1*3\nf=2+4\ng=2*(4+5)\nh=2*4+5\nr=f+a\nbNM=2+r\n";
 
             ICharStream charStream = CharStreams.fromstring(testifunktio);
             HaskellmmLexer lexer = new HaskellmmLexer(charStream);
