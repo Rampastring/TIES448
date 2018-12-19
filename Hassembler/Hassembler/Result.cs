@@ -27,6 +27,26 @@ namespace Hassembler
 
             return (T)result;
         }
+    
+        public static Result operator +(Result left, Result right)
+        {
+            return new Result(left.GetResult<int>() + right.GetResult<int>());
+        }
+
+        public static Result operator -(Result left, Result right)
+        {
+            return new Result(left.GetResult<int>() - right.GetResult<int>());
+        }
+
+        public static Result operator *(Result left, Result right)
+        {
+            return new Result(left.GetResult<int>() * right.GetResult<int>());
+        }
+
+        public static Result operator /(Result left, Result right)
+        {
+            return new Result(left.GetResult<int>() / right.GetResult<int>());
+        }
 
     }
 }

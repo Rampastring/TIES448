@@ -1,4 +1,4 @@
-Kääntäjäprojekti
+﻿Kääntäjäprojekti
 
 Jäsenet:
 	Jose Saarimaa: jose.saarimaa@gmail.com
@@ -44,7 +44,10 @@ Aikataulu:
 	Pyrimme saamaan vaiheet 1 - 3 valmiiksi ennen joululomaa.
 	4 ja 5 tarkoitus saada valmiiksi tammikuun loppuun mennessä.
 
-	Projekti on tarkoitus toteuttaa kahden viikon sprinteissä. Sprinttien alussa pidetään alkupalaveri ensimmäisen koodaussession aluksi. Sprintin aikana pidetään 2-4 yhteistä koodaussessiota ja tarpeen tullen erillistä koodausta. Viimeisen koodaussession yhteydessä on loppupalaveri. 
+	Projekti on tarkoitus toteuttaa kahden viikon sprinteissä. Sprinttien alussa pidetään 
+	alkupalaveri ensimmäisen koodaussession aluksi. Sprintin aikana pidetään 2-4 yhteistä 
+	koodaussessiota ja tarpeen tullen erillistä koodausta. Viimeisen koodaussession yhteydessä 
+	on loppupalaveri. 
 	
 	Sprintti 1: 30/10/2018 - 7/11/2018 (Poikkeuskesto koska teimme suunnitelmaa)
 	Sprintti 2: 8/11/2018  - 22/11/2018
