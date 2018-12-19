@@ -48,5 +48,10 @@ namespace Hassembler
             return new Result(left.GetResult<int>() / right.GetResult<int>());
         }
 
+
+        public override string ToString()
+        {
+            return result.ToString();
+        }
     }
 }
