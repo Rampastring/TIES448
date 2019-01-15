@@ -16,19 +16,21 @@ public class HaskellmmParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, NEWLINE=8, INT=9, 
-		F_NAME=10;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, IF=8, THEN=9, 
+		ELSE=10, NEWLINE=11, INT=12, F_NAME=13;
 	public static final int
-		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2;
+		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2, RULE_ite_defi = 3;
 	public static final String[] ruleNames = {
-		"prog", "expr", "f_defi"
+		"prog", "expr", "f_defi", "ite_defi"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'='"
+		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'='", "'if'", "'then'", 
+		"'else'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, "NEWLINE", "INT", "F_NAME"
+		null, null, null, null, null, null, null, null, "IF", "THEN", "ELSE", 
+		"NEWLINE", "INT", "F_NAME"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -103,19 +105,31 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(11);
+			setState(17);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==F_NAME) {
 				{
 				{
-				setState(6);
+				setState(8);
 				f_defi();
-				setState(7);
-				match(NEWLINE);
+				setState(12);
+				_errHandler.sync(this);
+				_la = _input.LA(1);
+				while (_la==NEWLINE) {
+					{
+					{
+					setState(9);
+					match(NEWLINE);
+					}
+					}
+					setState(14);
+					_errHandler.sync(this);
+					_la = _input.LA(1);
 				}
 				}
-				setState(13);
+				}
+				setState(19);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -192,7 +206,7 @@ public class HaskellmmParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(21);
+			setState(27);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
@@ -201,11 +215,11 @@ public class HaskellmmParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(15);
+				setState(21);
 				match(T__0);
-				setState(16);
+				setState(22);
 				expr(0);
-				setState(17);
+				setState(23);
 				match(T__1);
 				}
 				break;
@@ -214,7 +228,7 @@ public class HaskellmmParser extends Parser {
 				_localctx = new FRefVarContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(19);
+				setState(25);
 				match(F_NAME);
 				}
 				break;
@@ -223,7 +237,7 @@ public class HaskellmmParser extends Parser {
 				_localctx = new IntVarContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(20);
+				setState(26);
 				match(INT);
 				}
 				break;
@@ -231,24 +245,24 @@ public class HaskellmmParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(31);
+			setState(37);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(29);
+					setState(35);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,2,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(23);
+						setState(29);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(24);
+						setState(30);
 						_la = _input.LA(1);
 						if ( !(_la==T__2 || _la==T__3) ) {
 						_errHandler.recoverInline(this);
@@ -258,7 +272,7 @@ public class HaskellmmParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(25);
+						setState(31);
 						expr(5);
 						}
 						break;
@@ -266,9 +280,9 @@ public class HaskellmmParser extends Parser {
 						{
 						_localctx = new AddExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(26);
+						setState(32);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(27);
+						setState(33);
 						_la = _input.LA(1);
 						if ( !(_la==T__4 || _la==T__5) ) {
 						_errHandler.recoverInline(this);
@@ -278,16 +292,16 @@ public class HaskellmmParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(28);
+						setState(34);
 						expr(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(33);
+				setState(39);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,3,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
 			}
 		}
@@ -319,11 +333,58 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(34);
+			setState(40);
 			match(F_NAME);
-			setState(35);
+			setState(41);
 			match(T__6);
-			setState(36);
+			setState(42);
+			expr(0);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class Ite_defiContext extends ParserRuleContext {
+		public TerminalNode IF() { return getToken(HaskellmmParser.IF, 0); }
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public TerminalNode THEN() { return getToken(HaskellmmParser.THEN, 0); }
+		public TerminalNode ELSE() { return getToken(HaskellmmParser.ELSE, 0); }
+		public Ite_defiContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_ite_defi; }
+	}
+
+	public final Ite_defiContext ite_defi() throws RecognitionException {
+		Ite_defiContext _localctx = new Ite_defiContext(_ctx, getState());
+		enterRule(_localctx, 6, RULE_ite_defi);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(44);
+			match(IF);
+			setState(45);
+			expr(0);
+			setState(46);
+			match(THEN);
+			setState(47);
+			expr(0);
+			setState(48);
+			match(ELSE);
+			setState(49);
 			expr(0);
 			}
 		}
@@ -356,18 +417,21 @@ public class HaskellmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\f)\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\5\3\30\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3"+
-		"\4\3\4\3\4\3\4\3\4\2\3\4\5\2\4\6\2\4\3\2\5\6\3\2\7\b\2*\2\r\3\2\2\2\4"+
-		"\27\3\2\2\2\6$\3\2\2\2\b\t\5\6\4\2\t\n\7\n\2\2\n\f\3\2\2\2\13\b\3\2\2"+
-		"\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2\17\r\3\2\2\2\20"+
-		"\21\b\3\1\2\21\22\7\3\2\2\22\23\5\4\3\2\23\24\7\4\2\2\24\30\3\2\2\2\25"+
-		"\30\7\f\2\2\26\30\7\13\2\2\27\20\3\2\2\2\27\25\3\2\2\2\27\26\3\2\2\2\30"+
-		"!\3\2\2\2\31\32\f\6\2\2\32\33\t\2\2\2\33 \5\4\3\7\34\35\f\5\2\2\35\36"+
-		"\t\3\2\2\36 \5\4\3\6\37\31\3\2\2\2\37\34\3\2\2\2 #\3\2\2\2!\37\3\2\2\2"+
-		"!\"\3\2\2\2\"\5\3\2\2\2#!\3\2\2\2$%\7\f\2\2%&\7\t\2\2&\'\5\4\3\2\'\7\3"+
-		"\2\2\2\6\r\27\37!";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\17\66\4\2\t\2\4\3"+
+		"\t\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\7\2\22\n\2\f\2"+
+		"\16\2\25\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\36\n\3\3\3\3\3\3\3\3\3\3"+
+		"\3\3\3\7\3&\n\3\f\3\16\3)\13\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\2\3\4\6\2\4\6\b\2\4\3\2\5\6\3\2\7\b\2\67\2\23\3\2\2\2\4\35\3"+
+		"\2\2\2\6*\3\2\2\2\b.\3\2\2\2\n\16\5\6\4\2\13\r\7\r\2\2\f\13\3\2\2\2\r"+
+		"\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\21"+
+		"\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\23"+
+		"\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31\32\7\4\2\2\32\36"+
+		"\3\2\2\2\33\36\7\17\2\2\34\36\7\16\2\2\35\26\3\2\2\2\35\33\3\2\2\2\35"+
+		"\34\3\2\2\2\36\'\3\2\2\2\37 \f\6\2\2 !\t\2\2\2!&\5\4\3\7\"#\f\5\2\2#$"+
+		"\t\3\2\2$&\5\4\3\6%\37\3\2\2\2%\"\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'(\3\2"+
+		"\2\2(\5\3\2\2\2)\'\3\2\2\2*+\7\17\2\2+,\7\t\2\2,-\5\4\3\2-\7\3\2\2\2."+
+		"/\7\n\2\2/\60\5\4\3\2\60\61\7\13\2\2\61\62\5\4\3\2\62\63\7\f\2\2\63\64"+
+		"\5\4\3\2\64\t\3\2\2\2\7\16\23\35%\'";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
