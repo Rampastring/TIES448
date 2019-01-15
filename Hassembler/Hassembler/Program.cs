@@ -8,9 +8,9 @@ namespace Hassembler
     {
         static void Main(string[] args)
         {
-            string testifunktio = "a=1+1+1*3\nf=2+4\ng=2*(4+5)\nh=2*4+5\nr=f+a\nbNM=2+r\n";
-
-            ICharStream charStream = CharStreams.fromstring(testifunktio);
+            string testiohjelma = "a=1+1+1*3\r\nf=2+4\r\ng=2*(4+5)\r\nh=2*4+5\r\nr=f+a\r\nbnm=2+r\r\n";
+            
+            ICharStream charStream = CharStreams.fromstring(testiohjelma);
             HaskellmmLexer lexer = new HaskellmmLexer(charStream);
             HaskellmmParser parser = new HaskellmmParser(new CommonTokenStream(lexer));
             IParseTree tree = parser.prog();

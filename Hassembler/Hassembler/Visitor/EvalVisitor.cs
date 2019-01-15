@@ -47,30 +47,25 @@ namespace Hassembler
             return base.VisitAddExp(context);
         }
 
-        public override VisitorResult VisitF_defi([NotNull] HaskellmmParser.F_defiContext context)
-        {
-            // Function definition - set the current function to null
-            // so VisitF_name knows to define a new function
-            currentFunction = null;
-            return base.VisitF_defi(context);
-        }
-
         /// <summary>
-        /// The visit subroutine for a function name.
+        /// The visit subroutine for a function definition.
         /// Entering this means that we've begun parsing a new function.
         /// </summary>
-        public override VisitorResult VisitF_name([NotNull] HaskellmmParser.F_nameContext context)
+        public override VisitorResult VisitF_defi([NotNull] HaskellmmParser.F_defiContext context)
         {
-            string s = context.GetText();
-            if (currentFunction == null)
-            {
-                currentFunction = new Function(s);
-                if (Functions.Find(f => f.Name == s) != null)
-                    throw new VisitException("Duplicate definitions for function " + s);
-                Functions.Add(currentFunction);
-                currentNode = null;
-            }
-            return base.VisitF_name(context);
+            string[] parts = context.GetText().Split('=');
+            if (parts.Length != 2)
+                throw new VisitException("'=' expected in function definition");
+
+            string functionName = parts[0];
+
+            currentFunction = new Function(functionName);
+            if (Functions.Find(f => f.Name == functionName) != null)
+                throw new VisitException("Multiple definitions found for function " + functionName);
+            Functions.Add(currentFunction);
+            currentNode = null;
+
+            return base.VisitF_defi(context);
         }
 
         /// <summary>
