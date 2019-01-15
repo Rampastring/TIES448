@@ -11,6 +11,7 @@ ELSE=10
 NEWLINE=11
 INT=12
 F_NAME=13
+WS=14
 '('=1
 ')'=2
 '*'=3
