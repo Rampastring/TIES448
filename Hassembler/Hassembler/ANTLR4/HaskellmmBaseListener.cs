@@ -117,6 +117,20 @@ public partial class HaskellmmBaseListener : IHaskellmmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitFRefVar([NotNull] HaskellmmParser.FRefVarContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>iteExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIteExp([NotNull] HaskellmmParser.IteExpContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>iteExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIteExp([NotNull] HaskellmmParser.IteExpContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
 	/// <para>The default implementation does nothing.</para>
 	/// </summary>

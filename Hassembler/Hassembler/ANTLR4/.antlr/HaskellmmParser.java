@@ -17,7 +17,7 @@ public class HaskellmmParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, IF=8, THEN=9, 
-		ELSE=10, NEWLINE=11, INT=12, F_NAME=13, WS=14;
+		ELSE=10, NEWLINE=11, INT=12, BOOL=13, CHAR=14, F_NAME=15, WS=16;
 	public static final int
 		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2, RULE_ite_defi = 3;
 	public static final String[] ruleNames = {
@@ -30,7 +30,7 @@ public class HaskellmmParser extends Parser {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, "IF", "THEN", "ELSE", 
-		"NEWLINE", "INT", "F_NAME", "WS"
+		"NEWLINE", "INT", "BOOL", "CHAR", "F_NAME", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -432,7 +432,7 @@ public class HaskellmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\20\67\4\2\t\2\4\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\22\67\4\2\t\2\4\3"+
 		"\t\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\7\2\22\n\2\f\2"+
 		"\16\2\25\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\37\n\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\7\3\'\n\3\f\3\16\3*\13\3\3\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3"+
@@ -441,10 +441,10 @@ public class HaskellmmParser extends Parser {
 		"\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\21"+
 		"\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\23"+
 		"\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31\32\7\4\2\2\32\37"+
-		"\3\2\2\2\33\37\7\17\2\2\34\37\5\b\5\2\35\37\7\16\2\2\36\26\3\2\2\2\36"+
+		"\3\2\2\2\33\37\7\21\2\2\34\37\5\b\5\2\35\37\7\16\2\2\36\26\3\2\2\2\36"+
 		"\33\3\2\2\2\36\34\3\2\2\2\36\35\3\2\2\2\37(\3\2\2\2 !\f\5\2\2!\"\t\2\2"+
 		"\2\"\'\5\4\3\6#$\f\4\2\2$%\t\3\2\2%\'\5\4\3\5& \3\2\2\2&#\3\2\2\2\'*\3"+
-		"\2\2\2(&\3\2\2\2()\3\2\2\2)\5\3\2\2\2*(\3\2\2\2+,\7\17\2\2,-\7\t\2\2-"+
+		"\2\2\2(&\3\2\2\2()\3\2\2\2)\5\3\2\2\2*(\3\2\2\2+,\7\21\2\2,-\7\t\2\2-"+
 		".\5\4\3\2.\7\3\2\2\2/\60\7\n\2\2\60\61\5\4\3\2\61\62\7\13\2\2\62\63\5"+
 		"\4\3\2\63\64\7\f\2\2\64\65\5\4\3\2\65\t\3\2\2\2\7\16\23\36&(";
 	public static final ATN _ATN =

@@ -20,5 +20,7 @@ THEN : 'then' ;
 ELSE : 'else' ;
 NEWLINE : [\r\n]+ ;
 INT     : [0-9]+ ;
+BOOL    : ('True' | 'False');
+CHAR : ['][a-zA-Z]['];
 F_NAME : [a-z][a-zA-Z0-9']* ;
 WS: [ \n\t\r]+ -> skip;

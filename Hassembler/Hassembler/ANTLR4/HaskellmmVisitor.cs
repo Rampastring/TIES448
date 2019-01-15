@@ -73,6 +73,13 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitFRefVar([NotNull] HaskellmmParser.FRefVarContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>iteExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitIteExp([NotNull] HaskellmmParser.IteExpContext context);
+	/// <summary>
 	/// Visit a parse tree produced by <see cref="HaskellmmParser.f_defi"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
