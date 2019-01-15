@@ -33,6 +33,21 @@ namespace Hassembler
         public ExprNode Left { get; set; }
     }
 
+    class ITENode : ExprNode
+    {
+        public ITENode(ExprNode parent, IEnv env) : base(parent, env)
+        {
+        }
+
+        public ExprNode Condition { get; set; }
+        public ExprNode ThenExpr { get; set; }
+        public ExprNode ElseExpr { get; set; }
+
+        public override Result GetValue() =>
+            Condition.GetValue().GetResult<int>() > 0 
+            ? ThenExpr.GetValue() : ElseExpr.GetValue();
+    }
+
     /// <summary>
     /// An expression node that contains parentheses.
     /// TODO rename
@@ -98,10 +113,10 @@ namespace Hassembler
             switch (Operation)
             {
                 case SumOperation.Sum:
-                    return Right.GetValue() + Left.GetValue();
+                    return Left.GetValue() + Right.GetValue();
                 default:
                 case SumOperation.Substract:
-                    return Right.GetValue() - Left.GetValue();
+                    return Left.GetValue() - Right.GetValue();
             }
         }
     }
