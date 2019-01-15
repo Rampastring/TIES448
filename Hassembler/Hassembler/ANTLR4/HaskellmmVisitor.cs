@@ -78,10 +78,4 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitF_defi([NotNull] HaskellmmParser.F_defiContext context);
-	/// <summary>
-	/// Visit a parse tree produced by <see cref="HaskellmmParser.f_name"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	/// <return>The visitor result.</return>
-	Result VisitF_name([NotNull] HaskellmmParser.F_nameContext context);
 }
