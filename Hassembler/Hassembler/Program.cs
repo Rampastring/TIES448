@@ -8,8 +8,9 @@ namespace Hassembler
     {
         static void Main(string[] args)
         {
-            string testiohjelma = "a=1+1+1*3\r\nf=2+4\r\ng=2*(4+5)\r\nh=2*4+5\r\nr=f+a\r\nbnm=2+r\r\n";
-            
+            // string testiohjelma = "a=1+1+1*3\r\nf=2+4\r\ng=2*(4+5)\r\nh=2*4+5\r\nr=f+a\r\nbn=2+r\r\n";
+            string testiohjelma = "a=0-4\r\nb=2 + if a then 4+4 else 2 + 3";
+
             ICharStream charStream = CharStreams.fromstring(testiohjelma);
             HaskellmmLexer lexer = new HaskellmmLexer(charStream);
             HaskellmmParser parser = new HaskellmmParser(new CommonTokenStream(lexer));

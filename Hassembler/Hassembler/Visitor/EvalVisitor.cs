@@ -80,6 +80,16 @@ namespace Hassembler
             return base.VisitFRefVar(context);
         }
 
+        public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)
+        {
+            string s = context.GetText();
+
+            ITENode iteNode = new ITENode(currentNode, env);
+            AddExprNode(iteNode);
+
+            return base.VisitIte_defi(context);
+        }
+
         public override VisitorResult VisitIntVar([NotNull] HaskellmmParser.IntVarContext context)
         {
             string s = context.GetText();
@@ -152,30 +162,39 @@ namespace Hassembler
 
                 // Figure out whether the parent is a parent node with
                 // right and left children or a node with parentheses
+                // or an if-then-else node
 
-                ParentNode node = currentNode as ParentNode;
-                if (node == null)
-                {
-                    // The parent node has no right or left children so
-                    // it must be a node with parentheses
-
-                    if (!(currentNode is ParNode parNode)) // Yay, C# pattern matching
-                    {
-                        throw new VisitException("Unknown parent node type");
-                    }
-                    else
-                    {
-                        parNode.Follower = exprNode;
-                    }
-                }
-                else
+                if (currentNode is ParentNode parentNode)
                 {
                     // The parent mode is a node with right and left children
 
-                    if (node.Left == null)
-                        node.Left = exprNode;
-                    else if (node.Right == null)
-                        node.Right = exprNode;
+                    if (parentNode.Left == null)
+                        parentNode.Left = exprNode;
+                    else if (parentNode.Right == null)
+                        parentNode.Right = exprNode;
+                    else
+                        throw new VisitException("ParentNode: No unfilled child node!");
+                }
+                else if (currentNode is ParNode parNode)
+                {
+                    // A node with parentheses
+                    parNode.Follower = exprNode;
+                }
+                else if (currentNode is ITENode iteNode)
+                {
+                    // if-then-else
+                    if (iteNode.Condition == null)
+                        iteNode.Condition = exprNode;
+                    else if (iteNode.ThenExpr == null)
+                        iteNode.ThenExpr = exprNode;
+                    else if (iteNode.ElseExpr == null)
+                        iteNode.ElseExpr = exprNode;
+                    else
+                        throw new VisitException("ITENode: No unfilled child node!");
+                }
+                else
+                {
+                    throw new VisitException("Unknown parent node type");
                 }
             }
 
@@ -190,7 +209,7 @@ namespace Hassembler
         /// Returns null if no parent node with unfilled children is found.
         /// </summary>
         /// <param name="node">The node from which to start our search.</param>
-        private ParentNode FindEarliestParentWithUnfilledChildren(ExprNode node)
+        private ExprNode FindEarliestParentWithUnfilledChildren(ExprNode node)
         {
             while (true)
             {
@@ -207,6 +226,17 @@ namespace Hassembler
                 {
                     if (nodeAsParentNode.Left == null || nodeAsParentNode.Right == null)
                         return nodeAsParentNode;
+                }
+
+                ITENode nodeAsITENode = parent as ITENode;
+
+                if (nodeAsITENode != null)
+                {
+                    // TODO improve class design
+                    if (nodeAsITENode.Condition == null ||
+                        nodeAsITENode.ThenExpr == null ||
+                        nodeAsITENode.ElseExpr == null)
+                        return nodeAsITENode;
                 }
 
                 node = parent;
