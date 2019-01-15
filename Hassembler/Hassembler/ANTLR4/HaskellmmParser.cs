@@ -125,7 +125,7 @@ public partial class HaskellmmParser : Parser {
 			State = 17;
 			ErrorHandler.Sync(this);
 			_la = TokenStream.LA(1);
-			while (_la==IF || _la==F_NAME) {
+			while (_la==F_NAME) {
 				{
 				{
 				State = 8; f_defi();
@@ -423,25 +423,28 @@ public partial class HaskellmmParser : Parser {
 		F_defiContext _localctx = new F_defiContext(Context, State);
 		EnterRule(_localctx, 4, RULE_f_defi);
 		try {
+			EnterOuterAlt(_localctx, 1);
+			{
+			State = 40; Match(F_NAME);
+			State = 41; Match(T__6);
 			State = 44;
 			ErrorHandler.Sync(this);
 			switch (TokenStream.LA(1)) {
+			case T__0:
+			case INT:
 			case F_NAME:
-				EnterOuterAlt(_localctx, 1);
 				{
-				State = 40; Match(F_NAME);
-				State = 41; Match(T__6);
 				State = 42; expr(0);
 				}
 				break;
 			case IF:
-				EnterOuterAlt(_localctx, 2);
 				{
 				State = 43; ite_defi();
 				}
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -541,7 +544,7 @@ public partial class HaskellmmParser : Parser {
 		'\x3', '\x5', '\x3', '\x5', '\x2', '\x3', '\x4', '\x6', '\x2', '\x4', 
 		'\x6', '\b', '\x2', '\x4', '\x3', '\x2', '\x5', '\x6', '\x3', '\x2', '\a', 
 		'\b', '\x2', ':', '\x2', '\x13', '\x3', '\x2', '\x2', '\x2', '\x4', '\x1D', 
-		'\x3', '\x2', '\x2', '\x2', '\x6', '.', '\x3', '\x2', '\x2', '\x2', '\b', 
+		'\x3', '\x2', '\x2', '\x2', '\x6', '*', '\x3', '\x2', '\x2', '\x2', '\b', 
 		'\x30', '\x3', '\x2', '\x2', '\x2', '\n', '\xE', '\x5', '\x6', '\x4', 
 		'\x2', '\v', '\r', '\a', '\r', '\x2', '\x2', '\f', '\v', '\x3', '\x2', 
 		'\x2', '\x2', '\r', '\x10', '\x3', '\x2', '\x2', '\x2', '\xE', '\f', '\x3', 
@@ -564,9 +567,9 @@ public partial class HaskellmmParser : Parser {
 		'%', '\"', '\x3', '\x2', '\x2', '\x2', '&', ')', '\x3', '\x2', '\x2', 
 		'\x2', '\'', '%', '\x3', '\x2', '\x2', '\x2', '\'', '(', '\x3', '\x2', 
 		'\x2', '\x2', '(', '\x5', '\x3', '\x2', '\x2', '\x2', ')', '\'', '\x3', 
-		'\x2', '\x2', '\x2', '*', '+', '\a', '\xF', '\x2', '\x2', '+', ',', '\a', 
+		'\x2', '\x2', '\x2', '*', '+', '\a', '\xF', '\x2', '\x2', '+', '.', '\a', 
 		'\t', '\x2', '\x2', ',', '/', '\x5', '\x4', '\x3', '\x2', '-', '/', '\x5', 
-		'\b', '\x5', '\x2', '.', '*', '\x3', '\x2', '\x2', '\x2', '.', '-', '\x3', 
+		'\b', '\x5', '\x2', '.', ',', '\x3', '\x2', '\x2', '\x2', '.', '-', '\x3', 
 		'\x2', '\x2', '\x2', '/', '\a', '\x3', '\x2', '\x2', '\x2', '\x30', '\x31', 
 		'\a', '\n', '\x2', '\x2', '\x31', '\x32', '\x5', '\x4', '\x3', '\x2', 
 		'\x32', '\x33', '\a', '\v', '\x2', '\x2', '\x33', '\x34', '\x5', '\x4', 

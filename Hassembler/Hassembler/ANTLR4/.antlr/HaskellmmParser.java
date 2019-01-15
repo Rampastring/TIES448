@@ -108,7 +108,7 @@ public class HaskellmmParser extends Parser {
 			setState(17);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==IF || _la==F_NAME) {
+			while (_la==F_NAME) {
 				{
 				{
 				setState(8);
@@ -334,22 +334,24 @@ public class HaskellmmParser extends Parser {
 		F_defiContext _localctx = new F_defiContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_f_defi);
 		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(40);
+			match(F_NAME);
+			setState(41);
+			match(T__6);
 			setState(44);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
+			case T__0:
+			case INT:
 			case F_NAME:
-				enterOuterAlt(_localctx, 1);
 				{
-				setState(40);
-				match(F_NAME);
-				setState(41);
-				match(T__6);
 				setState(42);
 				expr(0);
 				}
 				break;
 			case IF:
-				enterOuterAlt(_localctx, 2);
 				{
 				setState(43);
 				ite_defi();
@@ -357,6 +359,7 @@ public class HaskellmmParser extends Parser {
 				break;
 			default:
 				throw new NoViableAltException(this);
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -440,15 +443,15 @@ public class HaskellmmParser extends Parser {
 		"\2\25\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\36\n\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\7\3&\n\3\f\3\16\3)\13\3\3\4\3\4\3\4\3\4\5\4/\n\4\3\5\3\5\3\5\3\5"+
 		"\3\5\3\5\3\5\3\5\2\3\4\6\2\4\6\b\2\4\3\2\5\6\3\2\7\b\2:\2\23\3\2\2\2\4"+
-		"\35\3\2\2\2\6.\3\2\2\2\b\60\3\2\2\2\n\16\5\6\4\2\13\r\7\r\2\2\f\13\3\2"+
+		"\35\3\2\2\2\6*\3\2\2\2\b\60\3\2\2\2\n\16\5\6\4\2\13\r\7\r\2\2\f\13\3\2"+
 		"\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2"+
 		"\2\21\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2"+
 		"\25\23\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31\32\7\4\2\2"+
 		"\32\36\3\2\2\2\33\36\7\17\2\2\34\36\7\16\2\2\35\26\3\2\2\2\35\33\3\2\2"+
 		"\2\35\34\3\2\2\2\36\'\3\2\2\2\37 \f\6\2\2 !\t\2\2\2!&\5\4\3\7\"#\f\5\2"+
 		"\2#$\t\3\2\2$&\5\4\3\6%\37\3\2\2\2%\"\3\2\2\2&)\3\2\2\2\'%\3\2\2\2\'("+
-		"\3\2\2\2(\5\3\2\2\2)\'\3\2\2\2*+\7\17\2\2+,\7\t\2\2,/\5\4\3\2-/\5\b\5"+
-		"\2.*\3\2\2\2.-\3\2\2\2/\7\3\2\2\2\60\61\7\n\2\2\61\62\5\4\3\2\62\63\7"+
+		"\3\2\2\2(\5\3\2\2\2)\'\3\2\2\2*+\7\17\2\2+.\7\t\2\2,/\5\4\3\2-/\5\b\5"+
+		"\2.,\3\2\2\2.-\3\2\2\2/\7\3\2\2\2\60\61\7\n\2\2\61\62\5\4\3\2\62\63\7"+
 		"\13\2\2\63\64\5\4\3\2\64\65\7\f\2\2\65\66\5\4\3\2\66\t\3\2\2\2\b\16\23"+
 		"\35%\'.";
 	public static final ATN _ATN =
