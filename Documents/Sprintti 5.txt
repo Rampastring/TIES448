@@ -1,0 +1,9 @@
+﻿Sprintti 5: 15/1/2019-
+
+Alkupalaveri 15.1.
+ - tässä sprintissä tehdään vaihe 4: valinnat (if)
+ - kielioppiin tehty muutos rikkoi koko roskan (ei enää generoi syntaksipuuta)
+ 	* mutta vian syy löytyi: NAME_F_LETTER : [a-z] oli ylempänä kieliopissa kuin F_NAME
+ - määritettiin kielioppiin IF, THEN, ja ELSE sekä True ja False
+ - iteExpr:lle Node 
+ - VisitException lisätty

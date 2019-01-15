@@ -1,114 +1,148 @@
-﻿//namespace Hassembler
-//{
-//    /// <summary>
-//    /// Base class for an expression node.
-//    /// </summary>
-//    abstract class ExprNode
-//    {
-//        public ExprNode(ExprNode parent)
-//        {
-//            Parent = parent;
-//        }
+﻿using System;
 
-//        public ExprNode Parent { get; private set; }
-        
-//        public abstract int GetValue();
-//    }
+namespace Hassembler
+{
+    /// <summary>
+    /// Base class for an expression node.
+    /// </summary>
+    abstract class ExprNode
+    {
+        public ExprNode(ExprNode parent, IEnv env)
+        {
+            Parent = parent;
+            Env = env ?? throw new ArgumentNullException("env");
+        }
 
-//    /// <summary>
-//    /// Base class for an expression node that acts as a
-//    /// parent to other nodes.
-//    /// </summary>
-//    abstract class ParentNode : ExprNode
-//    {
-//        public ParentNode(ExprNode parent) : base(parent)
-//        {
-//        }
+        public ExprNode Parent { get; private set; }
+        protected IEnv Env { get; private set; }
 
-//        public ExprNode Right { get; set; }
-//        public ExprNode Left { get; set; }
-//    }
+        public abstract Result GetValue();
+    }
 
-//    /// <summary>
-//    /// An expression node that contains parentheses.
-//    /// TODO rename
-//    /// </summary>
-//    class ParNode : ExprNode
-//    {
-//        public ParNode(ExprNode parent) : base(parent)
-//        {
-//        }
+    /// <summary>
+    /// Base class for an expression node that acts as a
+    /// parent to other nodes.
+    /// </summary>
+    abstract class ParentNode : ExprNode
+    {
+        public ParentNode(ExprNode parent, IEnv env) : base(parent, env)
+        {
+        }
 
-//        public ExprNode Follower { get; set; }
+        public ExprNode Right { get; set; }
+        public ExprNode Left { get; set; }
+    }
 
-//        public override int GetValue()
-//        {
-//            return Follower.GetValue();
-//        }
-//    }
+    class ITENode : ExprNode
+    {
+        public ITENode(ExprNode parent, IEnv env) : base(parent, env)
+        {
+        }
 
-//    /// <summary>
-//    /// An expression node that is an integer.
-//    /// </summary>
-//    class IntNode : ExprNode
-//    {
-//        public IntNode(ExprNode parent, int value) : base(parent)
-//        {
-//            Value = value;
-//        }
+        public ExprNode Condition { get; set; }
+        public ExprNode ThenExpr { get; set; }
+        public ExprNode ElseExpr { get; set; }
 
-//        public int Value { get; private set; }
+        public override Result GetValue() =>
+            Condition.GetValue().GetResult<int>() > 0 
+            ? ThenExpr.GetValue() : ElseExpr.GetValue();
+    }
 
-//        public override int GetValue() => Value;
-//    }
+    /// <summary>
+    /// An expression node that contains parentheses.
+    /// TODO rename
+    /// </summary>
+    class ParNode : ExprNode
+    {
+        public ParNode(ExprNode parent, IEnv env) : base(parent, env)
+        {
+        }
 
-//    /// <summary>
-//    /// An expression node that is a sum or subtract operation.
-//    /// </summary>
-//    class SumNode : ParentNode
-//    {
-//        public SumNode(ExprNode parent, SumOperation operation) : base(parent)
-//        {
-//            Operation = operation;
-//        }
+        public ExprNode Follower { get; set; }
 
-//        public SumOperation Operation { get; private set; }
+        public override Result GetValue()
+        {
+            return Follower.GetValue();
+        }
+    }
 
-//        public override int GetValue()
-//        {
-//            switch (Operation)
-//            {
-//                case SumOperation.Sum:
-//                    return Right.GetValue() + Left.GetValue();
-//                default:
-//                case SumOperation.Substract:
-//                    return Right.GetValue() - Left.GetValue();
-//            }
-//        }
-//    }
+    /// <summary>
+    /// An expression node that is an integer.
+    /// </summary>
+    class IntNode : ExprNode
+    {
+        public IntNode(ExprNode parent, IEnv env, int value) : base(parent, env)
+        {
+            Value = value;
+        }
 
-//    /// <summary>
-//    /// An expression node that is a multiplication or division operation.
-//    /// </summary>
-//    class MultNode : ParentNode
-//    {
-//        public MultNode(ExprNode parent, MultOperation operation) : base(parent)
-//        {
-//            Operation = operation;
-//        }
+        public int Value { get; private set; }
 
-//        public MultOperation Operation { get; private set; }
+        public override Result GetValue() => new Result(Value);
+    }
 
-//        public override int GetValue()
-//        {
-//            switch (Operation)
-//            {
-//                case MultOperation.Multiply:
-//                    return Right.GetValue() * Left.GetValue();
-//                default:
-//                case MultOperation.Divide:
-//                    return Right.GetValue() / Left.GetValue();
-//            }
-//        }
-//    }
-//}
+    /// <summary>
+    /// An expression node that refers to a function.
+    /// </summary>
+    class ReferenceNode : ExprNode
+    {
+        public ReferenceNode(ExprNode parent, IEnv env, string functionName) : base(parent, env)
+        {
+            FunctionName = functionName;
+        }
+
+        public string FunctionName { get; private set; }
+
+        public override Result GetValue() => Env.GetReferenceValue(FunctionName);
+    }
+
+    /// <summary>
+    /// An expression node that is a sum or subtract operation.
+    /// </summary>
+    class SumNode : ParentNode
+    {
+        public SumNode(ExprNode parent, IEnv env, SumOperation operation) : base(parent, env)
+        {
+            Operation = operation;
+        }
+
+        public SumOperation Operation { get; private set; }
+
+        public override Result GetValue()
+        {
+            switch (Operation)
+            {
+                case SumOperation.Sum:
+                    return Left.GetValue() + Right.GetValue();
+                default:
+                case SumOperation.Substract:
+                    return Left.GetValue() - Right.GetValue();
+            }
+        }
+    }
+
+    /// <summary>
+    /// An expression node that is a multiplication or division operation.
+    /// </summary>
+    class MultNode : ParentNode
+    {
+        public MultNode(ExprNode parent, IEnv env, MultOperation operation) : base(parent, env)
+        {
+            Operation = operation;
+        }
+
+        public MultOperation Operation { get; private set; }
+
+        public override Result GetValue()
+        {
+            switch (Operation)
+            {
+                case MultOperation.Multiply:
+                    return Right.GetValue() * Left.GetValue();
+                default:
+                case MultOperation.Divide:
+                    return Right.GetValue() / Left.GetValue();
+            }
+        }
+    }
+}
