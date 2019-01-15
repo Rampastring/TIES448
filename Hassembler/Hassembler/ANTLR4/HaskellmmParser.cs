@@ -37,7 +37,7 @@ public partial class HaskellmmParser : Parser {
 	protected static PredictionContextCache sharedContextCache = new PredictionContextCache();
 	public const int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, NEWLINE=8, INT=9, 
-		NAME_F_LETTER=10, F_NAME=11;
+		F_NAME=10;
 	public const int
 		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2;
 	public static readonly string[] ruleNames = {
@@ -48,8 +48,7 @@ public partial class HaskellmmParser : Parser {
 		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'='"
 	};
 	private static readonly string[] _SymbolicNames = {
-		null, null, null, null, null, null, null, null, "NEWLINE", "INT", "NAME_F_LETTER", 
-		"F_NAME"
+		null, null, null, null, null, null, null, null, "NEWLINE", "INT", "F_NAME"
 	};
 	public static readonly IVocabulary DefaultVocabulary = new Vocabulary(_LiteralNames, _SymbolicNames);
 
@@ -441,7 +440,7 @@ public partial class HaskellmmParser : Parser {
 
 	private static char[] _serializedATN = {
 		'\x3', '\x608B', '\xA72A', '\x8133', '\xB9ED', '\x417C', '\x3BE7', '\x7786', 
-		'\x5964', '\x3', '\r', ')', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', '\t', 
+		'\x5964', '\x3', '\f', ')', '\x4', '\x2', '\t', '\x2', '\x4', '\x3', '\t', 
 		'\x3', '\x4', '\x4', '\t', '\x4', '\x3', '\x2', '\x3', '\x2', '\x3', '\x2', 
 		'\a', '\x2', '\f', '\n', '\x2', '\f', '\x2', '\xE', '\x2', '\xF', '\v', 
 		'\x2', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', '\x3', 
@@ -461,7 +460,7 @@ public partial class HaskellmmParser : Parser {
 		'\x3', '\x1', '\x2', '\x11', '\x12', '\a', '\x3', '\x2', '\x2', '\x12', 
 		'\x13', '\x5', '\x4', '\x3', '\x2', '\x13', '\x14', '\a', '\x4', '\x2', 
 		'\x2', '\x14', '\x18', '\x3', '\x2', '\x2', '\x2', '\x15', '\x18', '\a', 
-		'\r', '\x2', '\x2', '\x16', '\x18', '\a', '\v', '\x2', '\x2', '\x17', 
+		'\f', '\x2', '\x2', '\x16', '\x18', '\a', '\v', '\x2', '\x2', '\x17', 
 		'\x10', '\x3', '\x2', '\x2', '\x2', '\x17', '\x15', '\x3', '\x2', '\x2', 
 		'\x2', '\x17', '\x16', '\x3', '\x2', '\x2', '\x2', '\x18', '!', '\x3', 
 		'\x2', '\x2', '\x2', '\x19', '\x1A', '\f', '\x6', '\x2', '\x2', '\x1A', 
@@ -471,7 +470,7 @@ public partial class HaskellmmParser : Parser {
 		'\x3', '\x2', '\x2', '\x2', '\x1F', '\x1C', '\x3', '\x2', '\x2', '\x2', 
 		' ', '#', '\x3', '\x2', '\x2', '\x2', '!', '\x1F', '\x3', '\x2', '\x2', 
 		'\x2', '!', '\"', '\x3', '\x2', '\x2', '\x2', '\"', '\x5', '\x3', '\x2', 
-		'\x2', '\x2', '#', '!', '\x3', '\x2', '\x2', '\x2', '$', '%', '\a', '\r', 
+		'\x2', '\x2', '#', '!', '\x3', '\x2', '\x2', '\x2', '$', '%', '\a', '\f', 
 		'\x2', '\x2', '%', '&', '\a', '\t', '\x2', '\x2', '&', '\'', '\x5', '\x4', 
 		'\x3', '\x2', '\'', '\a', '\x3', '\x2', '\x2', '\x2', '\x6', '\r', '\x17', 
 		'\x1F', '!',

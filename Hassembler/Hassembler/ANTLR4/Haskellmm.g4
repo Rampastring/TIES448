@@ -14,5 +14,4 @@ f_defi: F_NAME '=' expr;
 
 NEWLINE : [\r\n]+ ;
 INT     : [0-9]+ ;
-NAME_F_LETTER : [a-z] ;
 F_NAME : [a-z][a-zA-Z0-9']* ;

@@ -17,7 +17,7 @@ public class HaskellmmParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, NEWLINE=8, INT=9, 
-		NAME_F_LETTER=10, F_NAME=11;
+		F_NAME=10;
 	public static final int
 		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2;
 	public static final String[] ruleNames = {
@@ -28,8 +28,7 @@ public class HaskellmmParser extends Parser {
 		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'='"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, "NEWLINE", "INT", "NAME_F_LETTER", 
-		"F_NAME"
+		null, null, null, null, null, null, null, null, "NEWLINE", "INT", "F_NAME"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -357,17 +356,17 @@ public class HaskellmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r)\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\f)\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\3\2\3\2\3\2\7\2\f\n\2\f\2\16\2\17\13\2\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\5\3\30\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3 \n\3\f\3\16\3#\13\3\3"+
 		"\4\3\4\3\4\3\4\3\4\2\3\4\5\2\4\6\2\4\3\2\5\6\3\2\7\b\2*\2\r\3\2\2\2\4"+
 		"\27\3\2\2\2\6$\3\2\2\2\b\t\5\6\4\2\t\n\7\n\2\2\n\f\3\2\2\2\13\b\3\2\2"+
 		"\2\f\17\3\2\2\2\r\13\3\2\2\2\r\16\3\2\2\2\16\3\3\2\2\2\17\r\3\2\2\2\20"+
 		"\21\b\3\1\2\21\22\7\3\2\2\22\23\5\4\3\2\23\24\7\4\2\2\24\30\3\2\2\2\25"+
-		"\30\7\r\2\2\26\30\7\13\2\2\27\20\3\2\2\2\27\25\3\2\2\2\27\26\3\2\2\2\30"+
+		"\30\7\f\2\2\26\30\7\13\2\2\27\20\3\2\2\2\27\25\3\2\2\2\27\26\3\2\2\2\30"+
 		"!\3\2\2\2\31\32\f\6\2\2\32\33\t\2\2\2\33 \5\4\3\7\34\35\f\5\2\2\35\36"+
 		"\t\3\2\2\36 \5\4\3\6\37\31\3\2\2\2\37\34\3\2\2\2 #\3\2\2\2!\37\3\2\2\2"+
-		"!\"\3\2\2\2\"\5\3\2\2\2#!\3\2\2\2$%\7\r\2\2%&\7\t\2\2&\'\5\4\3\2\'\7\3"+
+		"!\"\3\2\2\2\"\5\3\2\2\2#!\3\2\2\2$%\7\f\2\2%&\7\t\2\2&\'\5\4\3\2\'\7\3"+
 		"\2\2\2\6\r\27\37!";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
