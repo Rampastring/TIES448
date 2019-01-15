@@ -128,6 +128,18 @@ public partial class HaskellmmBaseListener : IHaskellmmListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitF_defi([NotNull] HaskellmmParser.F_defiContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.ite_defi"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterIte_defi([NotNull] HaskellmmParser.Ite_defiContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.ite_defi"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context) { }
 
 	/// <inheritdoc/>
 	/// <remarks>The default implementation does nothing.</remarks>

@@ -110,4 +110,14 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitF_defi([NotNull] HaskellmmParser.F_defiContext context);
+	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.ite_defi"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterIte_defi([NotNull] HaskellmmParser.Ite_defiContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.ite_defi"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context);
 }

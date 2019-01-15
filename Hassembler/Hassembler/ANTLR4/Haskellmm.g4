@@ -10,7 +10,7 @@ expr:	'(' expr ')'            # parenExp
     |	INT                     # intVar
     ;
 
-f_defi: F_NAME '=' expr;
+f_defi: F_NAME '=' expr | ite_defi;
 
 ite_defi: IF expr THEN expr ELSE expr;
 
