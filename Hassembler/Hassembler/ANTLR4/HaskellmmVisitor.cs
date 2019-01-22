@@ -59,6 +59,13 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitMultExp([NotNull] HaskellmmParser.MultExpContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>compExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitCompExp([NotNull] HaskellmmParser.CompExpContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>parenExp</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>

@@ -77,6 +77,18 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitMultExp([NotNull] HaskellmmParser.MultExpContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>compExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterCompExp([NotNull] HaskellmmParser.CompExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>compExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitCompExp([NotNull] HaskellmmParser.CompExpContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>parenExp</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>

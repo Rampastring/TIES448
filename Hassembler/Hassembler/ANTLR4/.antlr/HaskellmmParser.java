@@ -16,8 +16,9 @@ public class HaskellmmParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, IF=8, THEN=9, 
-		ELSE=10, NEWLINE=11, INT=12, BOOL=13, CHAR=14, F_NAME=15, R_VAR=16, WS=17;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
+		T__9=10, T__10=11, T__11=12, IF=13, THEN=14, ELSE=15, NEWLINE=16, INT=17, 
+		BOOL=18, CHAR=19, R_VAR=20, WS=21;
 	public static final int
 		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2, RULE_ite_defi = 3;
 	public static final String[] ruleNames = {
@@ -25,12 +26,13 @@ public class HaskellmmParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'='", "'if'", "'then'", 
-		"'else'"
+		null, "'('", "')'", "'*'", "'/'", "'+'", "'-'", "'<'", "'<='", "'=='", 
+		"'>='", "'>'", "'='", "'if'", "'then'", "'else'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, null, "IF", "THEN", "ELSE", 
-		"NEWLINE", "INT", "BOOL", "CHAR", "F_NAME", "R_VAR", "WS"
+		null, null, null, null, null, null, null, null, null, null, null, null, 
+		null, "IF", "THEN", "ELSE", "NEWLINE", "INT", "BOOL", "CHAR", "R_VAR", 
+		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -108,7 +110,7 @@ public class HaskellmmParser extends Parser {
 			setState(17);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==F_NAME) {
+			while (_la==R_VAR) {
 				{
 				{
 				setState(8);
@@ -176,6 +178,15 @@ public class HaskellmmParser extends Parser {
 			return getRuleContext(ExprContext.class,i);
 		}
 		public MultExpContext(ExprContext ctx) { copyFrom(ctx); }
+	}
+	public static class CompExpContext extends ExprContext {
+		public List<ExprContext> expr() {
+			return getRuleContexts(ExprContext.class);
+		}
+		public ExprContext expr(int i) {
+			return getRuleContext(ExprContext.class,i);
+		}
+		public CompExpContext(ExprContext ctx) { copyFrom(ctx); }
 	}
 	public static class ParenExpContext extends ExprContext {
 		public ExprContext expr() {
@@ -281,23 +292,23 @@ public class HaskellmmParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(42);
+			setState(52);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(40);
+					setState(50);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(34);
-						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
+						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(35);
 						_la = _input.LA(1);
 						if ( !(_la==T__2 || _la==T__3) ) {
@@ -309,7 +320,7 @@ public class HaskellmmParser extends Parser {
 							consume();
 						}
 						setState(36);
-						expr(4);
+						expr(5);
 						}
 						break;
 					case 2:
@@ -317,7 +328,7 @@ public class HaskellmmParser extends Parser {
 						_localctx = new AddExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(37);
-						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
 						setState(38);
 						_la = _input.LA(1);
 						if ( !(_la==T__4 || _la==T__5) ) {
@@ -329,15 +340,68 @@ public class HaskellmmParser extends Parser {
 							consume();
 						}
 						setState(39);
+						expr(4);
+						}
+						break;
+					case 3:
+						{
+						_localctx = new CompExpContext(new ExprContext(_parentctx, _parentState));
+						pushNewRecursionContext(_localctx, _startState, RULE_expr);
+						setState(40);
+						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
+						setState(47);
+						_errHandler.sync(this);
+						switch (_input.LA(1)) {
+						case T__6:
+							{
+							setState(41);
+							match(T__6);
+							}
+							break;
+						case T__7:
+							{
+							setState(42);
+							match(T__7);
+							}
+							break;
+						case T__8:
+							{
+							setState(43);
+							match(T__8);
+							}
+							break;
+						case T__9:
+							{
+							setState(44);
+							match(T__9);
+							}
+							break;
+						case T__10:
+							{
+							setState(45);
+							match(T__10);
+							}
+							break;
+						case T__0:
+						case IF:
+						case INT:
+						case R_VAR:
+							{
+							}
+							break;
+						default:
+							throw new NoViableAltException(this);
+						}
+						setState(49);
 						expr(3);
 						}
 						break;
 					}
 					} 
 				}
-				setState(44);
+				setState(54);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
 			}
 		}
@@ -353,7 +417,6 @@ public class HaskellmmParser extends Parser {
 	}
 
 	public static class F_defiContext extends ParserRuleContext {
-		public TerminalNode F_NAME() { return getToken(HaskellmmParser.F_NAME, 0); }
 		public ExprContext expr() {
 			return getRuleContext(ExprContext.class,0);
 		}
@@ -374,25 +437,23 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(45);
-			match(F_NAME);
-			setState(49);
+			setState(56); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while (_la==R_VAR) {
+			do {
 				{
 				{
-				setState(46);
+				setState(55);
 				match(R_VAR);
 				}
 				}
-				setState(51);
+				setState(58); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			}
-			setState(52);
-			match(T__6);
-			setState(53);
+			} while ( _la==R_VAR );
+			setState(60);
+			match(T__11);
+			setState(61);
 			expr(0);
 			}
 		}
@@ -429,17 +490,17 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(55);
+			setState(63);
 			match(IF);
-			setState(56);
+			setState(64);
 			expr(0);
-			setState(57);
+			setState(65);
 			match(THEN);
-			setState(58);
+			setState(66);
 			expr(0);
-			setState(59);
+			setState(67);
 			match(ELSE);
-			setState(60);
+			setState(68);
 			expr(0);
 			}
 		}
@@ -464,32 +525,37 @@ public class HaskellmmParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 3);
+			return precpred(_ctx, 4);
 		case 1:
+			return precpred(_ctx, 3);
+		case 2:
 			return precpred(_ctx, 2);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23A\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27I\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\7\2\22\n\2\f\2\16"+
 		"\2\25\13\2\3\3\3\3\3\3\3\3\3\3\3\3\6\3\35\n\3\r\3\16\3\36\3\3\3\3\5\3"+
-		"#\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3+\n\3\f\3\16\3.\13\3\3\4\3\4\7\4\62\n"+
-		"\4\f\4\16\4\65\13\4\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\2\3\4"+
-		"\6\2\4\6\b\2\4\3\2\5\6\3\2\7\b\2E\2\23\3\2\2\2\4\"\3\2\2\2\6/\3\2\2\2"+
-		"\b9\3\2\2\2\n\16\5\6\4\2\13\r\7\r\2\2\f\13\3\2\2\2\r\20\3\2\2\2\16\f\3"+
-		"\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\21\n\3\2\2\2\22\25\3"+
-		"\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\23\3\2\2\2\26\27\b"+
-		"\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31\32\7\4\2\2\32#\3\2\2\2\33\35\7\22"+
-		"\2\2\34\33\3\2\2\2\35\36\3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37#\3\2\2"+
-		"\2 #\5\b\5\2!#\7\16\2\2\"\26\3\2\2\2\"\34\3\2\2\2\" \3\2\2\2\"!\3\2\2"+
-		"\2#,\3\2\2\2$%\f\5\2\2%&\t\2\2\2&+\5\4\3\6\'(\f\4\2\2()\t\3\2\2)+\5\4"+
-		"\3\5*$\3\2\2\2*\'\3\2\2\2+.\3\2\2\2,*\3\2\2\2,-\3\2\2\2-\5\3\2\2\2.,\3"+
-		"\2\2\2/\63\7\21\2\2\60\62\7\22\2\2\61\60\3\2\2\2\62\65\3\2\2\2\63\61\3"+
-		"\2\2\2\63\64\3\2\2\2\64\66\3\2\2\2\65\63\3\2\2\2\66\67\7\t\2\2\678\5\4"+
-		"\3\28\7\3\2\2\29:\7\n\2\2:;\5\4\3\2;<\7\13\2\2<=\5\4\3\2=>\7\f\2\2>?\5"+
-		"\4\3\2?\t\3\2\2\2\t\16\23\36\"*,\63";
+		"#\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\62\n\3\3"+
+		"\3\7\3\65\n\3\f\3\16\38\13\3\3\4\6\4;\n\4\r\4\16\4<\3\4\3\4\3\4\3\5\3"+
+		"\5\3\5\3\5\3\5\3\5\3\5\3\5\2\3\4\6\2\4\6\b\2\4\3\2\5\6\3\2\7\b\2S\2\23"+
+		"\3\2\2\2\4\"\3\2\2\2\6:\3\2\2\2\bA\3\2\2\2\n\16\5\6\4\2\13\r\7\22\2\2"+
+		"\f\13\3\2\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20"+
+		"\16\3\2\2\2\21\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24"+
+		"\3\3\2\2\2\25\23\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31"+
+		"\32\7\4\2\2\32#\3\2\2\2\33\35\7\26\2\2\34\33\3\2\2\2\35\36\3\2\2\2\36"+
+		"\34\3\2\2\2\36\37\3\2\2\2\37#\3\2\2\2 #\5\b\5\2!#\7\23\2\2\"\26\3\2\2"+
+		"\2\"\34\3\2\2\2\" \3\2\2\2\"!\3\2\2\2#\66\3\2\2\2$%\f\6\2\2%&\t\2\2\2"+
+		"&\65\5\4\3\7\'(\f\5\2\2()\t\3\2\2)\65\5\4\3\6*\61\f\4\2\2+\62\7\t\2\2"+
+		",\62\7\n\2\2-\62\7\13\2\2.\62\7\f\2\2/\62\7\r\2\2\60\62\3\2\2\2\61+\3"+
+		"\2\2\2\61,\3\2\2\2\61-\3\2\2\2\61.\3\2\2\2\61/\3\2\2\2\61\60\3\2\2\2\62"+
+		"\63\3\2\2\2\63\65\5\4\3\5\64$\3\2\2\2\64\'\3\2\2\2\64*\3\2\2\2\658\3\2"+
+		"\2\2\66\64\3\2\2\2\66\67\3\2\2\2\67\5\3\2\2\28\66\3\2\2\29;\7\26\2\2:"+
+		"9\3\2\2\2;<\3\2\2\2<:\3\2\2\2<=\3\2\2\2=>\3\2\2\2>?\7\16\2\2?@\5\4\3\2"+
+		"@\7\3\2\2\2AB\7\17\2\2BC\5\4\3\2CD\7\20\2\2DE\5\4\3\2EF\7\21\2\2FG\5\4"+
+		"\3\2G\t\3\2\2\2\n\16\23\36\"\61\64\66<";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
