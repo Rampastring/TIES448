@@ -55,6 +55,17 @@ public partial class HaskellmmBaseVisitor<Result> : AbstractParseTreeVisitor<Res
 	/// <return>The visitor result.</return>
 	public virtual Result VisitRefVar([NotNull] HaskellmmParser.RefVarContext context) { return VisitChildren(context); }
 	/// <summary>
+	/// Visit a parse tree produced by the <c>boolVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>
+	/// The default implementation returns the result of calling <see cref="AbstractParseTreeVisitor{Result}.VisitChildren(IRuleNode)"/>
+	/// on <paramref name="context"/>.
+	/// </para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	public virtual Result VisitBoolVar([NotNull] HaskellmmParser.BoolVarContext context) { return VisitChildren(context); }
+	/// <summary>
 	/// Visit a parse tree produced by the <c>intVar</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// <para>

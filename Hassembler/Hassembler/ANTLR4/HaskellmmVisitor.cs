@@ -45,6 +45,13 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitRefVar([NotNull] HaskellmmParser.RefVarContext context);
 	/// <summary>
+	/// Visit a parse tree produced by the <c>boolVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitBoolVar([NotNull] HaskellmmParser.BoolVarContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>intVar</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>

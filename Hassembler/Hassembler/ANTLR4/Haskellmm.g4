@@ -10,6 +10,7 @@ expr:	'(' expr ')'                        # parenExp
     |	expr ('+'|'-') expr                 # addExp
     |   expr ('<'|'<='|'=='|'>='|'>'|) expr # compExp 
     |	INT                                 # intVar
+    |   BOOL                                # boolVar
     ;
 
 f_defi: R_VAR+ '=' expr;
