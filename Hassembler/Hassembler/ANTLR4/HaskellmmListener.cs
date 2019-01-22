@@ -41,6 +41,18 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] HaskellmmParser.ProgContext context);
 	/// <summary>
+	/// Enter a parse tree produced by the <c>refVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRefVar([NotNull] HaskellmmParser.RefVarContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>refVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRefVar([NotNull] HaskellmmParser.RefVarContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>intVar</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// </summary>
@@ -88,18 +100,6 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitAddExp([NotNull] HaskellmmParser.AddExpContext context);
-	/// <summary>
-	/// Enter a parse tree produced by the <c>fRefVar</c>
-	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void EnterFRefVar([NotNull] HaskellmmParser.FRefVarContext context);
-	/// <summary>
-	/// Exit a parse tree produced by the <c>fRefVar</c>
-	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
-	/// </summary>
-	/// <param name="context">The parse tree.</param>
-	void ExitFRefVar([NotNull] HaskellmmParser.FRefVarContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>iteExp</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
