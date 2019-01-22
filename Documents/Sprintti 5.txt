@@ -7,3 +7,9 @@ Alkupalaveri 15.1.
  - määritettiin kielioppiin IF, THEN, ja ELSE sekä True ja False
  - iteExpr:lle Node 
  - VisitException lisätty
+
+Loppupalaveri 22.1.
+ - lisättiin tuki funktioiden parametreille
+ - ParameterReferenceNode lisätty
+ - otettu booleanit käyttöön kieliopissa, tulkki ei vielä tue
+ - lisätty vertailuoperaattorit kielioppiin, tulkki ei vielä tue
