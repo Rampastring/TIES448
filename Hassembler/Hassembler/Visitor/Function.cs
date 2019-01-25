@@ -35,6 +35,8 @@ namespace Hassembler
 
         public int ParamCount => parameters.Count;
 
+        public Parameter GetParameter(int i) => parameters[i];
+
         /// <summary>
         /// Returns a copy of this function's parameter list.
         /// (A copy so you can't edit the original param list)
