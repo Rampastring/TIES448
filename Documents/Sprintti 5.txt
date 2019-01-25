@@ -1,4 +1,4 @@
-﻿Sprintti 5: 15/1/2019-
+﻿Sprintti 5: 15/1/2019-23/1/2019
 
 Alkupalaveri 15.1.
  - tässä sprintissä tehdään vaihe 4: valinnat (if)
@@ -6,10 +6,14 @@ Alkupalaveri 15.1.
  	* mutta vian syy löytyi: NAME_F_LETTER : [a-z] oli ylempänä kieliopissa kuin F_NAME
  - määritettiin kielioppiin IF, THEN, ja ELSE sekä True ja False
  - iteExpr:lle Node 
- - VisitException lisätty
+ - VisitException lisätty (spesifeille virheilmoituksille)
 
 Loppupalaveri 22.1.
+ - valmisteltiin vaihetta 5, jossa määritellään funktiot (häntärekursiolla)
+	* kielessä oli jo valmiit rakenteet funktiolle, johon ei tule 
+	parametreja (binding)
  - lisättiin tuki funktioiden parametreille
  - ParameterReferenceNode lisätty
  - otettu booleanit käyttöön kieliopissa, tulkki ei vielä tue
  - lisätty vertailuoperaattorit kielioppiin, tulkki ei vielä tue
+
