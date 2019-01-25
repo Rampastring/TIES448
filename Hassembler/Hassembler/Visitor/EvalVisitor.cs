@@ -27,7 +27,7 @@ namespace Hassembler
         public override VisitorResult VisitAddExp([NotNull] HaskellmmParser.AddExpContext context)
         {
             if (context.children.Count < 3)
-                throw new VisitException("Expected expr (+/-) expr");
+                throw new VisitException(context.Start.Line, context.Start.Column ,"Expected expr (+/-) expr");
 
             SumOperation operation;
             switch (context.children[1].GetText())
@@ -39,7 +39,7 @@ namespace Hassembler
                     operation = SumOperation.Substract;
                     break;
                 default:
-                    throw new VisitException("ei");
+                    throw new VisitException(context.Start.Line, context.Start.Column , "Operator was neither + or -.");
             }
 
             AddExprNode(new SumNode(currentNode, Env, operation));
@@ -64,7 +64,7 @@ namespace Hassembler
             }
 
             if (eqIndex == -1)
-                throw new VisitException("'=' expected in function definition");
+                throw new VisitException(context.Start.Line, context.Start.Column ,"'=' expected in function definition");
 
             string functionName = context.GetChild(0).GetText();
 
@@ -76,7 +76,8 @@ namespace Hassembler
             }
 
             if (Functions.Find(f => f.Name == functionName) != null)
-                throw new VisitException("Multiple definitions with equal number of parameters found for function " + functionName);
+                throw new VisitException(context.Start.Line, context.Start.Column ,
+                    "Multiple definitions found for function " + functionName);
 
             Functions.Add(currentFunction);
 
@@ -129,7 +130,7 @@ namespace Hassembler
         public override VisitorResult VisitMultExp([NotNull] HaskellmmParser.MultExpContext context)
         {
             if (context.children.Count < 3)
-                throw new VisitException("Expected expr (+/-) expr");
+                throw new VisitException(context.Start.Line, context.Start.Column , "Expected expr (+/-) expr");
 
             MultOperation operation;
             switch (context.children[1].GetText())
@@ -141,7 +142,7 @@ namespace Hassembler
                     operation = MultOperation.Divide;
                     break;
                 default:
-                    throw new VisitException("ei");
+                    throw new VisitException(context.Start.Line, context.Start.Column ,"Operator was neither * or /");
             }
 
             AddExprNode(new MultNode(currentNode, Env, operation));
@@ -171,7 +172,7 @@ namespace Hassembler
 
                 if (currentNode != null)
                 {
-                    throw new VisitException("Found starting node for current function, " +
+                    throw new ASTException("Found starting node for current function, " +
                         "but current node is not null!");
                 }
 
@@ -194,7 +195,7 @@ namespace Hassembler
                     else if (parentNode.Right == null)
                         parentNode.Right = exprNode;
                     else
-                        throw new VisitException("ParentNode: No unfilled child node!");
+                        throw new ASTException("ParentNode: No unfilled child node!");
                 }
                 else if (currentNode is ParNode parNode)
                 {
@@ -211,11 +212,11 @@ namespace Hassembler
                     else if (iteNode.ElseExpr == null)
                         iteNode.ElseExpr = exprNode;
                     else
-                        throw new VisitException("ITENode: No unfilled child node!");
+                        throw new ASTException("ITENode: No unfilled child node!");
                 }
                 else
                 {
-                    throw new VisitException("Unknown parent node type");
+                    throw new ASTException("Unknown parent node type");
                 }
             }
 
@@ -235,7 +236,7 @@ namespace Hassembler
             while (true)
             {
                 if (node == null)
-                    throw new VisitException("how?");
+                    throw new ASTException("how?");
 
                 if (node.Parent == null)
                     return null;

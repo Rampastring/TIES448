@@ -2,24 +2,74 @@
 
 namespace Hassembler
 {
-    class VisitException : Exception
+    abstract class HassemblerException : Exception
     {
-        public VisitException(string message) : base(message)
+        protected int Line { get; }
+        protected int Column { get; }
+        
+        public HassemblerException(int line, int column, string message) : base(message)
+        {
+            this.Line = line;
+            this.Column = column;
+        }
+
+        public override string ToString()
+        {
+            return "An error has occured in line: " + Line.ToString() + ", column: " + Column.ToString() + Environment.NewLine +
+            Message;
+        }
+    }
+
+    class VisitException : HassemblerException
+    {
+        public VisitException(int line, int column, string message) : base(line, column, message)
         {
         }
     }
 
-    class SyntaxError : Exception
+    class SyntaxError : HassemblerException
     {
-        private int Line { get; }
-        private int Column { get; }
-        private string F_name { get; }
+        private string UnknownToken { get; }
 
-        public SyntaxError(int line, int column, string f_name ,string message) : base (message)
+        public SyntaxError(string unknownToken, int line, int column, string message) : base(line, column, message)
         {
-            this.Line = line;
-            this.Column = column;
-            this.F_name = f_name;
+            this.UnknownToken = unknownToken;
+        }
+
+        public override string ToString()
+        {
+            return "Syntax error: Unknown token: " + UnknownToken.ToString() + Environment.NewLine + 
+            "In line: " + Line.ToString() + ", column: " + Column.ToString() + Environment.NewLine +
+            Message;
+        } 
+    }
+
+    class TypeError : HassemblerException
+    {
+        private Type Expected {get;}
+
+        private Type Actual {get;}
+
+        public TypeError(Type expected, Type actual, int line, int column, string message) : base(line, column, message)
+        {
+            this.Expected = expected;
+            this.Actual = actual;
+        }
+
+        public override string ToString()
+        {
+            return "Could not match expected type: " + Expected.ToString() + " with the actual type: " + Actual.ToString() + Environment.NewLine +
+            "In line: " + Line.ToString() + ", column: " + Column.ToString() + Environment.NewLine +
+            Message;
+        } 
+
+    }
+
+    class ASTException : Exception
+    {
+        public ASTException(string message) : base(message)
+        {
+
         }
     }
 }
