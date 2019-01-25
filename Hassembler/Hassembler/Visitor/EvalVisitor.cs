@@ -24,6 +24,7 @@ namespace Hassembler
         private Function currentFunction;
         private ExprNode currentNode;
 
+
         public override VisitorResult VisitAddExp([NotNull] HaskellmmParser.AddExpContext context)
         {
             if (context.children.Count < 3)
@@ -94,11 +95,17 @@ namespace Hassembler
             string s = context.GetText();
             ExprNode node;
             if (currentFunction.Parameters.FindIndex(p => p.Name == s) > -1)
+            {
                 node = new ParameterReferenceNode(currentNode, Env, s, currentFunction);
+                AddExprNode(node);
+                currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+            }
             else
+            {
                 node = new FunctionReferenceNode(currentNode, Env, s);
-            AddExprNode(node);
-            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+                AddExprNode(node);
+            }
+            
             return base.VisitRefVar(context);
         }
 
@@ -249,11 +256,17 @@ namespace Hassembler
                     else
                         throw new ASTException("ITENode: No unfilled child node!");
                 }
+                else if (currentNode is FunctionReferenceNode frNode)
+                {
+                    frNode.AddParameter(exprNode);
+                }
                 else
                 {
                     throw new ASTException("Unknown parent node type");
                 }
             }
+            else
+                throw new ASTException("No parent node exists!");
 
             currentNode = exprNode;
         }
@@ -277,23 +290,26 @@ namespace Hassembler
                     return null;
 
                 ExprNode parent = node.Parent;
-                ParentNode nodeAsParentNode = parent as ParentNode;
 
-                if (nodeAsParentNode != null)
+                if (parent is ParentNode parentNode)
                 {
-                    if (nodeAsParentNode.Left == null || nodeAsParentNode.Right == null)
-                        return nodeAsParentNode;
+                    if (parentNode.Left == null || parentNode.Right == null)
+                        return parentNode;
                 }
 
-                ITENode nodeAsITENode = parent as ITENode;
-
-                if (nodeAsITENode != null)
+                if (parent is ITENode iteNode)
                 {
                     // TODO improve class design
-                    if (nodeAsITENode.Condition == null ||
-                        nodeAsITENode.ThenExpr == null ||
-                        nodeAsITENode.ElseExpr == null)
-                        return nodeAsITENode;
+                    if (iteNode.Condition == null ||
+                        iteNode.ThenExpr == null ||
+                        iteNode.ElseExpr == null)
+                        return iteNode;
+                }
+
+                if (parent is FunctionReferenceNode frNode)
+                {
+                    // Functions can always accept more parameters
+                    return frNode;
                 }
 
                 node = parent;

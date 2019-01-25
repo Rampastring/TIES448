@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Hassembler
 {
@@ -91,9 +92,24 @@ namespace Hassembler
             FunctionName = functionName;
         }
 
+        /// <summary>
+        /// A list of parameter values to be delivered to the function,
+        /// </summary>
+        private List<ExprNode> parameterNodes = new List<ExprNode>();
+
         public string FunctionName { get; private set; }
 
-        public override Result GetValue() => Env.GetReferenceValue(FunctionName);
+        public void AddParameter(ExprNode paramNode)
+        {
+            parameterNodes.Add(paramNode);
+        }
+
+        public override Result GetValue()
+        {
+            List<object> parameters = new List<object>();
+            parameterNodes.ForEach(p => parameters.Add(p.GetValue().GetResult<int>())); // TODO handle non-int types
+            return Env.GetReferenceValue(FunctionName, parameters);
+        }
     }
 
     /// <summary>

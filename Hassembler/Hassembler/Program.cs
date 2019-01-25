@@ -10,7 +10,7 @@ namespace Hassembler
         {
             // string testiohjelma = "a=1+1+1*3\r\nf=2+4\r\ng=2*(4+5)\r\nh=2*4+5\r\nr=f+a\r\nbn=2+r\r\n";
             // string testiohjelma = "a=0-4\r\nb=2 + if a then 4+4 else 2 + 3";
-            string testiohjelma = "fabulous a b = a + b";
+            string testiohjelma = "fabulous a b = a + b\ny=4 + fabulous 2 3\n";
 
             ICharStream charStream = CharStreams.fromstring(testiohjelma);
             HaskellmmLexer lexer = new HaskellmmLexer(charStream);
