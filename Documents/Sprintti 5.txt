@@ -8,9 +8,12 @@ Alkupalaveri 15.1.
  - iteExpr:lle Node 
  - VisitException lisätty (spesifeille virheilmoituksille)
 
-Loppupalaveri 23.1.
+Loppupalaveri 22.1.
  - valmisteltiin vaihetta 5, jossa määritellään funktiot (häntärekursiolla)
 	* kielessä oli jo valmiit rakenteet funktiolle, johon ei tule 
 	parametreja (binding)
- - muutettiin kielioppia siten, että funktioon voi tuoda parametreja
- - VisitExceptionin muokkausta
+ - lisättiin tuki funktioiden parametreille
+ - ParameterReferenceNode lisätty
+ - otettu booleanit käyttöön kieliopissa, tulkki ei vielä tue
+ - lisätty vertailuoperaattorit kielioppiin, tulkki ei vielä tue
+

@@ -61,6 +61,20 @@ public partial class HaskellmmBaseListener : IHaskellmmListener {
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitRefVar([NotNull] HaskellmmParser.RefVarContext context) { }
 	/// <summary>
+	/// Enter a parse tree produced by the <c>boolVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterBoolVar([NotNull] HaskellmmParser.BoolVarContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>boolVar</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitBoolVar([NotNull] HaskellmmParser.BoolVarContext context) { }
+	/// <summary>
 	/// Enter a parse tree produced by the <c>intVar</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
 	/// <para>The default implementation does nothing.</para>
@@ -88,6 +102,20 @@ public partial class HaskellmmBaseListener : IHaskellmmListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	public virtual void ExitMultExp([NotNull] HaskellmmParser.MultExpContext context) { }
+	/// <summary>
+	/// Enter a parse tree produced by the <c>compExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void EnterCompExp([NotNull] HaskellmmParser.CompExpContext context) { }
+	/// <summary>
+	/// Exit a parse tree produced by the <c>compExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// <para>The default implementation does nothing.</para>
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	public virtual void ExitCompExp([NotNull] HaskellmmParser.CompExpContext context) { }
 	/// <summary>
 	/// Enter a parse tree produced by the <c>parenExp</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.

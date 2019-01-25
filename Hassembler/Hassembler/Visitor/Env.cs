@@ -12,6 +12,8 @@ namespace Hassembler
     interface IEnv
     {
         Result GetReferenceValue(string functionName);
+        void AddParam(string name, object value);
+        object GetParam(string name);
     }
 
     class Env : IEnv
@@ -19,6 +21,22 @@ namespace Hassembler
         public Env() { }
 
         private List<Function> functions;
+
+        private Dictionary<string, object> parameters = new Dictionary<string, object>();
+
+        public void AddParam(string name, object value)
+        {
+            // TODO handle parameters with same names
+            parameters.Add(name, value);
+        }
+
+        public object GetParam(string name)
+        {
+            if (parameters.TryGetValue(name, out object value))
+                return value;
+
+            throw new KeyNotFoundException("Parameter not found: " + name);
+        }
 
         public void SetFunctions(List<Function> functionList)
         {

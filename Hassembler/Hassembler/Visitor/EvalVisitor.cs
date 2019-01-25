@@ -10,17 +10,17 @@ namespace Hassembler
     {
         public EvalVisitor()
         {
-            env = new Env();
+            Env = new Env();
 
             // Note: we're passing the function list as reference -
             // if the function list is modified in Env, the changes wil
             // also apply here
-            env.SetFunctions(Functions);
+            Env.SetFunctions(Functions);
         }
 
         public List<Function> Functions = new List<Function>();
 
-        private Env env;
+        public Env Env { get; private set; }
         private Function currentFunction;
         private ExprNode currentNode;
 
@@ -42,7 +42,7 @@ namespace Hassembler
                     throw new VisitException("ei");
             }
 
-            AddExprNode(new SumNode(currentNode, env, operation));
+            AddExprNode(new SumNode(currentNode, Env, operation));
 
             return base.VisitAddExp(context);
         }
@@ -53,16 +53,33 @@ namespace Hassembler
         /// </summary>
         public override VisitorResult VisitF_defi([NotNull] HaskellmmParser.F_defiContext context)
         {
-            string[] parts = context.GetText().Split('=');
-            if (parts.Length != 2)
+            int eqIndex = -1;
+            for (int i = 0; i < context.ChildCount; i++)
+            {
+                if (context.GetChild(i).GetText() == "=")
+                {
+                    eqIndex = i;
+                    break;
+                }
+            }
+
+            if (eqIndex == -1)
                 throw new VisitException("'=' expected in function definition");
 
-            string functionName = parts[0];
+            string functionName = context.GetChild(0).GetText();
 
             currentFunction = new Function(functionName);
+
+            for (int i = 1; i < eqIndex; i++)
+            {
+                currentFunction.AddParameter(new Parameter(context.GetChild(i).GetText()));
+            }
+
             if (Functions.Find(f => f.Name == functionName) != null)
-                throw new VisitException("Multiple definitions found for function " + functionName);
+                throw new VisitException("Multiple definitions with equal number of parameters found for function " + functionName);
+
             Functions.Add(currentFunction);
+
             currentNode = null;
 
             return base.VisitF_defi(context);
@@ -71,20 +88,24 @@ namespace Hassembler
         /// <summary>
         /// The visit subroutine for an expression that references a function.
         /// </summary>
-        public override VisitorResult VisitFRefVar([NotNull] HaskellmmParser.FRefVarContext context)
+        public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
         {
             string s = context.GetText();
-            var node = new ReferenceNode(currentNode, env, s);
+            ExprNode node;
+            if (currentFunction.Parameters.FindIndex(p => p.Name == s) > -1)
+                node = new ParameterReferenceNode(currentNode, Env, s, currentFunction);
+            else
+                node = new FunctionReferenceNode(currentNode, Env, s);
             AddExprNode(node);
             currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
-            return base.VisitFRefVar(context);
+            return base.VisitRefVar(context);
         }
 
         public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)
         {
             string s = context.GetText();
 
-            ITENode iteNode = new ITENode(currentNode, env);
+            ITENode iteNode = new ITENode(currentNode, Env);
             AddExprNode(iteNode);
 
             return base.VisitIte_defi(context);
@@ -96,7 +117,7 @@ namespace Hassembler
 
             int value = int.Parse(s);
 
-            IntNode node = new IntNode(currentNode, env, value);
+            IntNode node = new IntNode(currentNode, Env, value);
             AddExprNode(node);
             // An integer constant has no parents, so find the next node to fill
             // by traversing the tree upwards
@@ -123,7 +144,7 @@ namespace Hassembler
                     throw new VisitException("ei");
             }
 
-            AddExprNode(new MultNode(currentNode, env, operation));
+            AddExprNode(new MultNode(currentNode, Env, operation));
             return base.VisitMultExp(context);
         }
 
@@ -131,7 +152,7 @@ namespace Hassembler
         {
             string s = context.GetText();
 
-            AddExprNode(new ParNode(currentNode, env));
+            AddExprNode(new ParNode(currentNode, Env));
 
             return base.VisitParenExp(context);
         }

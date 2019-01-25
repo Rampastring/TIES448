@@ -84,9 +84,9 @@ namespace Hassembler
     /// <summary>
     /// An expression node that refers to a function.
     /// </summary>
-    class ReferenceNode : ExprNode
+    class FunctionReferenceNode : ExprNode
     {
-        public ReferenceNode(ExprNode parent, IEnv env, string functionName) : base(parent, env)
+        public FunctionReferenceNode(ExprNode parent, IEnv env, string functionName) : base(parent, env)
         {
             FunctionName = functionName;
         }
@@ -94,6 +94,27 @@ namespace Hassembler
         public string FunctionName { get; private set; }
 
         public override Result GetValue() => Env.GetReferenceValue(FunctionName);
+    }
+
+    /// <summary>
+    /// An expression node that refers to a parameter of a function.
+    /// </summary>
+    class ParameterReferenceNode : ExprNode
+    {
+        public ParameterReferenceNode(ExprNode parent, IEnv env,
+            string paramName, Function function) : base(parent, env)
+        {
+            ParameterName = paramName;
+            Function = function;
+        }
+
+        public string ParameterName { get; private set; }
+        public Function Function { get; private set; }
+
+        public override Result GetValue()
+        {
+            return new Result(Env.GetParam(ParameterName));
+        }
     }
 
     /// <summary>
