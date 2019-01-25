@@ -166,4 +166,39 @@ namespace Hassembler
             }
         }
     }
+
+    class CompNode : ParentNode
+    {
+        public CompOperation Operation {get; private set;}
+
+        public CompNode(ExprNode parent, IEnv env, CompOperation operation) : base(parent, env)
+        {
+            Operation = operation;
+        }
+
+        public override Result GetValue()
+        {
+            switch (Operation)
+            {
+                case CompOperation.Less:
+                    return Right.GetValue() < Left.GetValue();
+                
+                case CompOperation.Greater:
+                    return Right.GetValue() > Left.GetValue();
+                
+                case CompOperation.LessEqual:
+                    return Right.GetValue() <= Left.GetValue();
+            
+                case CompOperation.GreaterEqual:
+                    return Right.GetValue() >= Left.GetValue();
+                
+                case CompOperation.Equal:
+                    return Right.GetValue() == Left.GetValue();
+                    
+                default:
+                case CompOperation.NotEqual:
+                    return Right.GetValue() != Left.GetValue();
+            }
+        }
+    }
 }

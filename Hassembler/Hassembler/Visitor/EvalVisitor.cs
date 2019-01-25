@@ -149,6 +149,41 @@ namespace Hassembler
             return base.VisitMultExp(context);
         }
 
+        public override VisitorResult VisitCompExp([NotNull] HaskellmmParser.CompExpContext context)
+        {
+            if (context.children.Count < 3)
+                throw new VisitException(context.Start.Line, context.Start.Column , "Expected expr compare expr");
+
+            CompOperation operation;
+            switch (context.children[1].GetText())
+            {
+                case "<":
+                    operation = CompOperation.Less;
+                    break;
+                case ">":
+                    operation = CompOperation.Greater;
+                    break;
+                case "<=":
+                    operation = CompOperation.LessEqual;
+                    break;
+                case ">=":
+                    operation = CompOperation.GreaterEqual;
+                    break;
+                case "==":
+                    operation = CompOperation.Equal;
+                    break;
+                case "!=":
+                    operation = CompOperation.NotEqual;
+                    break;
+                default:
+                    throw new VisitException(context.Start.Line, context.Start.Column ,"Operator was not comparative operator");
+            }
+
+            AddExprNode(new CompNode(currentNode, Env, operation));
+            return base.VisitCompExp(context);
+            
+        }
+
         public override VisitorResult VisitParenExp([NotNull] HaskellmmParser.ParenExpContext context)
         {
             string s = context.GetText();

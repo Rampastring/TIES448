@@ -3,14 +3,14 @@ grammar Haskellmm;
 
 prog:	(f_defi NEWLINE*)* ;
 
-expr:	'(' expr ')'                        # parenExp
-    |   R_VAR+                              # refVar                            
-    |   ite_defi                            # iteExp
-	|   expr ('*'|'/') expr                 # multExp
-    |	expr ('+'|'-') expr                 # addExp
-    |   expr ('<'|'<='|'=='|'>='|'>'|) expr # compExp 
-    |	INT                                 # intVar
-    |   BOOL                                # boolVar
+expr:	'(' expr ')'                                # parenExp
+    |   R_VAR+                                      # refVar                            
+    |   ite_defi                                    # iteExp
+	|   expr ('*'|'/') expr                         # multExp
+    |	expr ('+'|'-') expr                         # addExp
+    |   expr ('<'|'<='|'=='|'!='|'>='|'>'|) expr    # compExp 
+    |	INT                                         # intVar
+    |   BOOL                                        # boolVar
     ;
 
 f_defi: R_VAR+ '=' expr;
