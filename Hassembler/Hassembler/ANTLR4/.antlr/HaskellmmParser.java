@@ -305,17 +305,17 @@ public class HaskellmmParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(54);
+			setState(46);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(52);
+					setState(44);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultExpContext(new ExprContext(_parentctx, _parentState));
@@ -362,66 +362,26 @@ public class HaskellmmParser extends Parser {
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(41);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(49);
-						_errHandler.sync(this);
-						switch (_input.LA(1)) {
-						case T__6:
-							{
-							setState(42);
-							match(T__6);
-							}
-							break;
-						case T__7:
-							{
-							setState(43);
-							match(T__7);
-							}
-							break;
-						case T__8:
-							{
-							setState(44);
-							match(T__8);
-							}
-							break;
-						case T__9:
-							{
-							setState(45);
-							match(T__9);
-							}
-							break;
-						case T__10:
-							{
-							setState(46);
-							match(T__10);
-							}
-							break;
-						case T__11:
-							{
-							setState(47);
-							match(T__11);
-							}
-							break;
-						case T__0:
-						case IF:
-						case INT:
-						case BOOL:
-						case R_VAR:
-							{
-							}
-							break;
-						default:
-							throw new NoViableAltException(this);
+						setState(42);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11))) != 0)) ) {
+						_errHandler.recoverInline(this);
 						}
-						setState(51);
+						else {
+							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
+							_errHandler.reportMatch(this);
+							consume();
+						}
+						setState(43);
 						expr(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(56);
+				setState(48);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
 			}
 		}
@@ -457,23 +417,23 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(58); 
+			setState(50); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(57);
+				setState(49);
 				match(R_VAR);
 				}
 				}
-				setState(60); 
+				setState(52); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==R_VAR );
-			setState(62);
+			setState(54);
 			match(T__12);
-			setState(63);
+			setState(55);
 			expr(0);
 			}
 		}
@@ -510,17 +470,17 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(65);
+			setState(57);
 			match(IF);
-			setState(66);
+			setState(58);
 			expr(0);
-			setState(67);
+			setState(59);
 			match(THEN);
-			setState(68);
+			setState(60);
 			expr(0);
-			setState(69);
+			setState(61);
 			match(ELSE);
-			setState(70);
+			setState(62);
 			expr(0);
 			}
 		}
@@ -555,28 +515,25 @@ public class HaskellmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30K\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30C\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\7\2\22\n\2\f\2\16"+
 		"\2\25\13\2\3\3\3\3\3\3\3\3\3\3\3\3\6\3\35\n\3\r\3\16\3\36\3\3\3\3\3\3"+
-		"\5\3$\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3"+
-		"\64\n\3\3\3\7\3\67\n\3\f\3\16\3:\13\3\3\4\6\4=\n\4\r\4\16\4>\3\4\3\4\3"+
-		"\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\2\3\4\6\2\4\6\b\2\4\3\2\5\6\3\2\7\b"+
-		"\2W\2\23\3\2\2\2\4#\3\2\2\2\6<\3\2\2\2\bC\3\2\2\2\n\16\5\6\4\2\13\r\7"+
-		"\23\2\2\f\13\3\2\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2"+
-		"\2\2\20\16\3\2\2\2\21\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2"+
-		"\2\2\24\3\3\2\2\2\25\23\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4"+
-		"\3\2\31\32\7\4\2\2\32$\3\2\2\2\33\35\7\27\2\2\34\33\3\2\2\2\35\36\3\2"+
-		"\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37$\3\2\2\2 $\5\b\5\2!$\7\24\2\2\"$\7"+
-		"\25\2\2#\26\3\2\2\2#\34\3\2\2\2# \3\2\2\2#!\3\2\2\2#\"\3\2\2\2$8\3\2\2"+
-		"\2%&\f\7\2\2&\'\t\2\2\2\'\67\5\4\3\b()\f\6\2\2)*\t\3\2\2*\67\5\4\3\7+"+
-		"\63\f\5\2\2,\64\7\t\2\2-\64\7\n\2\2.\64\7\13\2\2/\64\7\f\2\2\60\64\7\r"+
-		"\2\2\61\64\7\16\2\2\62\64\3\2\2\2\63,\3\2\2\2\63-\3\2\2\2\63.\3\2\2\2"+
-		"\63/\3\2\2\2\63\60\3\2\2\2\63\61\3\2\2\2\63\62\3\2\2\2\64\65\3\2\2\2\65"+
-		"\67\5\4\3\6\66%\3\2\2\2\66(\3\2\2\2\66+\3\2\2\2\67:\3\2\2\28\66\3\2\2"+
-		"\289\3\2\2\29\5\3\2\2\2:8\3\2\2\2;=\7\27\2\2<;\3\2\2\2=>\3\2\2\2><\3\2"+
-		"\2\2>?\3\2\2\2?@\3\2\2\2@A\7\17\2\2AB\5\4\3\2B\7\3\2\2\2CD\7\20\2\2DE"+
-		"\5\4\3\2EF\7\21\2\2FG\5\4\3\2GH\7\22\2\2HI\5\4\3\2I\t\3\2\2\2\n\16\23"+
-		"\36#\63\668>";
+		"\5\3$\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3/\n\3\f\3\16\3\62\13"+
+		"\3\3\4\6\4\65\n\4\r\4\16\4\66\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5"+
+		"\3\5\2\3\4\6\2\4\6\b\2\5\3\2\5\6\3\2\7\b\3\2\t\16\2I\2\23\3\2\2\2\4#\3"+
+		"\2\2\2\6\64\3\2\2\2\b;\3\2\2\2\n\16\5\6\4\2\13\r\7\23\2\2\f\13\3\2\2\2"+
+		"\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20\16\3\2\2\2\21"+
+		"\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2\2\2\25\23"+
+		"\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31\32\7\4\2\2\32$\3"+
+		"\2\2\2\33\35\7\27\2\2\34\33\3\2\2\2\35\36\3\2\2\2\36\34\3\2\2\2\36\37"+
+		"\3\2\2\2\37$\3\2\2\2 $\5\b\5\2!$\7\24\2\2\"$\7\25\2\2#\26\3\2\2\2#\34"+
+		"\3\2\2\2# \3\2\2\2#!\3\2\2\2#\"\3\2\2\2$\60\3\2\2\2%&\f\7\2\2&\'\t\2\2"+
+		"\2\'/\5\4\3\b()\f\6\2\2)*\t\3\2\2*/\5\4\3\7+,\f\5\2\2,-\t\4\2\2-/\5\4"+
+		"\3\6.%\3\2\2\2.(\3\2\2\2.+\3\2\2\2/\62\3\2\2\2\60.\3\2\2\2\60\61\3\2\2"+
+		"\2\61\5\3\2\2\2\62\60\3\2\2\2\63\65\7\27\2\2\64\63\3\2\2\2\65\66\3\2\2"+
+		"\2\66\64\3\2\2\2\66\67\3\2\2\2\678\3\2\2\289\7\17\2\29:\5\4\3\2:\7\3\2"+
+		"\2\2;<\7\20\2\2<=\5\4\3\2=>\7\21\2\2>?\5\4\3\2?@\7\22\2\2@A\5\4\3\2A\t"+
+		"\3\2\2\2\t\16\23\36#.\60\66";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

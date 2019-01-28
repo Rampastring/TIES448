@@ -210,7 +210,7 @@ namespace Hassembler
                 
                 case CompOperation.Equal:
                     return Right.GetValue() == Left.GetValue();
-                    
+
                 default:
                 case CompOperation.NotEqual:
                     return Right.GetValue() != Left.GetValue();

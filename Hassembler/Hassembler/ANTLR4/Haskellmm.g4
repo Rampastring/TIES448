@@ -8,7 +8,7 @@ expr:	'(' expr ')'                                # parenExp
     |   ite_defi                                    # iteExp
 	|   expr ('*'|'/') expr                         # multExp
     |	expr ('+'|'-') expr                         # addExp
-    |   expr ('<'|'<='|'=='|'!='|'>='|'>'|) expr    # compExp 
+    |   expr ('<'|'<='|'=='|'!='|'>='|'>') expr    # compExp 
     |	INT                                         # intVar
     |   BOOL                                        # boolVar
     ;
