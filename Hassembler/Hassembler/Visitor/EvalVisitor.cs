@@ -92,20 +92,21 @@ namespace Hassembler
         /// </summary>
         public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
         {
-            string s = context.GetText();
+            string refName = context.children[0].GetText();
             ExprNode node;
-            if (currentFunction.Parameters.FindIndex(p => p.Name == s) > -1)
+
+            if (currentFunction.Parameters.FindIndex(p => p.Name == refName) > -1)
             {
-                node = new ParameterReferenceNode(currentNode, Env, s, currentFunction);
+                node = new ParameterReferenceNode(currentNode, Env, refName, currentFunction);
                 AddExprNode(node);
                 currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
             }
             else
             {
-                node = new FunctionReferenceNode(currentNode, Env, s);
+                node = new FunctionReferenceNode(currentNode, Env, refName);
                 AddExprNode(node);
             }
-            
+
             return base.VisitRefVar(context);
         }
 
