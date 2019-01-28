@@ -4,7 +4,7 @@ grammar Haskellmm;
 prog:	(f_defi NEWLINE*)* ;
 
 expr:	'(' expr ')'                                # parenExp
-    |   R_VAR+ expr*                                # refVar                            
+    |   R_VAR expr*                                 # refVar                            
     |   ite_defi                                    # iteExp
 	|   expr ('*'|'/') expr                         # multExp
     |	expr ('+'|'-') expr                         # addExp
