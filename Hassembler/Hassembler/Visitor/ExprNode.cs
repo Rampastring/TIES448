@@ -87,20 +87,34 @@ namespace Hassembler
     /// </summary>
     class FunctionReferenceNode : ExprNode
     {
-        public FunctionReferenceNode(ExprNode parent, IEnv env, string functionName) : base(parent, env)
+        public FunctionReferenceNode(ExprNode parent, IEnv env,
+            string functionName, int paramCount) : base(parent, env)
         {
             FunctionName = functionName;
+            ParamLimit = paramCount;
+            parameterNodes = new List<ExprNode>(paramCount);
         }
 
         /// <summary>
         /// A list of parameter values to be delivered to the function,
         /// </summary>
-        private List<ExprNode> parameterNodes = new List<ExprNode>();
+        private List<ExprNode> parameterNodes;
 
         public string FunctionName { get; private set; }
 
+        /// <summary>
+        /// The number of parameters of the function reference node.
+        /// Given when the function reference node is created based on the parse tree.
+        /// </summary>
+        public int ParamLimit { get; }
+
+        public bool IsParamListSaturated => parameterNodes.Count == ParamLimit;
+
         public void AddParameter(ExprNode paramNode)
         {
+            if (parameterNodes.Count == ParamLimit)
+                throw new InvalidOperationException("Parameter limit exceeded!");
+
             parameterNodes.Add(paramNode);
         }
 

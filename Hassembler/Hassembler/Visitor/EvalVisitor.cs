@@ -103,7 +103,7 @@ namespace Hassembler
             }
             else
             {
-                node = new FunctionReferenceNode(currentNode, Env, refName);
+                node = new FunctionReferenceNode(currentNode, Env, refName, context.children.Count - 1);
                 AddExprNode(node);
             }
 
@@ -309,8 +309,8 @@ namespace Hassembler
 
                 if (parent is FunctionReferenceNode frNode)
                 {
-                    // Functions can always accept more parameters
-                    return frNode;
+                    if (!frNode.IsParamListSaturated)
+                        return frNode;
                 }
 
                 node = parent;
