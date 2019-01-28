@@ -45,7 +45,7 @@ namespace Hassembler
         public ExprNode ElseExpr { get; set; }
 
         public override Result GetValue() =>
-            Condition.GetValue().GetResult<int>() > 0 
+            Condition.GetValue().GetResult<bool>() 
             ? ThenExpr.GetValue() : ElseExpr.GetValue();
     }
 
@@ -197,23 +197,23 @@ namespace Hassembler
             switch (Operation)
             {
                 case CompOperation.Less:
-                    return Right.GetValue() < Left.GetValue();
+                    return Left.GetValue() < Right.GetValue();
                 
                 case CompOperation.Greater:
-                    return Right.GetValue() > Left.GetValue();
+                    return Left.GetValue() > Right.GetValue();
                 
                 case CompOperation.LessEqual:
-                    return Right.GetValue() <= Left.GetValue();
+                    return Left.GetValue() <= Right.GetValue();
             
                 case CompOperation.GreaterEqual:
-                    return Right.GetValue() >= Left.GetValue();
+                    return Left.GetValue() >= Right.GetValue();
                 
                 case CompOperation.Equal:
-                    return Right.GetValue() == Left.GetValue();
+                    return Left.GetValue() == Right.GetValue();
 
                 default:
                 case CompOperation.NotEqual:
-                    return Right.GetValue() != Left.GetValue();
+                    return Left.GetValue() != Right.GetValue();
             }
         }
     }
