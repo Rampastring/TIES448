@@ -73,6 +73,7 @@ namespace Hassembler
                 }
 
                 Console.WriteLine($"{name} = {f.StartNode.GetValue()}");
+                visitor.Env.CleanupParams();
             }
         }
     }
