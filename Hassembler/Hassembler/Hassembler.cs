@@ -62,7 +62,11 @@ namespace Hassembler
                 visitor.Env.AddParam(functionParams[i].Name, parameters[i]);
             }
 
-            string returnValue = $"{functionName} {string.Join(' ', parameters)} = {f.StartNode.GetValue()}";
+            string paramString = string.Join(' ', parameters);
+            if (paramString.Length > 0)
+                paramString += " ";
+
+            string returnValue = $"{functionName} {paramString}= {f.StartNode.GetValue()}";
             visitor.Env.CleanupParams();
             return returnValue;
         }
