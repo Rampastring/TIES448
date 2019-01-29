@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
@@ -15,18 +16,14 @@ namespace Hassembler
             string testiohjelma = "f = 2 == 2\ng = True == True\nh = False == False\n" +
                 "i = True == False\nj = True != False\nk = True != True\n";
 
-            ICharStream charStream = CharStreams.fromstring(testiohjelma);
-            HaskellmmLexer lexer = new HaskellmmLexer(charStream);
-            HaskellmmParser parser = new HaskellmmParser(new CommonTokenStream(lexer));
-            IParseTree tree = parser.prog();
-            Console.WriteLine(tree.ToStringTree().Replace("\\n", Environment.NewLine));
-            var visitor = new EvalVisitor();
-            VisitorResult result = visitor.Visit(tree);
-            Console.WriteLine(result);
+            Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
+
+            Hassembler hassembler = new Hassembler();
+            hassembler.ParseCode(testiohjelma);
 
             Console.WriteLine();
             Console.WriteLine("Found functions: ");
-            visitor.Functions.ForEach(f => Console.WriteLine(f.Name));
+            hassembler.GetFunctions.ForEach(f => Console.WriteLine(f.Name));
             
             while (true)
             {
@@ -44,26 +41,7 @@ namespace Hassembler
                     continue;
                 }
 
-                Function f = visitor.Functions.Find(fnc => fnc.Name == parts[0]);
-
-                if (f == null)
-                {
-                    Console.WriteLine($"Function {name} not found!");
-                    continue;
-                }
-
-                if (f.ParamCount > givenParamCount)
-                {
-                    Console.WriteLine("Not enough parameters given, expected " + f.ParamCount);
-                    continue;
-                }
-                else if (f.ParamCount < givenParamCount)
-                {
-                    Console.WriteLine("Too many parameters given, expected " + f.ParamCount);
-                    continue;
-                }
-
-                var functionParams = f.Parameters;
+                List<object> parameters = new List<object>();
 
                 for (int i = 1; i < parts.Length; i++)
                 {
@@ -72,11 +50,10 @@ namespace Hassembler
                         Console.WriteLine("Failed to convert parameter #" + (i - 1) + " to int!");
                     }
 
-                    visitor.Env.AddParam(functionParams[i - 1].Name, paramValue);
+                    parameters.Add(paramValue);
                 }
 
-                Console.WriteLine($"{name} = {f.StartNode.GetValue()}");
-                visitor.Env.CleanupParams();
+                Console.WriteLine(hassembler.CallFunction(parts[0], parameters));
             }
         }
     }
