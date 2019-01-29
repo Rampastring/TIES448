@@ -8,8 +8,18 @@ namespace Hassembler
     /// </summary>
     abstract class ExprNode
     {
+        protected int Line {get;}
+        protected int Column {get;}        
         public ExprNode(ExprNode parent, IEnv env)
         {
+            Parent = parent;
+            Env = env ?? throw new ArgumentNullException("env");
+        }
+
+        public ExprNode(ExprNode parent, IEnv env, int line, int column)
+        {
+            Line = line;
+            Column = column;
             Parent = parent;
             Env = env ?? throw new ArgumentNullException("env");
         }
@@ -30,6 +40,10 @@ namespace Hassembler
         {
         }
 
+        public ParentNode(ExprNode parent, IEnv env, int line, int column) : base(parent, env, line, column)
+        {
+        }
+
         public ExprNode Right { get; set; }
         public ExprNode Left { get; set; }
     }
@@ -37,6 +51,10 @@ namespace Hassembler
     class ITENode : ExprNode
     {
         public ITENode(ExprNode parent, IEnv env) : base(parent, env)
+        {
+        }
+
+        public ITENode(ExprNode parent, IEnv env, int line, int column) : base(parent, env, line, column)
         {
         }
 
@@ -59,6 +77,10 @@ namespace Hassembler
         {
         }
 
+        public ParNode(ExprNode parent, IEnv env, int line, int column) : base(parent, env, line, column)
+        {
+        }
+
         public ExprNode Follower { get; set; }
 
         public override Result GetValue()
@@ -77,6 +99,13 @@ namespace Hassembler
             Value = value;
         }
 
+
+        public IntNode(ExprNode parent, IEnv env, int value, int line, int column) : base(parent, env, line, column)
+        {
+            Value = value;
+        }
+
+
         public int Value { get; private set; }
 
         public override Result GetValue() => new Result(Value);
@@ -91,6 +120,13 @@ namespace Hassembler
         {
             FunctionName = functionName;
         }
+
+
+        public FunctionReferenceNode(ExprNode parent, IEnv env, string funvtionName, int line, int column) : base(parent, env, line, column)
+        {
+            FunctionName = FunctionName;
+        }
+
 
         /// <summary>
         /// A list of parameter values to be delivered to the function,
@@ -124,6 +160,15 @@ namespace Hassembler
             Function = function;
         }
 
+
+        public ParameterReferenceNode(ExprNode parent, IEnv env,
+            string paramName, Function function, int line, int column) : base(parent, env, line, column)
+        {
+            ParameterName = paramName;
+            Function = function;
+        }
+
+
         public string ParameterName { get; private set; }
         public Function Function { get; private set; }
 
@@ -142,6 +187,13 @@ namespace Hassembler
         {
             Operation = operation;
         }
+
+
+        public SumNode(ExprNode parent, IEnv env, SumOperation operation, int line, int column) : base(parent, env, line, column)
+        {
+            Operation = operation;
+        }
+
 
         public SumOperation Operation { get; private set; }
 
@@ -168,6 +220,14 @@ namespace Hassembler
             Operation = operation;
         }
 
+
+        public MultNode(ExprNode parent, IEnv env, MultOperation operation,
+            int line, int column) : base(parent, env, line, column)
+        {
+            Operation = operation;
+        }
+
+
         public MultOperation Operation { get; private set; }
 
         public override Result GetValue()
@@ -191,6 +251,13 @@ namespace Hassembler
         {
             Operation = operation;
         }
+
+        public CompNode(ExprNode parent, IEnv env, CompOperation operation,
+            int line, int column) : base(parent, env, line, column)
+        {
+            Operation = operation;
+        }
+
 
         public override Result GetValue()
         {
