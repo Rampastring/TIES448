@@ -5,7 +5,7 @@ namespace Hassembler
     /// <summary>
     /// A Haskellmm function.
     /// </summary>
-    class Function
+    public class Function
     {
         public Function(string name)
         {
@@ -44,7 +44,7 @@ namespace Hassembler
         public List<Parameter> Parameters => new List<Parameter>(parameters);
     }
 
-    struct Parameter
+    public struct Parameter
     {
         public Parameter(string name)
         {

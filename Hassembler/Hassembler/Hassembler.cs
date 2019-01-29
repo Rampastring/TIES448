@@ -10,7 +10,7 @@ namespace Hassembler
     /// Main class for the whole compiler. Handles
     /// the lexer, parser, and interpreter.
     /// </summary>
-    class Hassembler
+    public class Hassembler
     {
         private EvalVisitor visitor;
 
