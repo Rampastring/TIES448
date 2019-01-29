@@ -2,3 +2,12 @@ Sprintti 6: 23/1/2019-
 
 Aloituspalaveri 25.1.
  - 
+
+Koodaussessio 28.1.
+ - 
+ - yksikkötestit
+	* ongelma: Nunitin kanssa ongelmia
+
+Koodaussessio 29.1.
+ - vaihdettiin NUnit MStestsiin
+ - lisätty taulukko testeistä Documents-kansioon
