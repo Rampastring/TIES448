@@ -43,7 +43,8 @@ namespace Hassembler
                     throw new VisitException(context.Start.Line, context.Start.Column , "Operator was neither + or -.");
             }
 
-            AddExprNode(new SumNode(currentNode, Env, operation));
+
+            AddExprNode(new SumNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), operation));
 
             return base.VisitAddExp(context);
         }
@@ -93,17 +94,20 @@ namespace Hassembler
         public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
         {
             string refName = context.children[0].GetText();
+            NodeContext con;
             ExprNode node;
 
             if (currentFunction.Parameters.FindIndex(p => p.Name == refName) > -1)
             {
-                node = new ParameterReferenceNode(currentNode, Env, refName, currentFunction);
+                con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+                node = new ParameterReferenceNode(con, refName, currentFunction);
                 AddExprNode(node);
                 currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
             }
             else
             {
-                node = new FunctionReferenceNode(currentNode, Env, refName, context.children.Count - 1);
+                con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+                node = new FunctionReferenceNode(con, refName, context.children.Count - 1);
                 AddExprNode(node);
             }
 
@@ -113,8 +117,7 @@ namespace Hassembler
         public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)
         {
             string s = context.GetText();
-
-            ITENode iteNode = new ITENode(currentNode, Env);
+            ITENode iteNode = new ITENode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column));
             AddExprNode(iteNode);
 
             return base.VisitIte_defi(context);
@@ -126,7 +129,7 @@ namespace Hassembler
 
             int value = int.Parse(s);
 
-            IntNode node = new IntNode(currentNode, Env, value);
+            IntNode node = new IntNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), value);
             AddExprNode(node);
             // An integer constant has no parents, so find the next node to fill
             // by traversing the tree upwards
@@ -142,9 +145,9 @@ namespace Hassembler
             BoolNode node;
 
             if (s == "True")
-                node = new BoolNode(currentNode, Env, true);
+                node = new BoolNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), true);
             else if (s == "False")
-                node = new BoolNode(currentNode, Env, false);
+                node = new BoolNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), false);
             else
                 throw new VisitException(context.Start.Line, context.Start.Column, "Bool was neither True nor False");
             AddExprNode(node);
@@ -172,7 +175,7 @@ namespace Hassembler
                     throw new VisitException(context.Start.Line, context.Start.Column, "Operator was neither * or /");
             }
 
-            AddExprNode(new MultNode(currentNode, Env, operation));
+            AddExprNode(new MultNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), operation));
             return base.VisitMultExp(context);
         }
 
@@ -206,7 +209,7 @@ namespace Hassembler
                     throw new VisitException(context.Start.Line, context.Start.Column, "Operator was not comparative operator");
             }
 
-            AddExprNode(new CompNode(currentNode, Env, operation));
+            AddExprNode(new CompNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), operation));
             return base.VisitCompExp(context);
             
         }
@@ -215,7 +218,7 @@ namespace Hassembler
         {
             string s = context.GetText();
 
-            AddExprNode(new ParNode(currentNode, Env));
+            AddExprNode(new ParNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column)));
 
             return base.VisitParenExp(context);
         }

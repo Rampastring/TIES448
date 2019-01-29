@@ -9,19 +9,14 @@ namespace Hassembler
     public abstract class ExprNode
     {
         protected NodeContext Context {get;}   
-        public ExprNode(ExprNode parent, IEnv env)
-        {
-            Parent = parent;
-            Env = env ?? throw new ArgumentNullException("env");
-        }
 
         public ExprNode(NodeContext context)
         {
             Context = context;
         }
 
-        public ExprNode Parent { get; private set; }
-        protected IEnv Env { get; private set; }
+        public ExprNode Parent => Context.Parent;
+        protected IEnv Env => Context.Env;
 
         public abstract Result GetValue();
     }
@@ -32,10 +27,6 @@ namespace Hassembler
     /// </summary>
     abstract class ParentNode : ExprNode
     {
-        public ParentNode(ExprNode parent, IEnv env) : base(parent, env)
-        {
-        }
-
         public ParentNode(NodeContext context) : base(context)
         {
         }
@@ -46,10 +37,6 @@ namespace Hassembler
 
     class ITENode : ExprNode
     {
-        public ITENode(ExprNode parent, IEnv env) : base(parent, env)
-        {
-        }
-
         public ITENode(NodeContext context) : base(context)
         {
         }
@@ -69,10 +56,6 @@ namespace Hassembler
     /// </summary>
     class ParNode : ExprNode
     {
-        public ParNode(ExprNode parent, IEnv env) : base(parent, env)
-        {
-        }
-
         public ParNode(NodeContext context) : base(context)
         {
         }
@@ -90,12 +73,6 @@ namespace Hassembler
     /// </summary>
     class IntNode : ExprNode
     {
-        public IntNode(ExprNode parent, IEnv env, int value) : base(parent, env)
-        {
-            Value = value;
-        }
-
-
         public IntNode(NodeContext context, int value) : base(context)
         {
             Value = value;
@@ -112,11 +89,6 @@ namespace Hassembler
     /// </summary>
     class BoolNode : ExprNode
     {
-        public BoolNode(ExprNode parent, IEnv env, bool value) : base(parent, env)
-        {
-            Value = value;
-        }
-
         public BoolNode(NodeContext context, bool value) : base(context)
         {
             Value = value;
@@ -132,18 +104,11 @@ namespace Hassembler
     /// </summary>
     class FunctionReferenceNode : ExprNode
     {
-        public FunctionReferenceNode(ExprNode parent, IEnv env,
-            string functionName, int paramCount) : base(parent, env)
-        {
-            FunctionName = functionName;
-            ParamLimit = paramCount;
-            parameterNodes = new List<ExprNode>(paramCount);
-        }
-
-
         public FunctionReferenceNode(NodeContext context, string functionName, int paramCount) : base(context)
         {
             FunctionName = FunctionName;
+            ParamLimit = paramCount;
+            parameterNodes = new List<ExprNode>(paramCount);
         }
 
 
@@ -183,13 +148,6 @@ namespace Hassembler
     /// </summary>
     class ParameterReferenceNode : ExprNode
     {
-        public ParameterReferenceNode(ExprNode parent, IEnv env,
-            string paramName, Function function) : base(parent, env)
-        {
-            ParameterName = paramName;
-            Function = function;
-        }
-
 
         public ParameterReferenceNode(NodeContext context, string paramName, Function func) : base(context)
         {
@@ -212,11 +170,6 @@ namespace Hassembler
     /// </summary>
     class SumNode : ParentNode
     {
-        public SumNode(ExprNode parent, IEnv env, SumOperation operation) : base(parent, env)
-        {
-            Operation = operation;
-        }
-
 
         public SumNode(NodeContext context, SumOperation operation) : base(context)
         {
@@ -244,11 +197,6 @@ namespace Hassembler
     /// </summary>
     class MultNode : ParentNode
     {
-        public MultNode(ExprNode parent, IEnv env, MultOperation operation) : base(parent, env)
-        {
-            Operation = operation;
-        }
-
 
         public MultNode(NodeContext context, MultOperation operation) : base(context)
         {
@@ -274,11 +222,6 @@ namespace Hassembler
     class CompNode : ParentNode
     {
         public CompOperation Operation {get; private set;}
-
-        public CompNode(ExprNode parent, IEnv env, CompOperation operation) : base(parent, env)
-        {
-            Operation = operation;
-        }
 
         public CompNode(NodeContext context, CompOperation operation) : base(context)
         {

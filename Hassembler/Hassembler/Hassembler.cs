@@ -59,7 +59,7 @@ namespace Hassembler
                 
             for (int i = 0; i < functionParams.Count; i++)
             {
-                visitor.Env.AddParam(functionParams[i - 1].Name, parameters[i]);
+                visitor.Env.AddParam(functionParams[i].Name, parameters[i]);
             }
 
             string returnValue = $"{functionName} {string.Join(' ', parameters)} = {f.StartNode.GetValue()}";
