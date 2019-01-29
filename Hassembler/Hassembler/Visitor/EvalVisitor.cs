@@ -103,7 +103,7 @@ namespace Hassembler
             }
             else
             {
-                node = new FunctionReferenceNode(currentNode, Env, refName);
+                node = new FunctionReferenceNode(currentNode, Env, refName, context.children.Count - 1);
                 AddExprNode(node);
             }
 
@@ -135,6 +135,25 @@ namespace Hassembler
             return base.VisitIntVar(context);
         }
 
+        public override VisitorResult VisitBoolVar([NotNull] HaskellmmParser.BoolVarContext context)
+        {
+            string s = context.GetText();
+
+            BoolNode node;
+
+            if (s == "True")
+                node = new BoolNode(currentNode, Env, true);
+            else if (s == "False")
+                node = new BoolNode(currentNode, Env, false);
+            else
+                throw new VisitException(context.Start.Line, context.Start.Column, "Bool was neither True nor False");
+            AddExprNode(node);
+
+            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+
+            return base.VisitBoolVar(context);
+        }
+
         public override VisitorResult VisitMultExp([NotNull] HaskellmmParser.MultExpContext context)
         {
             if (context.children.Count < 3)
@@ -150,7 +169,7 @@ namespace Hassembler
                     operation = MultOperation.Divide;
                     break;
                 default:
-                    throw new VisitException(context.Start.Line, context.Start.Column ,"Operator was neither * or /");
+                    throw new VisitException(context.Start.Line, context.Start.Column, "Operator was neither * or /");
             }
 
             AddExprNode(new MultNode(currentNode, Env, operation));
@@ -184,7 +203,7 @@ namespace Hassembler
                     operation = CompOperation.NotEqual;
                     break;
                 default:
-                    throw new VisitException(context.Start.Line, context.Start.Column ,"Operator was not comparative operator");
+                    throw new VisitException(context.Start.Line, context.Start.Column, "Operator was not comparative operator");
             }
 
             AddExprNode(new CompNode(currentNode, Env, operation));
@@ -309,8 +328,8 @@ namespace Hassembler
 
                 if (parent is FunctionReferenceNode frNode)
                 {
-                    // Functions can always accept more parameters
-                    return frNode;
+                    if (!frNode.IsParamListSaturated)
+                        return frNode;
                 }
 
                 node = parent;

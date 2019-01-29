@@ -11,7 +11,9 @@ namespace Hassembler
             // string testiohjelma = "a=1+1+1*3\r\nf=2+4\r\ng=2*(4+5)\r\nh=2*4+5\r\nr=f+a\r\nbn=2+r\r\n";
             // string testiohjelma = "a=0-4\r\nb=2 + if a then 4+4 else 2 + 3";
             // string testiohjelma = "fabulous a b = a + b\ny=4 + fabulous 2 3\n";
-            string testiohjelma = "fab a = if a>10 then a else fab (a+1)\n";
+            //string testiohjelma = "fabulous a = if a > 0 then (a + fabulous (a-1)) else 0";
+            string testiohjelma = "f = 2 == 2\ng = True == True\nh = False == False\n" +
+                "i = True == False\nj = True != False\nk = True != True\n";
 
             ICharStream charStream = CharStreams.fromstring(testiohjelma);
             HaskellmmLexer lexer = new HaskellmmLexer(charStream);
