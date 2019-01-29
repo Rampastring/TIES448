@@ -9,7 +9,7 @@ namespace Hassembler
     /// Interface for the environment.
     /// Used for avoiding a circular reference (Env -> Function -> ExprNode -> Env).
     /// </summary>
-    interface IEnv
+    public interface IEnv
     {
         Result GetReferenceValue(string functionName, List<object> paramList = null);
         void AddParam(string name, object value);
@@ -66,7 +66,7 @@ namespace Hassembler
                 if (parameterList == null)
                 {
                     if (funk.ParamCount > 0)
-                        throw new InvalidOperationException("No parameters províded when calling function " + funk.Name);
+                        throw new InvalidOperationException("No parameters provï¿½ded when calling function " + funk.Name);
                 }
                 else
                 {

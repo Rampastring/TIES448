@@ -6,22 +6,18 @@ namespace Hassembler
     /// <summary>
     /// Base class for an expression node.
     /// </summary>
-    abstract class ExprNode
+    public abstract class ExprNode
     {
-        protected int Line {get;}
-        protected int Column {get;}        
+        protected NodeContext Context {get;}   
         public ExprNode(ExprNode parent, IEnv env)
         {
             Parent = parent;
             Env = env ?? throw new ArgumentNullException("env");
         }
 
-        public ExprNode(ExprNode parent, IEnv env, int line, int column)
+        public ExprNode(NodeContext context)
         {
-            Line = line;
-            Column = column;
-            Parent = parent;
-            Env = env ?? throw new ArgumentNullException("env");
+            Context = context;
         }
 
         public ExprNode Parent { get; private set; }
@@ -40,7 +36,7 @@ namespace Hassembler
         {
         }
 
-        public ParentNode(ExprNode parent, IEnv env, int line, int column) : base(parent, env, line, column)
+        public ParentNode(NodeContext context) : base(context)
         {
         }
 
@@ -54,7 +50,7 @@ namespace Hassembler
         {
         }
 
-        public ITENode(ExprNode parent, IEnv env, int line, int column) : base(parent, env, line, column)
+        public ITENode(NodeContext context) : base(context)
         {
         }
 
@@ -77,7 +73,7 @@ namespace Hassembler
         {
         }
 
-        public ParNode(ExprNode parent, IEnv env, int line, int column) : base(parent, env, line, column)
+        public ParNode(NodeContext context) : base(context)
         {
         }
 
@@ -100,7 +96,7 @@ namespace Hassembler
         }
 
 
-        public IntNode(ExprNode parent, IEnv env, int value, int line, int column) : base(parent, env, line, column)
+        public IntNode(NodeContext context, int value) : base(context)
         {
             Value = value;
         }
@@ -117,6 +113,11 @@ namespace Hassembler
     class BoolNode : ExprNode
     {
         public BoolNode(ExprNode parent, IEnv env, bool value) : base(parent, env)
+        {
+            Value = value;
+        }
+
+        public BoolNode(NodeContext context, bool value) : base(context)
         {
             Value = value;
         }
@@ -140,7 +141,7 @@ namespace Hassembler
         }
 
 
-        public FunctionReferenceNode(ExprNode parent, IEnv env, string funvtionName, int line, int column) : base(parent, env, line, column)
+        public FunctionReferenceNode(NodeContext context, string functionName, int paramCount) : base(context)
         {
             FunctionName = FunctionName;
         }
@@ -190,11 +191,10 @@ namespace Hassembler
         }
 
 
-        public ParameterReferenceNode(ExprNode parent, IEnv env,
-            string paramName, Function function, int line, int column) : base(parent, env, line, column)
+        public ParameterReferenceNode(NodeContext context, string paramName, Function func) : base(context)
         {
             ParameterName = paramName;
-            Function = function;
+            Function = func;
         }
 
 
@@ -218,7 +218,7 @@ namespace Hassembler
         }
 
 
-        public SumNode(ExprNode parent, IEnv env, SumOperation operation, int line, int column) : base(parent, env, line, column)
+        public SumNode(NodeContext context, SumOperation operation) : base(context)
         {
             Operation = operation;
         }
@@ -250,8 +250,7 @@ namespace Hassembler
         }
 
 
-        public MultNode(ExprNode parent, IEnv env, MultOperation operation,
-            int line, int column) : base(parent, env, line, column)
+        public MultNode(NodeContext context, MultOperation operation) : base(context)
         {
             Operation = operation;
         }
@@ -281,8 +280,7 @@ namespace Hassembler
             Operation = operation;
         }
 
-        public CompNode(ExprNode parent, IEnv env, CompOperation operation,
-            int line, int column) : base(parent, env, line, column)
+        public CompNode(NodeContext context, CompOperation operation) : base(context)
         {
             Operation = operation;
         }

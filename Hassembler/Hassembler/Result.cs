@@ -2,7 +2,7 @@ using System;
 
 namespace Hassembler
 {
-    class Result
+    public class Result
     {
         public Result(object result) => this.result = result;
 
