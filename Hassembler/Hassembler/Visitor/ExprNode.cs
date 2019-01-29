@@ -83,6 +83,21 @@ namespace Hassembler
     }
 
     /// <summary>
+    /// An expression node that is a boolean.
+    /// </summary>
+    class BoolNode : ExprNode
+    {
+        public BoolNode(ExprNode parent, IEnv env, bool value) : base(parent, env)
+        {
+            Value = value;
+        }
+
+        public bool Value { get; private set; }
+
+        public override Result GetValue() => new Result(Value);
+    }
+
+    /// <summary>
     /// An expression node that refers to a function.
     /// </summary>
     class FunctionReferenceNode : ExprNode

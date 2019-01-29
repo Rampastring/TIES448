@@ -23,6 +23,8 @@ namespace Hassembler
 
             return (T)result;
         }
+
+        public object GetResult() => result;
     
         public static Result operator +(Result left, Result right)
         {
@@ -66,12 +68,23 @@ namespace Hassembler
 
         public static Result operator ==(Result left, Result right)
         {
-            return new Result(left.GetResult<int>() == right.GetResult<int>());
+            CheckType(left, right);
+            return new Result(left.GetResult().Equals(right.GetResult()));
         }
 
         public static Result operator !=(Result left, Result right)
         {
-            return new Result(left.GetResult<int>() != right.GetResult<int>());
+            CheckType(left, right);
+            return new Result(!left.GetResult().Equals(right.GetResult()));
+        }
+
+        private static void CheckType(Result left, Result right)
+        {
+            if (left.result.GetType().Equals(right.result))
+            {
+                throw new InvalidOperationException($"Type mismatch: " +
+                    $"{left.result.GetType().Name} cannot be compared with {right.result.GetType().Name}");
+            }
         }
 
 
