@@ -50,7 +50,7 @@ Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tes
 
 \begin{table}[!htbp] %'!htbp places the table correctly
 \caption{Testitapaukset: yksikkötestit (HassemblerTests)}
-\begin{tabular}{|p{3cm}|p{2,5cm}|p{4cm}|p{3cm}|p{3cm}|}
+\begin{tabular}{|p{3cm}|p{2,5cm}|p{4cm}|p{3cm}|p{2cm}|}
 \hline
 \textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Odotettu tulos (tulkki)}  & \textbf{Vaihe} \\ \hline
  ArithFun()             & perus\-aritmetiikka         & f = 1+2*3   & f = 7                                  &  2              \\ \hline
@@ -59,9 +59,8 @@ Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tes
  IfThenElse()    & ehtolauseet                & if 1 < 3 then 4+4 else 2 + 3   &  8         & 4    \\ \hline
  FuncRef()  & funktiokutsut      &                       &           &                                                   \\ \hline
  FunCallWith\-Parameters()   &  funktiokutsut &  f x y = x + y (parametrien kanssa) \textbackslash n   y=4 + f 2 3     & f = 9        &  5 + 6             \\ \hline
- Recursion()   & rekursiivinen kutsu      &  f x y end = if y < end then f y (x+y) end else y"    &           &                                                  \\ \hline
-              &                      &                       &           &                                                   \\ \hline
-              &                      &                       &           &                                                   \\ \hline
+ Recursion()   & rekursiivinen kutsu      &  f x y end = if y < end then f y (x+y) end else y"    &           & 6         \\ \hline
+%              &                      &                       &           &                                                   \\ \hline
               
              
 \end{tabular}
@@ -70,12 +69,12 @@ Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tes
 
 \begin{table}[!htbp] %'!htbp places the table correctly
 \caption{Testitapaukset: yksikkötestit virhetilanteille (HassemblerTests)}
-\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{1,5cm}|p{3cm}|p{3cm}|}
+\begin{tabular}{|p{3cm}|p{2,5cm}|p{3cm}|p{2,5cm}|p{2,5cm}|p{2cm}|}
 \hline
 \textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Syöte}  & \textbf{Odotettu tulos (tulkki)}  & \textbf{Vaihe} \\ \hline
  FuncNotDefined()  & funktiota ei määritelty   &  g = 1 + 3       &  f       &  ``Function not found: f''   &  3            \\ \hline
  SyntaxErrorTest()     & syntaksivirhe   &  g = 1 ++ 2    &           &   (throws Exception)   &    1     \\ \hline
-              &                      &                       &           &                      &                            \\ \hline
+%             &                      &                       &           &                      &                            \\ \hline
               
              
 \end{tabular}
@@ -89,18 +88,12 @@ Tässä taulukossa on kuvattu testiohjelmat (.hs-päätteiset tiedostot), jotka 
 
 \begin{table}[!htbp] %'!htbp places the table correctly
 \caption{Testitapaukset: tiedostot (.hs)}
-\begin{tabular}{|p{3cm}|p{3cm}|p{5cm}|p{3cm}|p{3cm}|p{3cm}|}
+\begin{tabular}{|p{2,5cm}|p{2,5cm}|p{2,5cm}|p{2cm}|p{3cm}|p{2cm}|}
 \hline
 \textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Odotettu tulos (tulkki)} & \textbf{Odotettu tulos (käännös)} & \textbf{Vaihe} \\ \hline
 test\_module  &  minimaalinen ohjelma  & module A where &  ``Compiled 1 module''                     &    (module)                 & 1   \\ \hline
- test\_arithm     & perusaritmetiikka         &  &                                  &                                   &                \\ \hline
-              &                      &                       &           &                                   &                \\ \hline
-              &                      &                       &           &                                   &                \\ \hline
-              &                      &                       &           &                                   &                \\ \hline
-
-              &                      &                       &           &                                   &                \\ \hline
-              &                      &                       &           &                                   &                \\ \hline
-              &                      &                       &           &                                   &                \\ \hline
+ test\_arithm     & perus\-aritmetiikka         &  &                                  &                                   &                \\ \hline
+%              &                      &                       &           &                                   &                \\ \hline
              
 \end{tabular}
 \end{table}
