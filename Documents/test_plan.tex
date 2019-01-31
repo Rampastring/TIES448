@@ -46,20 +46,20 @@
 
 \section{Testitapaukset: yksikkötestit (Hassembler.tests)}
 
-Tässä taulukossa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tests-projektissa.
+Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tests-projektissa.
 
 \begin{table}[!htbp] %'!htbp places the table correctly
-\caption{Testitapaukset: yksikkötestit (Hassembler.tests)}
-\begin{tabular}{|p{3cm}|p{3cm}|p{5cm}|p{3cm}|p{3cm}|}
+\caption{Testitapaukset: yksikkötestit (HassemblerTests)}
+\begin{tabular}{|p{3cm}|p{2,5cm}|p{4cm}|p{3cm}|p{3cm}|}
 \hline
 \textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Odotettu tulos (tulkki)}  & \textbf{Vaihe} \\ \hline
- Arith()             & perusaritmetiikka         & 1+2*3   &  7                                  &  2              \\ \hline
- Func()             & funktiot   & a=1+1+1*3\textbackslash r \textbackslash n f=2+4 \textbackslash r \textbackslash n g=2*(4+5)\textbackslash r \textbackslash n h=2*4+5 \textbackslash r \textbackslash n r=f+a \textbackslash r \textbackslash n b n=2+r \textbackslash r \textbackslash n                     &  ``"Found functions: f g h r n"         &   3 + 5                                                \\ \hline
- IfThenElse()    & ehtolauseet                & if 1<3 then 4+4 else 2 + 3   &  8         & 4    \\ \hline
- FunCallWith&&&&\\Parameters()   &  funktiokutsut (parametrien kanssa)  &  f x y = x + y \textbackslash n   y=4 + f 2 3     & f == 9        &  5 + 6             \\ \hline
-
-              &                      &                       &           &                                                  \\ \hline
-              &                      &                       &           &                                                   \\ \hline
+ ArithFun()             & perus\-aritmetiikka         & f = 1+2*3   & f = 7                                  &  2              \\ \hline
+ GetFuncs()             & funktioiden listaus   & a=1+1+1*3\textbackslash r \textbackslash n f=2+4 \textbackslash r \textbackslash n                     &  ``"a f "         &   3 + 5                                                \\ \hline
+ BoolTest()    & totuusarvot ja funktion arvo  & f = 2 == 2   &  f = True         & 4    \\ \hline
+ IfThenElse()    & ehtolauseet                & if 1 < 3 then 4+4 else 2 + 3   &  8         & 4    \\ \hline
+ FuncRef()  & funktiokutsut      &                       &           &                                                   \\ \hline
+ FunCallWith\-Parameters()   &  funktiokutsut &  f x y = x + y (parametrien kanssa) \textbackslash n   y=4 + f 2 3     & f = 9        &  5 + 6             \\ \hline
+ Recursion()   & rekursiivinen kutsu      &  f x y end = if y < end then f y (x+y) end else y"    &           &                                                  \\ \hline
               &                      &                       &           &                                                   \\ \hline
               &                      &                       &           &                                                   \\ \hline
               
@@ -67,6 +67,19 @@ Tässä taulukossa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tests
 \end{tabular}
 \end{table}
 
+
+\begin{table}[!htbp] %'!htbp places the table correctly
+\caption{Testitapaukset: yksikkötestit virhetilanteille (HassemblerTests)}
+\begin{tabular}{|p{3cm}|p{3cm}|p{3cm}|p{1,5cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Syöte}  & \textbf{Odotettu tulos (tulkki)}  & \textbf{Vaihe} \\ \hline
+ FuncNotDefined()  & funktiota ei määritelty   &  g = 1 + 3       &  f       &  ``Function not found: f''   &  3            \\ \hline
+ SyntaxError()     & syntaksivirhe   &  g = 1 ++ 2    &           &   (throws Exception)   &    1     \\ \hline
+              &                      &                       &           &                      &                            \\ \hline
+              
+             
+\end{tabular}
+\end{table}
 
 
 \section{Testitapaukset: tiedostot (.hs)}
