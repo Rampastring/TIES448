@@ -41,17 +41,39 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// <param name="context">The parse tree.</param>
 	void ExitProg([NotNull] HaskellmmParser.ProgContext context);
 	/// <summary>
+	/// Enter a parse tree produced by <see cref="HaskellmmParser.referenceExp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterReferenceExp([NotNull] HaskellmmParser.ReferenceExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by <see cref="HaskellmmParser.referenceExp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitReferenceExp([NotNull] HaskellmmParser.ReferenceExpContext context);
+	/// <summary>
 	/// Enter a parse tree produced by the <c>refVar</c>
-	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// labeled alternative in <see cref="HaskellmmParser.param"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void EnterRefVar([NotNull] HaskellmmParser.RefVarContext context);
 	/// <summary>
 	/// Exit a parse tree produced by the <c>refVar</c>
-	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// labeled alternative in <see cref="HaskellmmParser.param"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitRefVar([NotNull] HaskellmmParser.RefVarContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>exp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.param"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterExp([NotNull] HaskellmmParser.ExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>exp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.param"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitExp([NotNull] HaskellmmParser.ExpContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>boolVar</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
@@ -124,6 +146,18 @@ public interface IHaskellmmListener : IParseTreeListener {
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	void ExitAddExp([NotNull] HaskellmmParser.AddExpContext context);
+	/// <summary>
+	/// Enter a parse tree produced by the <c>refExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void EnterRefExp([NotNull] HaskellmmParser.RefExpContext context);
+	/// <summary>
+	/// Exit a parse tree produced by the <c>refExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	void ExitRefExp([NotNull] HaskellmmParser.RefExpContext context);
 	/// <summary>
 	/// Enter a parse tree produced by the <c>iteExp</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.

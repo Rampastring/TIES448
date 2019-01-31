@@ -20,9 +20,10 @@ public class HaskellmmParser extends Parser {
 		T__9=10, T__10=11, T__11=12, T__12=13, IF=14, THEN=15, ELSE=16, NEWLINE=17, 
 		INT=18, BOOL=19, CHAR=20, R_VAR=21, WS=22;
 	public static final int
-		RULE_prog = 0, RULE_expr = 1, RULE_f_defi = 2, RULE_ite_defi = 3;
+		RULE_prog = 0, RULE_referenceExp = 1, RULE_param = 2, RULE_expr = 3, RULE_f_defi = 4, 
+		RULE_ite_defi = 5;
 	public static final String[] ruleNames = {
-		"prog", "expr", "f_defi", "ite_defi"
+		"prog", "referenceExp", "param", "expr", "f_defi", "ite_defi"
 	};
 
 	private static final String[] _LITERAL_NAMES = {
@@ -107,34 +108,144 @@ public class HaskellmmParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(17);
+			setState(21);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==R_VAR) {
 				{
 				{
-				setState(8);
-				f_defi();
 				setState(12);
+				f_defi();
+				setState(16);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 				while (_la==NEWLINE) {
 					{
 					{
-					setState(9);
+					setState(13);
 					match(NEWLINE);
 					}
 					}
-					setState(14);
+					setState(18);
 					_errHandler.sync(this);
 					_la = _input.LA(1);
 				}
 				}
 				}
-				setState(19);
+				setState(23);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ReferenceExpContext extends ParserRuleContext {
+		public TerminalNode R_VAR() { return getToken(HaskellmmParser.R_VAR, 0); }
+		public List<ParamContext> param() {
+			return getRuleContexts(ParamContext.class);
+		}
+		public ParamContext param(int i) {
+			return getRuleContext(ParamContext.class,i);
+		}
+		public ReferenceExpContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_referenceExp; }
+	}
+
+	public final ReferenceExpContext referenceExp() throws RecognitionException {
+		ReferenceExpContext _localctx = new ReferenceExpContext(_ctx, getState());
+		enterRule(_localctx, 2, RULE_referenceExp);
+		try {
+			int _alt;
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(24);
+			match(R_VAR);
+			setState(28);
+			_errHandler.sync(this);
+			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
+			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
+				if ( _alt==1 ) {
+					{
+					{
+					setState(25);
+					param();
+					}
+					} 
+				}
+				setState(30);
+				_errHandler.sync(this);
+				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
+			}
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ParamContext extends ParserRuleContext {
+		public ParamContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_param; }
+	 
+		public ParamContext() { }
+		public void copyFrom(ParamContext ctx) {
+			super.copyFrom(ctx);
+		}
+	}
+	public static class RefVarContext extends ParamContext {
+		public TerminalNode R_VAR() { return getToken(HaskellmmParser.R_VAR, 0); }
+		public RefVarContext(ParamContext ctx) { copyFrom(ctx); }
+	}
+	public static class ExpContext extends ParamContext {
+		public ExprContext expr() {
+			return getRuleContext(ExprContext.class,0);
+		}
+		public ExpContext(ParamContext ctx) { copyFrom(ctx); }
+	}
+
+	public final ParamContext param() throws RecognitionException {
+		ParamContext _localctx = new ParamContext(_ctx, getState());
+		enterRule(_localctx, 4, RULE_param);
+		try {
+			setState(33);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
+				_localctx = new RefVarContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(31);
+				match(R_VAR);
+				}
+				break;
+			case 2:
+				_localctx = new ExpContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(32);
+				expr(0);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -158,16 +269,6 @@ public class HaskellmmParser extends Parser {
 		public void copyFrom(ExprContext ctx) {
 			super.copyFrom(ctx);
 		}
-	}
-	public static class RefVarContext extends ExprContext {
-		public TerminalNode R_VAR() { return getToken(HaskellmmParser.R_VAR, 0); }
-		public List<ExprContext> expr() {
-			return getRuleContexts(ExprContext.class);
-		}
-		public ExprContext expr(int i) {
-			return getRuleContext(ExprContext.class,i);
-		}
-		public RefVarContext(ExprContext ctx) { copyFrom(ctx); }
 	}
 	public static class BoolVarContext extends ExprContext {
 		public TerminalNode BOOL() { return getToken(HaskellmmParser.BOOL, 0); }
@@ -210,6 +311,12 @@ public class HaskellmmParser extends Parser {
 		}
 		public AddExpContext(ExprContext ctx) { copyFrom(ctx); }
 	}
+	public static class RefExpContext extends ExprContext {
+		public ReferenceExpContext referenceExp() {
+			return getRuleContext(ReferenceExpContext.class,0);
+		}
+		public RefExpContext(ExprContext ctx) { copyFrom(ctx); }
+	}
 	public static class IteExpContext extends ExprContext {
 		public Ite_defiContext ite_defi() {
 			return getRuleContext(Ite_defiContext.class,0);
@@ -226,14 +333,14 @@ public class HaskellmmParser extends Parser {
 		int _parentState = getState();
 		ExprContext _localctx = new ExprContext(_ctx, _parentState);
 		ExprContext _prevctx = _localctx;
-		int _startState = 2;
-		enterRecursionRule(_localctx, 2, RULE_expr, _p);
+		int _startState = 6;
+		enterRecursionRule(_localctx, 6, RULE_expr, _p);
 		int _la;
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(35);
+			setState(44);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case T__0:
@@ -242,37 +349,21 @@ public class HaskellmmParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(21);
+				setState(36);
 				match(T__0);
-				setState(22);
+				setState(37);
 				expr(0);
-				setState(23);
+				setState(38);
 				match(T__1);
 				}
 				break;
 			case R_VAR:
 				{
-				_localctx = new RefVarContext(_localctx);
+				_localctx = new RefExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(25);
-				match(R_VAR);
-				setState(29);
-				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-					if ( _alt==1 ) {
-						{
-						{
-						setState(26);
-						expr(0);
-						}
-						} 
-					}
-					setState(31);
-					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
-				}
+				setState(40);
+				referenceExp();
 				}
 				break;
 			case IF:
@@ -280,7 +371,7 @@ public class HaskellmmParser extends Parser {
 				_localctx = new IteExpContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(32);
+				setState(41);
 				ite_defi();
 				}
 				break;
@@ -289,7 +380,7 @@ public class HaskellmmParser extends Parser {
 				_localctx = new IntVarContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(33);
+				setState(42);
 				match(INT);
 				}
 				break;
@@ -298,7 +389,7 @@ public class HaskellmmParser extends Parser {
 				_localctx = new BoolVarContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(34);
+				setState(43);
 				match(BOOL);
 				}
 				break;
@@ -306,24 +397,24 @@ public class HaskellmmParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(48);
+			setState(57);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(46);
+					setState(55);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(37);
+						setState(46);
 						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(38);
+						setState(47);
 						_la = _input.LA(1);
 						if ( !(_la==T__2 || _la==T__3) ) {
 						_errHandler.recoverInline(this);
@@ -333,7 +424,7 @@ public class HaskellmmParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(39);
+						setState(48);
 						expr(6);
 						}
 						break;
@@ -341,9 +432,9 @@ public class HaskellmmParser extends Parser {
 						{
 						_localctx = new AddExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(40);
+						setState(49);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(41);
+						setState(50);
 						_la = _input.LA(1);
 						if ( !(_la==T__4 || _la==T__5) ) {
 						_errHandler.recoverInline(this);
@@ -353,7 +444,7 @@ public class HaskellmmParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(42);
+						setState(51);
 						expr(5);
 						}
 						break;
@@ -361,9 +452,9 @@ public class HaskellmmParser extends Parser {
 						{
 						_localctx = new CompExpContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(43);
+						setState(52);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(44);
+						setState(53);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__6) | (1L << T__7) | (1L << T__8) | (1L << T__9) | (1L << T__10) | (1L << T__11))) != 0)) ) {
 						_errHandler.recoverInline(this);
@@ -373,16 +464,16 @@ public class HaskellmmParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(45);
+						setState(54);
 						expr(4);
 						}
 						break;
 					}
 					} 
 				}
-				setState(50);
+				setState(59);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
 			}
 			}
 		}
@@ -413,28 +504,28 @@ public class HaskellmmParser extends Parser {
 
 	public final F_defiContext f_defi() throws RecognitionException {
 		F_defiContext _localctx = new F_defiContext(_ctx, getState());
-		enterRule(_localctx, 4, RULE_f_defi);
+		enterRule(_localctx, 8, RULE_f_defi);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(52); 
+			setState(61); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
 				{
-				setState(51);
+				setState(60);
 				match(R_VAR);
 				}
 				}
-				setState(54); 
+				setState(63); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==R_VAR );
-			setState(56);
+			setState(65);
 			match(T__12);
-			setState(57);
+			setState(66);
 			expr(0);
 			}
 		}
@@ -467,21 +558,21 @@ public class HaskellmmParser extends Parser {
 
 	public final Ite_defiContext ite_defi() throws RecognitionException {
 		Ite_defiContext _localctx = new Ite_defiContext(_ctx, getState());
-		enterRule(_localctx, 6, RULE_ite_defi);
+		enterRule(_localctx, 10, RULE_ite_defi);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(59);
+			setState(68);
 			match(IF);
-			setState(60);
+			setState(69);
 			expr(0);
-			setState(61);
+			setState(70);
 			match(THEN);
-			setState(62);
+			setState(71);
 			expr(0);
-			setState(63);
+			setState(72);
 			match(ELSE);
-			setState(64);
+			setState(73);
 			expr(0);
 			}
 		}
@@ -498,7 +589,7 @@ public class HaskellmmParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 1:
+		case 3:
 			return expr_sempred((ExprContext)_localctx, predIndex);
 		}
 		return true;
@@ -516,25 +607,27 @@ public class HaskellmmParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30E\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\3\2\3\2\7\2\r\n\2\f\2\16\2\20\13\2\7\2\22\n\2\f\2\16"+
-		"\2\25\13\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3\36\n\3\f\3\16\3!\13\3\3\3\3"+
-		"\3\3\3\5\3&\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3\61\n\3\f\3\16"+
-		"\3\64\13\3\3\4\6\4\67\n\4\r\4\16\48\3\4\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\3\5\3\5\2\3\4\6\2\4\6\b\2\5\3\2\5\6\3\2\7\b\3\2\t\16\2K\2\23\3\2\2"+
-		"\2\4%\3\2\2\2\6\66\3\2\2\2\b=\3\2\2\2\n\16\5\6\4\2\13\r\7\23\2\2\f\13"+
-		"\3\2\2\2\r\20\3\2\2\2\16\f\3\2\2\2\16\17\3\2\2\2\17\22\3\2\2\2\20\16\3"+
-		"\2\2\2\21\n\3\2\2\2\22\25\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2\24\3\3\2"+
-		"\2\2\25\23\3\2\2\2\26\27\b\3\1\2\27\30\7\3\2\2\30\31\5\4\3\2\31\32\7\4"+
-		"\2\2\32&\3\2\2\2\33\37\7\27\2\2\34\36\5\4\3\2\35\34\3\2\2\2\36!\3\2\2"+
-		"\2\37\35\3\2\2\2\37 \3\2\2\2 &\3\2\2\2!\37\3\2\2\2\"&\5\b\5\2#&\7\24\2"+
-		"\2$&\7\25\2\2%\26\3\2\2\2%\33\3\2\2\2%\"\3\2\2\2%#\3\2\2\2%$\3\2\2\2&"+
-		"\62\3\2\2\2\'(\f\7\2\2()\t\2\2\2)\61\5\4\3\b*+\f\6\2\2+,\t\3\2\2,\61\5"+
-		"\4\3\7-.\f\5\2\2./\t\4\2\2/\61\5\4\3\6\60\'\3\2\2\2\60*\3\2\2\2\60-\3"+
-		"\2\2\2\61\64\3\2\2\2\62\60\3\2\2\2\62\63\3\2\2\2\63\5\3\2\2\2\64\62\3"+
-		"\2\2\2\65\67\7\27\2\2\66\65\3\2\2\2\678\3\2\2\28\66\3\2\2\289\3\2\2\2"+
-		"9:\3\2\2\2:;\7\17\2\2;<\5\4\3\2<\7\3\2\2\2=>\7\20\2\2>?\5\4\3\2?@\7\21"+
-		"\2\2@A\5\4\3\2AB\7\22\2\2BC\5\4\3\2C\t\3\2\2\2\t\16\23\37%\60\628";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30N\4\2\t\2\4\3\t"+
+		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\7\2\21\n\2\f\2\16\2\24\13\2"+
+		"\7\2\26\n\2\f\2\16\2\31\13\2\3\3\3\3\7\3\35\n\3\f\3\16\3 \13\3\3\4\3\4"+
+		"\5\4$\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3\5\5\5/\n\5\3\5\3\5\3\5\3\5"+
+		"\3\5\3\5\3\5\3\5\3\5\7\5:\n\5\f\5\16\5=\13\5\3\6\6\6@\n\6\r\6\16\6A\3"+
+		"\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\2\3\b\b\2\4\6\b\n\f\2\5\3\2"+
+		"\5\6\3\2\7\b\3\2\t\16\2S\2\27\3\2\2\2\4\32\3\2\2\2\6#\3\2\2\2\b.\3\2\2"+
+		"\2\n?\3\2\2\2\fF\3\2\2\2\16\22\5\n\6\2\17\21\7\23\2\2\20\17\3\2\2\2\21"+
+		"\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\26\3\2\2\2\24\22\3\2\2\2\25"+
+		"\16\3\2\2\2\26\31\3\2\2\2\27\25\3\2\2\2\27\30\3\2\2\2\30\3\3\2\2\2\31"+
+		"\27\3\2\2\2\32\36\7\27\2\2\33\35\5\6\4\2\34\33\3\2\2\2\35 \3\2\2\2\36"+
+		"\34\3\2\2\2\36\37\3\2\2\2\37\5\3\2\2\2 \36\3\2\2\2!$\7\27\2\2\"$\5\b\5"+
+		"\2#!\3\2\2\2#\"\3\2\2\2$\7\3\2\2\2%&\b\5\1\2&\'\7\3\2\2\'(\5\b\5\2()\7"+
+		"\4\2\2)/\3\2\2\2*/\5\4\3\2+/\5\f\7\2,/\7\24\2\2-/\7\25\2\2.%\3\2\2\2."+
+		"*\3\2\2\2.+\3\2\2\2.,\3\2\2\2.-\3\2\2\2/;\3\2\2\2\60\61\f\7\2\2\61\62"+
+		"\t\2\2\2\62:\5\b\5\b\63\64\f\6\2\2\64\65\t\3\2\2\65:\5\b\5\7\66\67\f\5"+
+		"\2\2\678\t\4\2\28:\5\b\5\69\60\3\2\2\29\63\3\2\2\29\66\3\2\2\2:=\3\2\2"+
+		"\2;9\3\2\2\2;<\3\2\2\2<\t\3\2\2\2=;\3\2\2\2>@\7\27\2\2?>\3\2\2\2@A\3\2"+
+		"\2\2A?\3\2\2\2AB\3\2\2\2BC\3\2\2\2CD\7\17\2\2DE\5\b\5\2E\13\3\2\2\2FG"+
+		"\7\20\2\2GH\5\b\5\2HI\7\21\2\2IJ\5\b\5\2JK\7\22\2\2KL\5\b\5\2L\r\3\2\2"+
+		"\2\n\22\27\36#.9;A";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

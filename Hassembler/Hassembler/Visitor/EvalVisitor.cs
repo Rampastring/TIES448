@@ -117,6 +117,13 @@ namespace Hassembler
             return base.VisitRefVar(context);
         }
 
+        public override VisitorResult VisitF_call([NotNull] HaskellmmParser.F_callContext context) 
+        {
+            string s = context.GetText();
+
+            return base.VisitF_call(context);
+        }
+
         public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)
         {
             string s = context.GetText();

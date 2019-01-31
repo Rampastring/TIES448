@@ -38,12 +38,25 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <return>The visitor result.</return>
 	Result VisitProg([NotNull] HaskellmmParser.ProgContext context);
 	/// <summary>
+	/// Visit a parse tree produced by <see cref="HaskellmmParser.referenceExp"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitReferenceExp([NotNull] HaskellmmParser.ReferenceExpContext context);
+	/// <summary>
 	/// Visit a parse tree produced by the <c>refVar</c>
-	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// labeled alternative in <see cref="HaskellmmParser.param"/>.
 	/// </summary>
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitRefVar([NotNull] HaskellmmParser.RefVarContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>exp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.param"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitExp([NotNull] HaskellmmParser.ExpContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>boolVar</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
@@ -86,6 +99,13 @@ public interface IHaskellmmVisitor<Result> : IParseTreeVisitor<Result> {
 	/// <param name="context">The parse tree.</param>
 	/// <return>The visitor result.</return>
 	Result VisitAddExp([NotNull] HaskellmmParser.AddExpContext context);
+	/// <summary>
+	/// Visit a parse tree produced by the <c>refExp</c>
+	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.
+	/// </summary>
+	/// <param name="context">The parse tree.</param>
+	/// <return>The visitor result.</return>
+	Result VisitRefExp([NotNull] HaskellmmParser.RefExpContext context);
 	/// <summary>
 	/// Visit a parse tree produced by the <c>iteExp</c>
 	/// labeled alternative in <see cref="HaskellmmParser.expr"/>.

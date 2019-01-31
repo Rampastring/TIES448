@@ -35,6 +35,9 @@ namespace Hassembler
         public ExprNode Left { get; set; }
     }
 
+    /// <summary>
+    /// An expression node for an if then else structured expression.
+    /// </summary>
     class ITENode : ExprNode
     {
         public ITENode(NodeContext context) : base(context)
@@ -221,6 +224,9 @@ namespace Hassembler
             }
         }
     }
+    /// <summary>
+    /// An expression node that is a comparative operation.
+    /// </summary>
 
     class CompNode : ParentNode
     {

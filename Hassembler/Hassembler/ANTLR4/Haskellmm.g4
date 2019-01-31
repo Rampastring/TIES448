@@ -3,8 +3,14 @@ grammar Haskellmm;
 
 prog:	(f_defi NEWLINE*)* ;
 
+referenceExp: R_VAR param* ;
+
+param: R_VAR                                        #refVar
+    |  expr                                         #exp
+    ;
+
 expr:	'(' expr ')'                                # parenExp
-    |   R_VAR expr*                                 # refVar                            
+    |   referenceExp                                # refExp                            
     |   ite_defi                                    # iteExp
 	|   expr ('*'|'/') expr                         # multExp
     |	expr ('+'|'-') expr                         # addExp
