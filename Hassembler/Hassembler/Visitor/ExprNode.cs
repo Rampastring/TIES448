@@ -106,7 +106,10 @@ namespace Hassembler
     {
         public FunctionReferenceNode(NodeContext context, string functionName, int paramCount) : base(context)
         {
-            FunctionName = FunctionName;
+            if (string.IsNullOrEmpty(functionName))
+                throw new ArgumentNullException("functionName");
+
+            FunctionName = functionName;
             ParamLimit = paramCount;
             parameterNodes = new List<ExprNode>(paramCount);
         }
@@ -129,7 +132,7 @@ namespace Hassembler
 
         public void AddParameter(ExprNode paramNode)
         {
-            if (parameterNodes.Count == ParamLimit)
+            if (IsParamListSaturated)
                 throw new InvalidOperationException("Parameter limit exceeded!");
 
             parameterNodes.Add(paramNode);
