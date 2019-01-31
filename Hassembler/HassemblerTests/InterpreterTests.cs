@@ -122,7 +122,7 @@ namespace HassemblerTests
         public void Recursion()
         {
             hassembler.ParseCode("f x y end = if y < end then f y (x+y) end else y");
-            Assert.AreEqual("f = 13", hassembler.CallFunction("f", new List<object>() { 1,1,10 } ));
+            Assert.AreEqual("f 1 1 10 = 13", hassembler.CallFunction("f", new List<object>() { 1,1,10 } ));
         }
 
         /// <summary>
