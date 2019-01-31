@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Antlr4.Runtime;
 using Antlr4.Runtime.Misc;
 
 namespace Hassembler
@@ -91,37 +92,71 @@ namespace Hassembler
         /// <summary>
         /// The visit subroutine for an expression that references a function.
         /// </summary>
+        //public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
+        //{
+        //    string refName = context.children[0].GetText();
+        //    NodeContext con;
+        //    ExprNode node;
+
+        //    if (currentFunction.Parameters.FindIndex(p => p.Name == refName) > -1)
+        //    {
+        //        con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+        //        node = new ParameterReferenceNode(con, refName, currentFunction);
+        //        AddExprNode(node);
+        //        currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+        //    }
+        //    else
+        //    {
+        //        con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+        //        int parameterCount = context.children.Count - 1;
+        //        node = new FunctionReferenceNode(con, refName, parameterCount);
+        //        AddExprNode(node);
+        //        if (parameterCount == 0)
+        //            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+        //    }
+
+        //    return base.VisitRefVar(context);
+        //}
+
         public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
         {
-            string refName = context.children[0].GetText();
-            NodeContext con;
-            ExprNode node;
+            string refName = context.GetText();
+            AddParamReferenceNode(context, refName);
+
+            return base.VisitRefVar(context);
+        }
+
+        public override VisitorResult VisitRefExp([NotNull] HaskellmmParser.RefExpContext context)
+        {
+            if (context.children[0].ChildCount == 0)
+                throw new VisitException(context, "RefExps are expected to contain grandchildren.");
+
+            var child = context.children[0];
+            string refName = child.GetChild(0).GetText();
 
             if (currentFunction.Parameters.FindIndex(p => p.Name == refName) > -1)
             {
-                con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
-                node = new ParameterReferenceNode(con, refName, currentFunction);
-                AddExprNode(node);
-                currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+                AddParamReferenceNode(context, refName);
             }
             else
             {
-                con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
-                int parameterCount = context.children.Count - 1;
-                node = new FunctionReferenceNode(con, refName, parameterCount);
+                NodeContext nodeContext = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+                int parameterCount = child.ChildCount - 1;
+                ExprNode node = new FunctionReferenceNode(nodeContext, refName, parameterCount);
                 AddExprNode(node);
                 if (parameterCount == 0)
                     currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
             }
 
-            return base.VisitRefVar(context);
+            return base.VisitRefExp(context);
         }
 
-        public override VisitorResult VisitF_call([NotNull] HaskellmmParser.F_callContext context) 
+        private void AddParamReferenceNode(ParserRuleContext context, string paramName)
         {
-            string s = context.GetText();
-
-            return base.VisitF_call(context);
+            var nodeContext = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+            var node = new ParameterReferenceNode(nodeContext, paramName, currentFunction);
+            AddExprNode(node);
+            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
         }
 
         public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)

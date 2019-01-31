@@ -1,4 +1,5 @@
 ﻿using System;
+using static HaskellmmParser;
 
 namespace Hassembler
 {
@@ -13,6 +14,8 @@ namespace Hassembler
             this.Column = column;
         }
 
+        public HassemblerException(ExprContext context, string message) : this(context.Start.Line, context.Start.Column, message) { }
+
         public override string ToString()
         {
             return "An error has occured in line: " + Line.ToString() + ", column: " + Column.ToString() + Environment.NewLine +
@@ -22,6 +25,8 @@ namespace Hassembler
 
     class VisitException : HassemblerException
     {
+        public VisitException(ExprContext context, string message) : base(context, message) { }
+
         public VisitException(int line, int column, string message) : base(line, column, message)
         {
         }
