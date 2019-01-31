@@ -107,8 +107,11 @@ namespace Hassembler
             else
             {
                 con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
-                node = new FunctionReferenceNode(con, refName, context.children.Count - 1);
+                int parameterCount = context.children.Count - 1;
+                node = new FunctionReferenceNode(con, refName, parameterCount);
                 AddExprNode(node);
+                if (parameterCount == 0)
+                    currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
             }
 
             return base.VisitRefVar(context);
