@@ -2,7 +2,7 @@
 
 namespace Hassembler
 {
-    abstract class HassemblerException : Exception
+    public abstract class HassemblerException : Exception
     {
         protected int Line { get; }
         protected int Column { get; }

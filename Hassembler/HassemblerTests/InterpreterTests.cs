@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 
 namespace HassemblerTests
@@ -123,6 +124,39 @@ namespace HassemblerTests
             hassembler.ParseCode("f x y end = if y < end then f y (x+y) end else y");
             Assert.AreEqual("f = 13", hassembler.CallFunction("f", new List<object>() { 1,1,10 } ));
         }
+
+        /// <summary>
+        /// Tests function call to undefined function 
+        /// Source code: 
+        /// "g = 1 + 3"
+        /// Input: 
+        /// f
+        /// <returns>
+        /// "Function not found"
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void FuncNotDefined()
+        {
+            hassembler.ParseCode("g = 1 + 3");
+            Assert.AreEqual("Function not found: f", hassembler.CallFunction("f", new List<object>() { 1, 1, 10 }));
+        }
+
+        /// <summary>
+        /// Tests that syntax errors produce an exception
+        /// Source code: 
+        /// "f = 1 ++ 2"
+        /// <returns>
+        /// 
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void SyntaxErrorTest()
+        {
+            Assert.ThrowsException<Hassembler.HassemblerException>(
+                () => { hassembler.ParseCode("f = 1 ++ 2"); });
+        }
+
 
 
     }
