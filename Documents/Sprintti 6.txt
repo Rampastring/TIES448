@@ -1,13 +1,26 @@
-Sprintti 6: 23/1/2019-
+Sprintti 6: 23/1/2019-31/1/2019
 
 Aloituspalaveri 25.1.
- - 
+ - p‰‰tettiin tehd‰ alkuper‰isest‰ suunnitelmasta poiketen v‰lipalautus sitten 
+kun rekursio ja testit ovat valmiina. Milla j‰‰ viel‰ siihen asti ryhm‰‰n.
+ - rekursio
 
 Koodaussessio 28.1.
- - 
+ - rekursio
  - yksikkˆtestit
-	* ongelma: Nunitin kanssa ongelmia
+	* Nunitin kanssa ongelmia
 
 Koodaussessio 29.1.
  - vaihdettiin NUnit MStestsiin
  - lis‰tty taulukko testeist‰ Documents-kansioon
+ - Milla tekee ensi kerraksi dokumentissa test_plan olevat testit valmiiksi
+
+Loppupalaveri 31.1.
+ - testit loppuun, testien ajoa
+ - huomattiin monen asian menneen rikki jossain vaiheessa (luultavasti 
+rekursiota puuhatessa).
+ 	* esimerkiksi funktion viittaaminen toiseen funktioon ei toiminut
+	* korjattiin suurin osa
+	* k‰‰nt‰j‰ vaikuttaa saavuttaneen oman tietoisuuden... tai sitten kielioppi 
+	sallii liikaa. Selvitet‰‰n seuraavaksi, mink‰ vuoksi g = 1 ++ 3 antaa tuloksen
+	g == 1

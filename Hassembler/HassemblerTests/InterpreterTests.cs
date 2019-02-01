@@ -53,6 +53,22 @@ namespace HassemblerTests
             hassembler.ParseCode("f = 2 == 2");
             Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
         }
+
+        /// <summary>
+        /// Tests condition statements (if then else)
+        /// Source code: f = if 1 < 3 then 4+4 else 2 + 3
+        /// Input: f
+        /// <returns>
+        /// f = 8
+        /// </returns>
+        /// </summary>
+        [TestMethod]
+        public void ITETest()
+        {
+            hassembler.ParseCode("f = if 1 < 3 then 4+4 else 2 + 3");
+            Assert.AreEqual("f = 8", hassembler.CallFunction("f", new List<object>()));
+        }
+
         /// <summary>
         /// Tests the getter for all functions
         /// Source code: 
@@ -91,22 +107,21 @@ namespace HassemblerTests
         }
         /// <summary>
         /// Tests function references to other functions
-        /// Input: 
+        /// Source code: 
         /// a=3
-        /// f=a+4
+        /// f=a+9
+        /// Input: f
         /// <returns>
-        /// Found functions: a f
+        /// f = 12
         /// </returns> 
         /// </summary>
         [TestMethod]
         public void FuncWithRef()
         {
-            hassembler.ParseCode("a=3\r\nf=a+4");
-            string str = "";
-            foreach (Hassembler.Function f in hassembler.GetFunctions)
-                str += f.Name + ' ';
-            Assert.AreEqual("a f ", str);
+            hassembler.ParseCode("a=3\r\nf=a+9");
+            Assert.AreEqual("f = 12", hassembler.CallFunction("f", new List<object>()));
         }
+    
 
         /// <summary>
         /// Tests recursive function with fibonacci (giving end condition)
@@ -155,6 +170,8 @@ namespace HassemblerTests
         {
             Assert.ThrowsException<Hassembler.HassemblerException>(
                 () => { hassembler.ParseCode("f = 1 ++ 2"); });
+            // hassembler.ParseCode("g = 1 ++ 3");
+            // Assert.AreEqual("g = 4", hassembler.CallFunction("g", new List<object>()));
         }
 
 
