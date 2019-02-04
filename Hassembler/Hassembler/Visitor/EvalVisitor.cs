@@ -79,15 +79,20 @@ namespace Hassembler
             }
 
             if (Functions.Find(f => f.Name == functionName) != null)
-                throw new VisitException(context.Start.Line, context.Start.Column ,
+            {
+                throw new VisitException(context.Start.Line, context.Start.Column,
                     "Multiple definitions found for function " + functionName);
-
+            }
+                
             Functions.Add(currentFunction);
 
             currentNode = null;
 
             return base.VisitF_defi(context);
         }
+
+        private NodeContext CreateNodeContext(ParserRuleContext context) => 
+            new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
 
         /// <summary>
         /// The visit subroutine for an expression that references a function.
@@ -140,7 +145,7 @@ namespace Hassembler
             }
             else
             {
-                NodeContext nodeContext = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+                NodeContext nodeContext = CreateNodeContext(context);
                 int parameterCount = child.ChildCount - 1;
                 ExprNode node = new FunctionReferenceNode(nodeContext, refName, parameterCount);
                 AddExprNode(node);
@@ -153,7 +158,7 @@ namespace Hassembler
 
         private void AddParamReferenceNode(ParserRuleContext context, string paramName)
         {
-            var nodeContext = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+            var nodeContext = CreateNodeContext(context);
             var node = new ParameterReferenceNode(nodeContext, paramName, currentFunction);
             AddExprNode(node);
             currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
@@ -162,7 +167,7 @@ namespace Hassembler
         public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)
         {
             string s = context.GetText();
-            ITENode iteNode = new ITENode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column));
+            ITENode iteNode = new ITENode(CreateNodeContext(context));
             AddExprNode(iteNode);
 
             return base.VisitIte_defi(context);
@@ -174,7 +179,7 @@ namespace Hassembler
 
             int value = int.Parse(s);
 
-            IntNode node = new IntNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), value);
+            IntNode node = new IntNode(CreateNodeContext(context), value);
             AddExprNode(node);
             // An integer constant has no parents, so find the next node to fill
             // by traversing the tree upwards
@@ -190,11 +195,12 @@ namespace Hassembler
             BoolNode node;
 
             if (s == "True")
-                node = new BoolNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), true);
+                node = new BoolNode(CreateNodeContext(context), true);
             else if (s == "False")
-                node = new BoolNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), false);
+                node = new BoolNode(CreateNodeContext(context), false);
             else
                 throw new VisitException(context.Start.Line, context.Start.Column, "Bool was neither True nor False");
+
             AddExprNode(node);
 
             currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
@@ -220,7 +226,7 @@ namespace Hassembler
                     throw new VisitException(context.Start.Line, context.Start.Column, "Operator was neither * or /");
             }
 
-            AddExprNode(new MultNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), operation));
+            AddExprNode(new MultNode(CreateNodeContext(context), operation));
             return base.VisitMultExp(context);
         }
 
@@ -254,7 +260,7 @@ namespace Hassembler
                     throw new VisitException(context.Start.Line, context.Start.Column, "Operator was not comparative operator");
             }
 
-            AddExprNode(new CompNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), operation));
+            AddExprNode(new CompNode(CreateNodeContext(context), operation));
             return base.VisitCompExp(context);
             
         }
@@ -263,7 +269,7 @@ namespace Hassembler
         {
             string s = context.GetText();
 
-            AddExprNode(new ParNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column)));
+            AddExprNode(new ParenthesesNode(CreateNodeContext(context)));
 
             return base.VisitParenExp(context);
         }
@@ -307,7 +313,7 @@ namespace Hassembler
                     else
                         throw new ASTException("ParentNode: No unfilled child node!");
                 }
-                else if (currentNode is ParNode parNode)
+                else if (currentNode is ParenthesesNode parNode)
                 {
                     // A node with parentheses
                     parNode.Follower = exprNode;

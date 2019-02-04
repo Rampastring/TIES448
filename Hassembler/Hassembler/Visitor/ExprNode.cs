@@ -57,9 +57,9 @@ namespace Hassembler
     /// An expression node that contains parentheses.
     /// TODO rename
     /// </summary>
-    class ParNode : ExprNode
+    class ParenthesesNode : ExprNode
     {
-        public ParNode(NodeContext context) : base(context)
+        public ParenthesesNode(NodeContext context) : base(context)
         {
         }
 
