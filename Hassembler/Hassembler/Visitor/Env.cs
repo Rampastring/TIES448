@@ -11,11 +11,33 @@ namespace Hassembler
     /// </summary>
     public interface IEnv
     {
+        /// <summary>
+        /// Calls a function.
+        /// </summary>
+        /// <param name="functionName">The function to call.</param>
+        /// <param name="paramList">A list of parameters to call the function with.
+        /// You can use null for none.</param>
         Result GetReferenceValue(string functionName, List<object> paramList = null);
+
+        /// <summary>
+        /// Adds a parameter to the environment.
+        /// </summary>
+        /// <param name="name">The name of the parameter.</param>
+        /// <param name="value">The value of the parameter.</param>
         void AddParam(string name, object value);
+
+        /// <summary>
+        /// Returns the value of a parameter.
+        /// </summary>
+        /// <param name="name">The name of the parameter.</param>
         object GetParam(string name);
     }
 
+    /// <summary>
+    /// Visitor / interpreter environment.
+    /// Contains functions found from the code and function parameters
+    /// for the interpreter.
+    /// </summary>
     class Env : IEnv
     {
         public Env() { }
@@ -47,7 +69,6 @@ namespace Hassembler
         /// </summary>
         /// <param name="functionName">The name of the function.</param>
         /// <param name="parameterList">The parameters given to the function. Use null for none.</param>
-        /// <returns></returns>
         public Result GetReferenceValue(string functionName, List<object> parameterList = null)
         {
             if (functions == null)
