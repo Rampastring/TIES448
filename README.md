@@ -23,6 +23,7 @@ Properties (as of 5.2.2019):
   * with and without parameters
 - Condition statements (if then else)
 - Recursion
+- Simple static type checking
 
 Example of source language syntax:
 
