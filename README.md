@@ -61,14 +61,17 @@ To compile
 In project directory, run command:
 > dotnet build
 
+If you want to generate an executable, run command:
+> dotnet publish -c Release -r [OS]
+where [OS] is your environment, e.g. win10-x64
+
 To use 
 ============
 1. In Hassembler/Hassembler directory, run command:
 > dotnet run
 2. enter the path for source file (at this point, the file is not .hs but a regular .txt file)
- * program.txt is an example program
+ * example-code.txt is an example program
  * see syntax examples in Description
-3. call functions
 
 Tests
 ===========
