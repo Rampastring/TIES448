@@ -14,6 +14,7 @@ Target language: WebAssembly
 Properties (as of 5.2.2019):
 - Interpreter (No compiler yet)
 - Arithmetic operations (+,-,*,/)
+- Line comments (denoted by --)
 - Parenthesized expressions
 - Types: 
   * positive integers
@@ -26,7 +27,9 @@ Properties (as of 5.2.2019):
 Example of source language syntax:
 
 f = 1+2*3
+
 g = f + 1
+
 h a = if a < 10 then h (a+1) else a 
 
 
