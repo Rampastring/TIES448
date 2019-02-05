@@ -5,14 +5,19 @@ Compiler for Haskell-like language implemented for the University of Jyväskylä
 Authors
 ============
 Milla Koivuniemi
+
 Rami Pasanen
+
 Jose Saarimaa
 
 Roles
 ============
 Rami: C# expert, Version control, Visitor class design
+
 Jose: ANTLR4/grammar, Target language 
+
 Milla: Testing, Haskell guru
+
 
 Most of coding was done as group work.
 
