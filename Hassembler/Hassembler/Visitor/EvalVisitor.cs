@@ -327,8 +327,6 @@ namespace Hassembler
         /// <summary>
         /// Traverses the tree upwards from the given node and returns
         /// the first parent node that has unfilled children.
-        /// The parent node can be either an operation (with right / left children)
-        /// or a node with parentheses.
         /// Returns null if no parent node with unfilled children is found.
         /// </summary>
         /// <param name="node">The node from which to start our search.</param>
