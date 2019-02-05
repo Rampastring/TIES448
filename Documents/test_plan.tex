@@ -54,8 +54,8 @@ Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tes
 \hline
 \textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Syöte}& \textbf{Odotettu tulos (tulkki)}  & \textbf{Vaihe} \\ \hline
  Arith()             & perus\-aritmetiikka, muuttujat (binding)         & f = 1+2*3  & f  & f = 7                                  &  2/3              \\ \hline
- Arith()             & perus\-aritmetiikka         & f = (10-1)/3  & f  & f = 3                                  &  2/3              \\ \hline
- ParenTest()              &                      &                       &       &     &                                                   \\ \hline             
+ Arith2()             & perus\-aritmetiikka         & f = (10-1)/3  & f  & f = 3                                  &  2/3              \\ \hline
+ ParenTest()              & sulkulausekkeet    &  f = ((2+(2*30))/(2*1))             &  f     & f = 31     &  2  \\ \hline             
 
  GetFuns()             & funktioiden listaus   & a=1+1+1*3\textbackslash r \textbackslash n f=2+4 \textbackslash r \textbackslash n &  &  ``a f "         &   3/5          \\ \hline
  BoolTest()    & totuusarvot ja funktion arvo  & f = 2 == 2   & f & f = True         & 4    \\ \hline
@@ -67,7 +67,6 @@ Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tes
 & 6         \\ \hline
 FunWithSpaces\-AroundNewline()       &                      &                       &       &     &                                                   \\ \hline             
 CommentTest()       &  kommentit       &   -- tämä on kommentti \textbackslash r \textbackslash n f = 2+2                    &  f     & f = 4    &   2              \\ \hline             
-MultFunTest        &                      &                       &       &     &                                                   \\ \hline             
 \end{tabular}
 \end{table}
 
@@ -80,7 +79,7 @@ MultFunTest        &                      &                       &       &     
  FuncNotDefined()  & funktiota ei määritelty   &  g = 1 + 3       &  f       &  ``Function not found: f''   &  3            \\ \hline
  SyntaxErrorTest()     & syntaksivirhe   &  g = 1 ++ 2    &           &   (throws Exception)   &    1     \\ \hline
 NegativeInt()              & negatiiviset kokonaisluvut (ei kuulu kieleen)   &  f = -2-2   & &   (throws Exception)                                     &  2              \\ \hline       
-MultFuncTest()      & samannimistä funktiota ei saa määrittää kahdesti   & f = 1 + 2 \textbackslash r \textbackslash n f = 4   &        &  (throws Exception)    &    2                                               \\ \hline       
+MultFunTest()      & samannimistä funktiota ei saa määrittää kahdesti   & f = 1 + 2 \textbackslash r \textbackslash n f = 4   &        &  (throws Exception)    &    2                                               \\ \hline       
 %             &                      &                       &           &                      &                            \\ \hline          
 \end{tabular}
 \end{table}
