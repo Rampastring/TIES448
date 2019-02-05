@@ -13,6 +13,8 @@ namespace Hassembler
             this.Column = column;
         }
 
+        public HassemblerException(NodeContext context, string message) : this(context.Line, context.Column, message) { }
+
         public HassemblerException(HaskellmmParser.ExprContext context, string message) : this(context.Start.Line, context.Start.Column, message) { }
 
         public override string ToString()
@@ -50,9 +52,11 @@ namespace Hassembler
 
     public class TypeError : HassemblerException
     {
-        private Type Expected {get;}
+        private Type Expected { get; }
 
-        private Type Actual {get;}
+        private Type Actual { get; }
+
+        public TypeError(NodeContext context, string message) : base(context, message) { }
 
         public TypeError(Type expected, Type actual, int line, int column, string message) : base(line, column, message)
         {
@@ -65,6 +69,9 @@ namespace Hassembler
 
         public override string ToString()
         {
+            if (Expected == null || Actual == null)
+                return Message;
+
             return $"Could not match expected type: {Expected.ToString()} with the actual type: {Actual.ToString()}" +
                 $"{Environment.NewLine} In line: {Line.ToString()}, column: {Column.ToString()} {Environment.NewLine}" + 
                 Message;

@@ -136,6 +136,13 @@ namespace Hassembler
             Condition.TypeCheck();
             ThenExpr.TypeCheck();
             ElseExpr.TypeCheck();
+
+            if (ThenExpr.GetExpectedResultType() != typeof(object) &&
+                ElseExpr.GetExpectedResultType() != typeof(object) &&
+                ThenExpr.GetExpectedResultType() != ElseExpr.GetExpectedResultType())
+            {
+                throw new TypeError(Context, "Types of 'then' and 'else' expressions need to match");
+            }
         }
 
         public override Result GetValue() =>
