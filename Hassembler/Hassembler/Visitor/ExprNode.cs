@@ -223,7 +223,7 @@ namespace Hassembler
         {
             List<object> parameters = new List<object>();
             parameterNodes.ForEach(p => parameters.Add(p.GetValue().GetResult<int>())); // TODO handle non-int types
-            return Env.GetReferenceValue(FunctionName, parameters);
+            return Env.GetFunctionValue(FunctionName, parameters);
         }
     }
 
