@@ -54,15 +54,19 @@ Näissä taulukoissa on kuvattu yksikkötestit, jotka sijaitsevat Hassembler.tes
 \hline
 \textbf{Nimi} & \textbf{Mitä testaa} & \textbf{Lähdekielinen sisältö} & \textbf{Syöte}& \textbf{Odotettu tulos (tulkki)}  & \textbf{Vaihe} \\ \hline
  ArithFun()             & perus\-aritmetiikka, muuttujat (binding)         & f = 1+2*3  & f  & f = 7                                  &  2/3              \\ \hline
- GetFuncs()             & funktioiden listaus   & a=1+1+1*3\textbackslash r \textbackslash n f=2+4 \textbackslash r \textbackslash n &  &  ``a f "         &   3/5          \\ \hline
+ ParenTest()              &                      &                       &       &     &                                                   \\ \hline             
+
+ GetFuns()             & funktioiden listaus   & a=1+1+1*3\textbackslash r \textbackslash n f=2+4 \textbackslash r \textbackslash n &  &  ``a f "         &   3/5          \\ \hline
  BoolTest()    & totuusarvot ja funktion arvo  & f = 2 == 2   & f & f = True         & 4    \\ \hline
  IfThenElse()    & ehtolauseet                & f = if 1 $<$ 3 then 4+4 else 2 + 3   & f & f = 8         & 4    \\ \hline
- FuncWithRef()  & funktiokutsut      &   a=3 \textbackslash r \textbackslash n f=a+9          &  f         & f = 12   & 3/5                                        \\ \hline
+ FunWithRef()  & funktiokutsut      &   a=3 \textbackslash r \textbackslash n f=a+9          &  f         & f = 12   & 3/5                                        \\ \hline
  FunCallWith\-Parameters()   &  funktiokutsut (parametrien kanssa)  &  f x y = x + y \textbackslash n   y=4 + f 2 3 &      f & f = 9        &  5/6             \\ \hline
  FunCallWith\-NaNPara\-meters()   &  funktiokutsut (ei-numero-parametrien kanssa)  &  f a = if a then True else False \textbackslash r \textbackslash n g = True &      f & f True = True        &  5/6             \\ \hline
- Recursion()   & rekursiivinen kutsu      &  f x y end = if y $<$ end then f y (x+y) end else y"    & f 1 1 10  & f = 13         & 6         \\ \hline
+ Recursion()   & rekursiivinen kutsu      &  f x y end = if y $<$ end then f y (x+y) end else y"    & f 1 1 10  & f = 13         
+& 6         \\ \hline
+FunWithSpaces\-AroundNewline()       &                      &                       &       &     &                                                   \\ \hline             
 CommentTest()       &  kommentit       &   -- tämä on kommentti \textbackslash r \textbackslash n f = 2+2                    &  f     & f = 4    &   2              \\ \hline             
-%              &                      &                       &       &     &                                                   \\ \hline             
+MultFunTest        &                      &                       &       &     &                                                   \\ \hline             
 \end{tabular}
 \end{table}
 
