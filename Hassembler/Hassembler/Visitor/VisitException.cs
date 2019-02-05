@@ -22,7 +22,7 @@ namespace Hassembler
         }
     }
 
-    class VisitException : HassemblerException
+    public class VisitException : HassemblerException
     {
         public VisitException(HaskellmmParser.ExprContext context, string message) : base(context, message) { }
 

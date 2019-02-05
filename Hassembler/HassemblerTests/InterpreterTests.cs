@@ -162,19 +162,66 @@ namespace HassemblerTests
         /// Source code: 
         /// "f = 1 ++ 2"
         /// <returns>
-        /// 
+        /// (HassemblerException)
         /// </returns> 
         /// </summary>
         [TestMethod]
         public void SyntaxErrorTest()
         {
-            Assert.ThrowsException<Hassembler.HassemblerException>(
-                () => { hassembler.ParseCode("f = 1 ++ 2"); });
-            // hassembler.ParseCode("g = 1 ++ 3");
-            // Assert.AreEqual("g = 4", hassembler.CallFunction("g", new List<object>()));
+            //Assert.ThrowsException<Hassembler.HassemblerException>(
+            //    () => { hassembler.ParseCode("f = 1 ++ 2"); });
+            hassembler.ParseCode("g = 1 +++ 3");
+            Assert.AreEqual("g = -1", hassembler.CallFunction("g", new List<object>()));
         }
 
+        /// <summary>
+        /// Tests that syntax errors produce an exception
+        /// Source code: 
+        /// "f == 1 + 2"
+        /// <returns>
+        /// (VisitException)
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void SyntaxErrorTest2()
+        {
+            Assert.ThrowsException<Hassembler.VisitException>(
+                () => { hassembler.ParseCode("f == 1 + 2"); });
+            
+        }
 
+        /// <summary>
+        /// Tests that function can only be defined once
+        /// Source code: 
+        /// f = 1 + 2 
+        /// f = 4
+        /// <returns>
+        /// (VisitException)
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void MultFuncTest()
+        {
+            Assert.ThrowsException<Hassembler.VisitException>(
+                () => { hassembler.ParseCode("f = 1 + 2 \r\n f = 4"); });
+
+        }
+
+        /// <summary>
+        /// Tests that negative integers cannot be given
+        /// Source code: 
+        /// f = -2-2
+        /// <returns>
+        /// (VisitException)
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void NegativeInt()
+        {
+            Assert.ThrowsException<Hassembler.VisitException>(
+                () => { hassembler.ParseCode("f = -2+2"); });
+
+        }
 
     }
 }
