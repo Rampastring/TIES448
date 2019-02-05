@@ -23,6 +23,7 @@ f_defi: R_VAR+ '=' expr;
 
 ite_defi: IF expr THEN expr ELSE expr;
 
+C_IND : '--' .*? NEWLINE -> skip;
 IF : 'if' ;
 THEN : 'then' ;
 ELSE : 'else' ;
