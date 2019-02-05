@@ -18,9 +18,9 @@
     
         Less,
     
-        GreaterEqual,
+        GreaterOrEqual,
     
-        LessEqual,
+        LessOrEqual,
     
         Equal,
     

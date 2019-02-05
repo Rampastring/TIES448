@@ -8,22 +8,51 @@ namespace Hassembler
     /// </summary>
     public abstract class ExprNode
     {
-        protected NodeContext Context {get;}   
-
         public ExprNode(NodeContext context)
         {
             Context = context;
         }
 
+        /// <summary>
+        /// The context of the node.
+        /// </summary>
+        protected NodeContext Context { get; }
+
+        /// <summary>
+        /// Returns the parent of the node, or null if the node has no parent.
+        /// </summary>
         public ExprNode Parent => Context.Parent;
+
+        /// <summary>
+        /// Returns the environment associated with this node.
+        /// </summary>
         protected IEnv Env => Context.Env;
 
+
+        /// <summary>
+        /// Adds a child node to this node.
+        /// Throws a <see cref="ASTException"/> if this node does not accept more children.
+        /// </summary>
+        /// <param name="context">The parser context.</param>
+        /// <param name="child">The child to add.</param>
+        public virtual void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        {
+            throw new ASTException("This node type does not accept children!");
+        }
+
+        /// <summary>
+        /// Checks if this node can accept a child node.
+        /// </summary>
+        public virtual bool CanAcceptChildNode() => false;
+
+        /// <summary>
+        /// Resolves and returns the value of the node.
+        /// </summary>
         public abstract Result GetValue();
     }
 
     /// <summary>
-    /// Base class for an expression node that acts as a
-    /// parent to other nodes.
+    /// Base class for an expression node that has a left and right child.
     /// </summary>
     abstract class ParentNode : ExprNode
     {
@@ -31,8 +60,20 @@ namespace Hassembler
         {
         }
 
-        public ExprNode Right { get; set; }
-        public ExprNode Left { get; set; }
+        public ExprNode Right { get; private set; }
+        public ExprNode Left { get; private set; }
+
+        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        {
+            if (Left == null)
+                Left = child;
+            else if (Right == null)
+                Right = child;
+            else
+                throw new ASTException("ParentNode: No unfilled child node!");
+        }
+
+        public override bool CanAcceptChildNode() => Left == null || Right == null;
     }
 
     /// <summary>
@@ -44,9 +85,23 @@ namespace Hassembler
         {
         }
 
-        public ExprNode Condition { get; set; }
-        public ExprNode ThenExpr { get; set; }
-        public ExprNode ElseExpr { get; set; }
+        public ExprNode Condition { get; private set; }
+        public ExprNode ThenExpr { get; private set; }
+        public ExprNode ElseExpr { get; private set; }
+
+        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        {
+            if (Condition == null)
+                Condition = child;
+            else if (ThenExpr == null)
+                ThenExpr = child;
+            else if (ElseExpr == null)
+                ElseExpr = child;
+            else
+                throw new ASTException("ITENode.AddChildNode: No free child node left!");
+        }
+
+        public override bool CanAcceptChildNode() => Condition == null || ThenExpr == null || ElseExpr == null;
 
         public override Result GetValue() =>
             Condition.GetValue().GetResult<bool>() 
@@ -65,6 +120,17 @@ namespace Hassembler
 
         public ExprNode Follower { get; set; }
 
+
+        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        {
+            if (Follower == null)
+                Follower = child;
+            else
+                throw new ASTException("ParenthesesNode.AddChildNode: a child already exists!");
+        }
+
+        public override bool CanAcceptChildNode() => Follower == null;
+
         public override Result GetValue()
         {
             return Follower.GetValue();
@@ -82,7 +148,7 @@ namespace Hassembler
         }
 
 
-        public int Value { get; private set; }
+        public int Value { get; }
 
         public override Result GetValue() => new Result(Value);
     }
@@ -97,7 +163,7 @@ namespace Hassembler
             Value = value;
         }
 
-        public bool Value { get; private set; }
+        public bool Value { get; }
 
         public override Result GetValue() => new Result(Value);
     }
@@ -123,7 +189,10 @@ namespace Hassembler
         /// </summary>
         private List<ExprNode> parameterNodes;
 
-        public string FunctionName { get; private set; }
+        /// <summary>
+        /// The name of the function.
+        /// </summary>
+        public string FunctionName { get; }
 
         /// <summary>
         /// The number of parameters of the function reference node.
@@ -131,15 +200,22 @@ namespace Hassembler
         /// </summary>
         public int ParamLimit { get; }
 
+        /// <summary>
+        /// Checks whether the function reference node has
+        /// all its parameter nodes assigned.
+        /// </summary>
         public bool IsParamListSaturated => parameterNodes.Count == ParamLimit;
 
-        public void AddParameter(ExprNode paramNode)
+
+        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
         {
             if (IsParamListSaturated)
-                throw new InvalidOperationException("Parameter limit exceeded!");
+                throw new InvalidOperationException("ExprNode.AddChildNode: Parameter limit exceeded!");
 
-            parameterNodes.Add(paramNode);
+            parameterNodes.Add(child);
         }
+
+        public override bool CanAcceptChildNode() => !IsParamListSaturated;
 
         public override Result GetValue()
         {
@@ -154,16 +230,14 @@ namespace Hassembler
     /// </summary>
     class ParameterReferenceNode : ExprNode
     {
-
         public ParameterReferenceNode(NodeContext context, string paramName, Function func) : base(context)
         {
             ParameterName = paramName;
             Function = func;
         }
 
-
-        public string ParameterName { get; private set; }
-        public Function Function { get; private set; }
+        public string ParameterName { get; }
+        public Function Function { get; }
 
         public override Result GetValue()
         {
@@ -176,14 +250,13 @@ namespace Hassembler
     /// </summary>
     class SumNode : ParentNode
     {
-
         public SumNode(NodeContext context, SumOperation operation) : base(context)
         {
             Operation = operation;
         }
 
 
-        public SumOperation Operation { get; private set; }
+        public SumOperation Operation { get; }
 
         public override Result GetValue()
         {
@@ -203,14 +276,12 @@ namespace Hassembler
     /// </summary>
     class MultNode : ParentNode
     {
-
         public MultNode(NodeContext context, MultOperation operation) : base(context)
         {
             Operation = operation;
         }
 
-
-        public MultOperation Operation { get; private set; }
+        public MultOperation Operation { get; }
 
         public override Result GetValue()
         {
@@ -230,13 +301,12 @@ namespace Hassembler
 
     class CompNode : ParentNode
     {
-        public CompOperation Operation {get; private set;}
-
         public CompNode(NodeContext context, CompOperation operation) : base(context)
         {
             Operation = operation;
         }
 
+        public CompOperation Operation { get; }
 
         public override Result GetValue()
         {
@@ -248,18 +318,18 @@ namespace Hassembler
                 case CompOperation.Greater:
                     return Left.GetValue() > Right.GetValue();
                 
-                case CompOperation.LessEqual:
+                case CompOperation.LessOrEqual:
                     return Left.GetValue() <= Right.GetValue();
             
-                case CompOperation.GreaterEqual:
+                case CompOperation.GreaterOrEqual:
                     return Left.GetValue() >= Right.GetValue();
                 
                 case CompOperation.Equal:
                     return Left.GetValue() == Right.GetValue();
-
-                default:
                 case CompOperation.NotEqual:
                     return Left.GetValue() != Right.GetValue();
+                default:
+                    throw new VisitException(-1, -1, "CompNode.GetValue: Unknown operation type!");
             }
         }
     }

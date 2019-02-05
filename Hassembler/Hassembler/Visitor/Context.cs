@@ -1,3 +1,5 @@
+using System;
+
 namespace Hassembler
 {
     public struct NodeContext
@@ -11,7 +13,7 @@ namespace Hassembler
         public NodeContext(ExprNode parent, IEnv env, int line, int column)
         {
             Parent = parent;
-            Env = env;
+            Env = env ?? throw new ArgumentNullException("env");
             Line = line;
             Column = column;
         }

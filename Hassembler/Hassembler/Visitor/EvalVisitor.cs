@@ -22,33 +22,18 @@ namespace Hassembler
         public List<Function> Functions = new List<Function>();
 
         public Env Env { get; private set; }
+
         private Function currentFunction;
         private ExprNode currentNode;
 
 
-        public override VisitorResult VisitAddExp([NotNull] HaskellmmParser.AddExpContext context)
-        {
-            if (context.children.Count < 3)
-                throw new VisitException(context.Start.Line, context.Start.Column ,"Expected expr (+/-) expr");
-
-            SumOperation operation;
-            switch (context.children[1].GetText())
-            {
-                case "+":
-                    operation = SumOperation.Sum;
-                    break;
-                case "-":
-                    operation = SumOperation.Substract;
-                    break;
-                default:
-                    throw new VisitException(context.Start.Line, context.Start.Column , "Operator was neither + or -.");
-            }
-
-
-            AddExprNode(new SumNode(new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column), operation));
-
-            return base.VisitAddExp(context);
-        }
+        /// <summary>
+        /// Creates and returns a node context based on a parser context.
+        /// </summary>
+        /// <param name="context">The parser context.</param>
+        /// <returns>The created node context.</returns>
+        private NodeContext CreateNodeContext(ParserRuleContext context) =>
+            new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
 
         /// <summary>
         /// The visit subroutine for a function definition.
@@ -91,38 +76,22 @@ namespace Hassembler
             return base.VisitF_defi(context);
         }
 
-        private NodeContext CreateNodeContext(ParserRuleContext context) => 
-            new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
+        /// <summary>
+        /// Adds a node that references a parameter of the currently visited function.
+        /// </summary>
+        /// <param name="context">The parser context.</param>
+        /// <param name="paramName">The name of the parameter to reference.</param>
+        private void AddParamReferenceNode(ParserRuleContext context, string paramName)
+        {
+            var nodeContext = CreateNodeContext(context);
+            var node = new ParameterReferenceNode(nodeContext, paramName, currentFunction);
+            AddExprNode(node);
+            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
+        }
 
         /// <summary>
-        /// The visit subroutine for an expression that references a function.
+        /// The visit subroutine for function call parameters.
         /// </summary>
-        //public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
-        //{
-        //    string refName = context.children[0].GetText();
-        //    NodeContext con;
-        //    ExprNode node;
-
-        //    if (currentFunction.Parameters.FindIndex(p => p.Name == refName) > -1)
-        //    {
-        //        con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
-        //        node = new ParameterReferenceNode(con, refName, currentFunction);
-        //        AddExprNode(node);
-        //        currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
-        //    }
-        //    else
-        //    {
-        //        con = new NodeContext(currentNode, Env, context.Start.Line, context.Start.Column);
-        //        int parameterCount = context.children.Count - 1;
-        //        node = new FunctionReferenceNode(con, refName, parameterCount);
-        //        AddExprNode(node);
-        //        if (parameterCount == 0)
-        //            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
-        //    }
-
-        //    return base.VisitRefVar(context);
-        //}
-
         public override VisitorResult VisitRefVar([NotNull] HaskellmmParser.RefVarContext context)
         {
             string refName = context.GetText();
@@ -131,6 +100,11 @@ namespace Hassembler
             return base.VisitRefVar(context);
         }
 
+        /// <summary>
+        /// The visit subroutine for references.
+        /// A reference can point either to a function (when it's a function call)
+        /// or a parameter of the currently visited function.
+        /// </summary>
         public override VisitorResult VisitRefExp([NotNull] HaskellmmParser.RefExpContext context)
         {
             if (context.children[0].ChildCount == 0)
@@ -156,14 +130,9 @@ namespace Hassembler
             return base.VisitRefExp(context);
         }
 
-        private void AddParamReferenceNode(ParserRuleContext context, string paramName)
-        {
-            var nodeContext = CreateNodeContext(context);
-            var node = new ParameterReferenceNode(nodeContext, paramName, currentFunction);
-            AddExprNode(node);
-            currentNode = FindEarliestParentWithUnfilledChildren(currentNode);
-        }
-
+        /// <summary>
+        /// The visit subroutine for if-then-else expressions.
+        /// </summary>
         public override VisitorResult VisitIte_defi([NotNull] HaskellmmParser.Ite_defiContext context)
         {
             string s = context.GetText();
@@ -173,6 +142,9 @@ namespace Hassembler
             return base.VisitIte_defi(context);
         }
 
+        /// <summary>
+        /// The visit subroutine for integer constants.
+        /// </summary>
         public override VisitorResult VisitIntVar([NotNull] HaskellmmParser.IntVarContext context)
         {
             string s = context.GetText();
@@ -188,6 +160,9 @@ namespace Hassembler
             return base.VisitIntVar(context);
         }
 
+        /// <summary>
+        /// The visit subroutine for boolean constants.
+        /// </summary>
         public override VisitorResult VisitBoolVar([NotNull] HaskellmmParser.BoolVarContext context)
         {
             string s = context.GetText();
@@ -208,6 +183,35 @@ namespace Hassembler
             return base.VisitBoolVar(context);
         }
 
+        /// <summary>
+        /// The visit subroutine for sum and subtract operations.
+        /// </summary>
+        public override VisitorResult VisitAddExp([NotNull] HaskellmmParser.AddExpContext context)
+        {
+            if (context.children.Count < 3)
+                throw new VisitException(context.Start.Line, context.Start.Column, "Expected expr (+/-) expr");
+
+            SumOperation operation;
+            switch (context.children[1].GetText())
+            {
+                case "+":
+                    operation = SumOperation.Sum;
+                    break;
+                case "-":
+                    operation = SumOperation.Substract;
+                    break;
+                default:
+                    throw new VisitException(context.Start.Line, context.Start.Column, "Operator was neither + or -.");
+            }
+
+            AddExprNode(new SumNode(CreateNodeContext(context), operation));
+
+            return base.VisitAddExp(context);
+        }
+
+        /// <summary>
+        /// The visit subroutine for multiplication and division operators.
+        /// </summary>
         public override VisitorResult VisitMultExp([NotNull] HaskellmmParser.MultExpContext context)
         {
             if (context.children.Count < 3)
@@ -230,6 +234,9 @@ namespace Hassembler
             return base.VisitMultExp(context);
         }
 
+        /// <summary>
+        /// The visit subroutine for comparison operators.
+        /// </summary>
         public override VisitorResult VisitCompExp([NotNull] HaskellmmParser.CompExpContext context)
         {
             if (context.children.Count < 3)
@@ -245,10 +252,10 @@ namespace Hassembler
                     operation = CompOperation.Greater;
                     break;
                 case "<=":
-                    operation = CompOperation.LessEqual;
+                    operation = CompOperation.LessOrEqual;
                     break;
                 case ">=":
-                    operation = CompOperation.GreaterEqual;
+                    operation = CompOperation.GreaterOrEqual;
                     break;
                 case "==":
                     operation = CompOperation.Equal;
@@ -265,6 +272,9 @@ namespace Hassembler
             
         }
 
+        /// <summary>
+        /// The visit subroutine for parentheses.
+        /// </summary>
         public override VisitorResult VisitParenExp([NotNull] HaskellmmParser.ParenExpContext context)
         {
             string s = context.GetText();
@@ -272,6 +282,14 @@ namespace Hassembler
             AddExprNode(new ParenthesesNode(CreateNodeContext(context)));
 
             return base.VisitParenExp(context);
+        }
+
+        /// <summary>
+        /// The visitor routine for the start of our program.
+        /// </summary>
+        public override VisitorResult VisitProg([NotNull] HaskellmmParser.ProgContext context)
+        {
+            return base.VisitProg(context);
         }
 
         /// <summary>
@@ -298,46 +316,7 @@ namespace Hassembler
             {
                 // exprNode is meant to be a child node of another expression node
 
-                // Figure out whether the parent is a parent node with
-                // right and left children or a node with parentheses
-                // or an if-then-else node
-
-                if (currentNode is ParentNode parentNode)
-                {
-                    // The parent mode is a node with right and left children
-
-                    if (parentNode.Left == null)
-                        parentNode.Left = exprNode;
-                    else if (parentNode.Right == null)
-                        parentNode.Right = exprNode;
-                    else
-                        throw new ASTException("ParentNode: No unfilled child node!");
-                }
-                else if (currentNode is ParenthesesNode parNode)
-                {
-                    // A node with parentheses
-                    parNode.Follower = exprNode;
-                }
-                else if (currentNode is ITENode iteNode)
-                {
-                    // if-then-else
-                    if (iteNode.Condition == null)
-                        iteNode.Condition = exprNode;
-                    else if (iteNode.ThenExpr == null)
-                        iteNode.ThenExpr = exprNode;
-                    else if (iteNode.ElseExpr == null)
-                        iteNode.ElseExpr = exprNode;
-                    else
-                        throw new ASTException("ITENode: No unfilled child node!");
-                }
-                else if (currentNode is FunctionReferenceNode frNode)
-                {
-                    frNode.AddParameter(exprNode);
-                }
-                else
-                {
-                    throw new ASTException("Unknown parent node type");
-                }
+                currentNode.AddChildNode(null, exprNode);
             }
             else
                 throw new ASTException("No parent node exists!");
@@ -365,37 +344,11 @@ namespace Hassembler
 
                 ExprNode parent = node.Parent;
 
-                if (parent is ParentNode parentNode)
-                {
-                    if (parentNode.Left == null || parentNode.Right == null)
-                        return parentNode;
-                }
-
-                if (parent is ITENode iteNode)
-                {
-                    // TODO improve class design
-                    if (iteNode.Condition == null ||
-                        iteNode.ThenExpr == null ||
-                        iteNode.ElseExpr == null)
-                        return iteNode;
-                }
-
-                if (parent is FunctionReferenceNode frNode)
-                {
-                    if (!frNode.IsParamListSaturated)
-                        return frNode;
-                }
+                if (parent.CanAcceptChildNode())
+                    return parent;
 
                 node = parent;
             }
-        }
-
-        /// <summary>
-        /// The visitor routine for the start of our program.
-        /// </summary>
-        public override VisitorResult VisitProg([NotNull] HaskellmmParser.ProgContext context)
-        {
-            return base.VisitProg(context);
         }
     }
 }
