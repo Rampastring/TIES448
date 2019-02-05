@@ -316,7 +316,7 @@ namespace Hassembler
             {
                 // exprNode is meant to be a child node of another expression node
 
-                currentNode.AddChildNode(null, exprNode);
+                currentNode.AddChildNode(exprNode);
             }
             else
                 throw new ASTException("No parent node exists!");

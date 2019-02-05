@@ -16,7 +16,7 @@ namespace Hassembler
         /// <summary>
         /// The context of the node.
         /// </summary>
-        protected NodeContext Context { get; }
+        public NodeContext Context { get; }
 
         /// <summary>
         /// Returns the parent of the node, or null if the node has no parent.
@@ -35,7 +35,7 @@ namespace Hassembler
         /// </summary>
         /// <param name="context">The parser context.</param>
         /// <param name="child">The child to add.</param>
-        public virtual void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        public virtual void AddChildNode(ExprNode child)
         {
             throw new ASTException("This node type does not accept children!");
         }
@@ -63,7 +63,7 @@ namespace Hassembler
         public ExprNode Right { get; private set; }
         public ExprNode Left { get; private set; }
 
-        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        public override void AddChildNode(ExprNode child)
         {
             if (Left == null)
                 Left = child;
@@ -89,7 +89,7 @@ namespace Hassembler
         public ExprNode ThenExpr { get; private set; }
         public ExprNode ElseExpr { get; private set; }
 
-        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        public override void AddChildNode(ExprNode child)
         {
             if (Condition == null)
                 Condition = child;
@@ -98,7 +98,7 @@ namespace Hassembler
             else if (ElseExpr == null)
                 ElseExpr = child;
             else
-                throw new ASTException("ITENode.AddChildNode: No free child node left!");
+                throw new VisitException(child.Context, "ITENode.AddChildNode: No free child node left!");
         }
 
         public override bool CanAcceptChildNode() => Condition == null || ThenExpr == null || ElseExpr == null;
@@ -121,12 +121,12 @@ namespace Hassembler
         public ExprNode Follower { get; set; }
 
 
-        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        public override void AddChildNode(ExprNode child)
         {
             if (Follower == null)
                 Follower = child;
             else
-                throw new ASTException("ParenthesesNode.AddChildNode: a child already exists!");
+                throw new VisitException(child.Context, "ParenthesesNode.AddChildNode: a child already exists!");
         }
 
         public override bool CanAcceptChildNode() => Follower == null;
@@ -207,11 +207,14 @@ namespace Hassembler
         public bool IsParamListSaturated => parameterNodes.Count == ParamLimit;
 
 
-        public override void AddChildNode(HaskellmmParser.ExprContext context, ExprNode child)
+        public override void AddChildNode(ExprNode child)
         {
             if (IsParamListSaturated)
-                throw new InvalidOperationException("ExprNode.AddChildNode: Parameter limit exceeded!");
-
+            {
+                throw new VisitException(child.Context,
+                    "FunctionReferenceNode.AddChildNode: Parameter limit exceeded!");
+            }
+            
             parameterNodes.Add(child);
         }
 
@@ -329,7 +332,7 @@ namespace Hassembler
                 case CompOperation.NotEqual:
                     return Left.GetValue() != Right.GetValue();
                 default:
-                    throw new VisitException(-1, -1, "CompNode.GetValue: Unknown operation type!");
+                    throw new VisitException(Context, "CompNode.GetValue: Unknown operation type!");
             }
         }
     }

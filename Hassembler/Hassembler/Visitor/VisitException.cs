@@ -26,9 +26,9 @@ namespace Hassembler
     {
         public VisitException(HaskellmmParser.ExprContext context, string message) : base(context, message) { }
 
-        public VisitException(int line, int column, string message) : base(line, column, message)
-        {
-        }
+        public VisitException(int line, int column, string message) : base(line, column, message) { }
+
+        public VisitException(NodeContext context, string message) : base(context.Line, context.Column, message) { }
     }
 
     class SyntaxError : HassemblerException
