@@ -1,0 +1,4 @@
+-- Example code file for Hassembler / Haskell-minus-minus
+f x y end = if y < end then f y (x+y) end else y
+a=3
+g=a+9
