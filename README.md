@@ -6,10 +6,10 @@ Compiler for Haskell-like language implemented for the University of Jyväskylä
 Description
 ===========
 Source language: Simplified Haskell
-Host language: C#
-Target language: WebAssembly
 
-Source language is simplified Haskell.
+Host language: C#
+
+Target language: WebAssembly
 
 Properties (as of 5.2.2019):
 - Interpreter (No compiler yet)
@@ -34,7 +34,9 @@ Tests
 ===========
 
 Unit tests for the interpreter are located in the folder HassemblerTests. 
+
 Tests for compiler are located in the folder Hassembler/tests.
+
 A table of tests (test_plan.pdf) is located in Documents.
 
 Known deficiencies
