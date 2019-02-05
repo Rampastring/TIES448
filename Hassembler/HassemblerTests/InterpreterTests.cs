@@ -274,6 +274,18 @@ namespace HassemblerTests
             Assert.AreEqual("f = 4", hassembler.CallFunction("f", new List<object>()));
         }
 
-
+        /// <summary>
+        /// Tests that static type checking works
+        /// Source code:
+        /// f = 1 + True
+        /// <returns>
+        /// (TypeError)
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void TypeCheckTest()
+        {
+            Assert.ThrowsException<Hassembler.TypeError>(() => hassembler.ParseCode("f = True + 1"));
+        }
     }
 }

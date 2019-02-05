@@ -48,7 +48,7 @@ namespace Hassembler
         } 
     }
 
-    class TypeError : HassemblerException
+    public class TypeError : HassemblerException
     {
         private Type Expected {get;}
 
@@ -60,11 +60,14 @@ namespace Hassembler
             this.Actual = actual;
         }
 
+        public TypeError(Type expected, Type actual, NodeContext context, string message) : 
+            this(expected, actual, context.Line, context.Column, message) { }
+
         public override string ToString()
         {
-            return "Could not match expected type: " + Expected.ToString() + " with the actual type: " + Actual.ToString() + Environment.NewLine +
-            "In line: " + Line.ToString() + ", column: " + Column.ToString() + Environment.NewLine +
-            Message;
+            return $"Could not match expected type: {Expected.ToString()} with the actual type: {Actual.ToString()}" +
+                $"{Environment.NewLine} In line: {Line.ToString()}, column: {Column.ToString()} {Environment.NewLine}" + 
+                Message;
         } 
 
     }

@@ -18,11 +18,15 @@ namespace Hassembler
         private object result;
         public T GetResult<T>() 
         {
-            if (result.GetType() != typeof(T))
+            if (!IsOfType(typeof(T)))
                 throw new TypeError(typeof(T), result.GetType(), -1, -1, "");
 
             return (T)result;
         }
+
+        public bool IsOfType(Type type) => result.GetType() == type;
+
+        public Type GetResultType() => result.GetType();
 
         public object GetResult() => result;
     

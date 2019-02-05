@@ -46,6 +46,33 @@ namespace Hassembler
         public virtual bool CanAcceptChildNode() => false;
 
         /// <summary>
+        /// Statically checks that the type of this
+        /// expression and sub-expressions make sense.
+        /// </summary>
+        public virtual void TypeCheck() { }
+
+        /// <summary>
+        /// Checks that the type of this node's result matches the given type.
+        /// Throws a <see cref="TypeError"/> if the type does not match.
+        /// </summary>
+        /// <param name="expectedType">The expected type.</param>
+        /// <param name="message">The error message of the thrown exception.</param>
+        public void CheckNodeType(Type expectedType, string message)
+        {
+            Type nodeType = GetExpectedResultType();
+            if (nodeType != expectedType && nodeType != typeof(object))
+            {
+                throw new TypeError(expectedType, nodeType, Context, message);
+            }
+        }
+
+        /// <summary>
+        /// Returns the expected type of the node.
+        /// Type of Object means any type.
+        /// </summary>
+        public virtual Type GetExpectedResultType() => typeof(object);
+
+        /// <summary>
         /// Resolves and returns the value of the node.
         /// </summary>
         public abstract Result GetValue();
@@ -103,6 +130,14 @@ namespace Hassembler
 
         public override bool CanAcceptChildNode() => Condition == null || ThenExpr == null || ElseExpr == null;
 
+        public override void TypeCheck()
+        {
+            Condition.CheckNodeType(typeof(bool), "Condition must be a Bool");
+            Condition.TypeCheck();
+            ThenExpr.TypeCheck();
+            ElseExpr.TypeCheck();
+        }
+
         public override Result GetValue() =>
             Condition.GetValue().GetResult<bool>() 
             ? ThenExpr.GetValue() : ElseExpr.GetValue();
@@ -130,6 +165,11 @@ namespace Hassembler
 
         public override bool CanAcceptChildNode() => Follower == null;
 
+        public override void TypeCheck()
+        {
+            Follower.TypeCheck();
+        }
+
         public override Result GetValue()
         {
             return Follower.GetValue();
@@ -149,6 +189,8 @@ namespace Hassembler
 
         public int Value { get; }
 
+        public override Type GetExpectedResultType() => typeof(int);
+
         public override Result GetValue() => new Result(Value);
     }
 
@@ -163,6 +205,8 @@ namespace Hassembler
         }
 
         public bool Value { get; }
+
+        public override Type GetExpectedResultType() => typeof(bool);
 
         public override Result GetValue() => new Result(Value);
     }
@@ -219,6 +263,11 @@ namespace Hassembler
 
         public override bool CanAcceptChildNode() => !IsParamListSaturated;
 
+        public override void TypeCheck()
+        {
+            parameterNodes.ForEach(p => p.TypeCheck());
+        }
+
         public override Result GetValue()
         {
             List<object> parameters = new List<object>();
@@ -260,6 +309,15 @@ namespace Hassembler
 
         public SumOperation Operation { get; }
 
+        public override void TypeCheck()
+        {
+            Left.CheckNodeType(typeof(int), "Left side of a sum or subtract expression is not an int");
+            Right.CheckNodeType(typeof(int), "Right side of a sum or subtract expression is not an int");
+            base.TypeCheck();
+        }
+
+        public override Type GetExpectedResultType() => typeof(int);
+
         public override Result GetValue()
         {
             switch (Operation)
@@ -285,6 +343,15 @@ namespace Hassembler
 
         public MultOperation Operation { get; }
 
+        public override void TypeCheck()
+        {
+            Left.CheckNodeType(typeof(int), "Left side of a sum or subtract expression is not an int");
+            Right.CheckNodeType(typeof(int), "Right side of a sum or subtract expression is not an int");
+            base.TypeCheck();
+        }
+
+        public override Type GetExpectedResultType() => typeof(int);
+
         public override Result GetValue()
         {
             switch (Operation)
@@ -309,6 +376,27 @@ namespace Hassembler
         }
 
         public CompOperation Operation { get; }
+
+        public override void TypeCheck()
+        {
+            switch (Operation)
+            {
+                case CompOperation.Less:
+                case CompOperation.Greater:
+                case CompOperation.LessOrEqual:
+                case CompOperation.GreaterOrEqual:
+                    Left.CheckNodeType(typeof(int), "Left side of a integer comparison expression is not an int");
+                    Right.CheckNodeType(typeof(int), "Right side of a integer comparison expression is not an int");
+                    break;
+                case CompOperation.Equal:
+                case CompOperation.NotEqual:
+                    if (Left.GetValue().GetResultType() != Right.GetValue().GetResultType())
+                        throw new VisitException(Context, "Types for equality or inequality comparison operator do not match");
+                    break;
+            }
+        }
+
+        public override Type GetExpectedResultType() => typeof(bool);
 
         public override Result GetValue()
         {

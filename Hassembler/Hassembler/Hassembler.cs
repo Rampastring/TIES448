@@ -27,6 +27,13 @@ namespace Hassembler
             //Console.WriteLine(tree.ToStringTree().Replace("\\n", Environment.NewLine));
             visitor = new EvalVisitor();
             visitor.Visit(tree);
+
+            foreach (Function f in visitor.Functions)
+            {
+                f.Parameters.ForEach(p => visitor.Env.AddParam(p.Name, new object()));
+                f.StartNode.TypeCheck();
+                visitor.Env.CleanupParams();
+            }
         }
 
         /// <summary>
