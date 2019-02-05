@@ -290,10 +290,10 @@ namespace Hassembler
             switch (Operation)
             {
                 case MultOperation.Multiply:
-                    return Right.GetValue() * Left.GetValue();
+                    return Left.GetValue() * Right.GetValue();
                 default:
                 case MultOperation.Divide:
-                    return Right.GetValue() / Left.GetValue();
+                    return Left.GetValue() / Right.GetValue();
             }
         }
     }
