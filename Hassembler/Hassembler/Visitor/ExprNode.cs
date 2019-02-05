@@ -110,7 +110,6 @@ namespace Hassembler
 
     /// <summary>
     /// An expression node that contains parentheses.
-    /// TODO rename
     /// </summary>
     class ParenthesesNode : ExprNode
     {
