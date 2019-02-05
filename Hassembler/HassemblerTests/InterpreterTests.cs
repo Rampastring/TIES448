@@ -105,6 +105,23 @@ namespace HassemblerTests
             hassembler.ParseCode("fabulous a b = a + b\ny=4 + fabulous 2 3\n");
             Assert.AreEqual("y = 9", hassembler.CallFunction("y", new List<object>()));
         }
+
+        /// <summary>
+        /// Test function call with non-int parameters
+        /// Source code:
+        /// f a = if a then True else False
+        ///  Input: f
+        ///  <returns>
+        ///  True
+        ///  </returns>
+        /// </summary>
+        [TestMethod]
+        public void FunCallWithNaNParameters()
+        {
+            hassembler.ParseCode("f a = if a then True else False \r\n g = True");
+            Assert.AreEqual("f True = True", hassembler.CallFunction("f", new List<object>() { "g" }));
+        }
+
         /// <summary>
         /// Tests function references to other functions
         /// Source code: 
@@ -122,6 +139,7 @@ namespace HassemblerTests
             Assert.AreEqual("f = 12", hassembler.CallFunction("f", new List<object>()));
         }
     
+
 
         /// <summary>
         /// Tests recursive function with fibonacci (giving end condition)
@@ -170,7 +188,7 @@ namespace HassemblerTests
         {
             //Assert.ThrowsException<Hassembler.HassemblerException>(
             //    () => { hassembler.ParseCode("f = 1 ++ 2"); });
-            hassembler.ParseCode("g = 1 +++ 3");
+            hassembler.ParseCode("g = 1 ++ 3");
             Assert.AreEqual("g = -1", hassembler.CallFunction("g", new List<object>()));
         }
 
@@ -220,8 +238,24 @@ namespace HassemblerTests
         {
             Assert.ThrowsException<Hassembler.VisitException>(
                 () => { hassembler.ParseCode("f = -2+2"); });
-
         }
+
+        /// <summary>
+        /// Tests that comments are acceptable (and skipped by parser)
+        /// Source code: 
+        /// -- tämä on kommentti
+        /// f = 4+4
+        /// <returns>
+        /// f = 4
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void CommentTest()
+        {
+            hassembler.ParseCode("-- tämä on kommentti \r\n f = 2+2");
+            Assert.AreEqual("f = 4", hassembler.CallFunction("f", new List<object>()));
+        }
+
 
     }
 }
