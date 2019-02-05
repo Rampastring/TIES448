@@ -118,7 +118,7 @@ namespace HassemblerTests
         [TestMethod]
         public void FunCallWithNaNParameters()
         {
-            hassembler.ParseCode("f = g True \r\n g x = x");
+            hassembler.ParseCode("f = g True \r\ng x = x");
             Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
         }
 

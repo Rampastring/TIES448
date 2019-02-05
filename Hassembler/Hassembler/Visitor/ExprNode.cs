@@ -222,7 +222,7 @@ namespace Hassembler
         public override Result GetValue()
         {
             List<object> parameters = new List<object>();
-            parameterNodes.ForEach(p => parameters.Add(p.GetValue().GetResult<int>())); // TODO handle non-int types
+            parameterNodes.ForEach(p => parameters.Add(p.GetValue().GetResult()));
             return Env.GetFunctionValue(FunctionName, parameters);
         }
     }

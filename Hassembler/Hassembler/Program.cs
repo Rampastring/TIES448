@@ -14,7 +14,7 @@ namespace Hassembler
             // string testiohjelma = "fabulous a b = a + b\ny=4 + fabulous 2 3\n";
             // string testiohjelma = "fabulous a = if a > 0 then (a + fabulous (a-1)) else 0";
             //string testiohjelma = "f = -2-2";
-            string testiohjelma = "f x = x";
+            string testiohjelma = "f = g True\r\ng x = x";
 
             Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
         
