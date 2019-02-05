@@ -14,10 +14,10 @@ namespace Hassembler
             // string testiohjelma = "fabulous a b = a + b\ny=4 + fabulous 2 3\n";
             // string testiohjelma = "fabulous a = if a > 0 then (a + fabulous (a-1)) else 0";
             //string testiohjelma = "f = -2-2";
-            string testiohjelma = "f x y end = if y < end then f y (x+y) end else y";
+            string testiohjelma = "f x = x";
 
             Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
-
+        
             Hassembler hassembler = new Hassembler();
             hassembler.ParseCode(testiohjelma);
 
@@ -42,16 +42,32 @@ namespace Hassembler
                 }
 
                 List<object> parameters = new List<object>();
+                bool paramParseFailed = false;
 
                 for (int i = 1; i < parts.Length; i++)
                 {
-                    if (!int.TryParse(parts[i], out int paramValue))
+                    if (int.TryParse(parts[i], out int paramValue))
                     {
-                        Console.WriteLine("Failed to convert parameter #" + (i - 1) + " to int!");
+                        parameters.Add(paramValue);
                     }
-
-                    parameters.Add(paramValue);
+                    else if (parts[i] == "True")
+                    {
+                        parameters.Add(true);
+                    }
+                    else if (parts[i] == "False")
+                    {
+                        parameters.Add(false);
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Failed to parse parameter #{(i - 1)} \"{parts[i]}\"!");
+                        paramParseFailed = true;
+                        break;
+                    }
                 }
+
+                if (paramParseFailed)
+                    continue;
 
                 Console.WriteLine(hassembler.CallFunction(parts[0], parameters));
             }

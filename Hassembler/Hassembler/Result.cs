@@ -19,7 +19,7 @@ namespace Hassembler
         public T GetResult<T>() 
         {
             if (result.GetType() != typeof(T))
-            throw new Exception();
+                throw new TypeError(typeof(T), result.GetType(), -1, -1, "");
 
             return (T)result;
         }
