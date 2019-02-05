@@ -1,11 +1,13 @@
 # TIES448
 
 Compiler for Haskell-like language implemented for the University of Jyväskylä course TIES448 Kääntäjätekniikka (Compiler technology)
+
 Haskellin tyyppisen kielen kääntäjä kurssille Jyväskylän yliopiston kurssille TIES448 Kääntäjätekniikka.
 
 Kuvaus
 ===========
 Lähdekieli: Rajattu Haskell
+
 Kohdekieli: WebAssembly
 
 Lähdekielenä toimii rajattu Haskell.
