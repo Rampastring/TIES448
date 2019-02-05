@@ -2,6 +2,7 @@
 using Antlr4.Runtime.Tree;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Hassembler
@@ -48,7 +49,16 @@ namespace Hassembler
         /// </summary>
         /// <param name="functionName">The name of the function to call.</param>
         /// <param name="parameters">The parameters to give to the function.</param>
-        /// <returns></returns>
+        public string CallFunction(string functionName, params object[] parameters) =>
+            CallFunction(functionName, parameters.ToList());
+
+        /// <summary>
+        /// Calls and interprets a function.
+        /// Returns a string that contains the function's return value.
+        /// If an error is encountered, returns the error message.
+        /// </summary>
+        /// <param name="functionName">The name of the function to call.</param>
+        /// <param name="parameters">The parameters to give to the function.</param>
         public string CallFunction(string functionName, List<object> parameters)
         {
             Function f = visitor.Functions.Find(fnc => fnc.Name == functionName);

@@ -84,9 +84,9 @@ namespace Hassembler
 
         private static void CheckType(Result left, Result right)
         {
-            if (left.result.GetType().Equals(right.result))
+            if (!left.result.GetType().Equals(right.result.GetType()))
             {
-                throw new InvalidOperationException($"Type mismatch: " +
+                throw new RuntimeException($"Type mismatch: " +
                     $"{left.result.GetType().Name} cannot be compared with {right.result.GetType().Name}");
             }
         }

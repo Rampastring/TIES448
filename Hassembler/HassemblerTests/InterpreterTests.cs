@@ -206,7 +206,7 @@ namespace HassemblerTests
         public void Recursion()
         {
             hassembler.ParseCode("f x y end = if y < end then f y (x+y) end else y");
-            Assert.AreEqual("f 1 1 10 = 13", hassembler.CallFunction("f", new List<object>() { 1,1,10 } ));
+            Assert.AreEqual("f 1 1 10 = 13", hassembler.CallFunction("f", 1, 1, 10));
         }
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace HassemblerTests
         public void FunNotDefined()
         {
             hassembler.ParseCode("g = 1 + 3");
-            Assert.AreEqual("Function not found: f", hassembler.CallFunction("f", new List<object>() { 1, 1, 10 }));
+            Assert.AreEqual("Function not found: f", hassembler.CallFunction("f", 1, 1, 10));
         }
 
         /// <summary>
@@ -319,6 +319,23 @@ namespace HassemblerTests
         public void TypeCheckTest()
         {
             Assert.ThrowsException<Hassembler.TypeError>(() => hassembler.ParseCode("f = True + 1"));
+        }
+
+        /// <summary>
+        /// Tests that runtime type checking works for equality comparisons
+        /// Source code:
+        /// f = x = x == 2
+        /// Input:
+        /// f True
+        /// <returns>
+        /// (RuntimeException)
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void EqualityComparisonRuntimeTypeCheck()
+        {
+            hassembler.ParseCode("f x = x == 2");
+            Assert.ThrowsException<Hassembler.RuntimeException>(() => hassembler.CallFunction("f", true));
         }
     }
 }

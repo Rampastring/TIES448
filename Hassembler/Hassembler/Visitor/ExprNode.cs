@@ -390,7 +390,9 @@ namespace Hassembler
                     break;
                 case CompOperation.Equal:
                 case CompOperation.NotEqual:
-                    if (Left.GetValue().GetResultType() != Right.GetValue().GetResultType())
+                    Type leftType = Left.GetValue().GetResultType();
+                    Type rightType = Right.GetValue().GetResultType();
+                    if (leftType != rightType && leftType != typeof(object) && rightType != typeof(object))
                         throw new VisitException(Context, "Types for equality or inequality comparison operator do not match");
                     break;
             }
