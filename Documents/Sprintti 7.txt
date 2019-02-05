@@ -6,8 +6,13 @@ Itsenäistä työskentelyä
 
 Alkupalaveri ja loppupalaveri 5.2. 
  - korjattiin puutteita
+ - lisättiin testejä
  - todettiin, että + ja - -operaattoreihin liittyvät ongelmat liittyvät luultavasti 
 ANTLR:iin (se palautuu joustavasti syntaksivirheistä, lähde: ANTLR-kirja)
  - ilmeni myös, että välilyönnit rivinvaihtojen ympärillä sekoittavat parseria
+ - lisättiin kielioppiin kommentit (notaatiolla --)
+ - lisättiin mahdollisuus kutsua funktioita boolean-parametreilla
+ - parannettiin virheenkäsittelyä
  - jakolaskuun oli lipsahtanut nimittäjä ja osoittaja väärinpäin, korjattiin
  - tehtiin README.md ja dokumentoitiin siihen ominaisuudet ja tunnetut puutteet
+ - yksinkertainen staattinen tyypintarkastus
