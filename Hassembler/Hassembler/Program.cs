@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 
@@ -9,10 +10,35 @@ namespace Hassembler
     {
         static void Main(string[] args)
         {
-            string program = "f x y end = if y < end then f y (x+y) end else y";
-
             Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
-        
+
+            string program;
+
+            while (true)
+            {
+                Console.WriteLine();
+                Console.WriteLine("Input program file path: >");
+                string path = Console.ReadLine();
+
+                if (!File.Exists(path))
+                {
+                    Console.WriteLine("Specified file does not exist!");
+                    continue;
+                }
+
+                try
+                {
+                    program = File.ReadAllText(path);
+                    break;
+                }
+                catch (IOException ex)
+                {
+                    Console.WriteLine("Reading file failed! Returned message: " + ex.Message);
+                }
+            }
+
+            Console.WriteLine("Parsing...");
+
             Hassembler hassembler = new Hassembler();
             hassembler.ParseCode(program);
 
