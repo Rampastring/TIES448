@@ -80,9 +80,9 @@ CommentTest()       &  kommentit       &   -- tämä on kommentti \textbackslash
  SyntaxErrorTest()     & syntaksivirhe   &  g = 1 ++ 2    &           &   (throws Exception)   &    1     \\ \hline
 NegativeInt()              & negatiiviset kokonaisluvut (ei kuulu kieleen)   &  f = -2-2   & &   (throws Exception)                                     &  2              \\ \hline       
 MultFunTest()      & samannimistä funktiota ei saa määrittää kahdesti   & f = 1 + 2 \textbackslash r \textbackslash n f = 4   &        &  (throws Exception)    &    2                                               \\ \hline       
-TypeCheckTest()             & staattinen tyypintarkastus    &  f = 1 + True      &           & (throws exception)     &   7         \\ \hline          
+TypeCheckTest()             & staattinen tyypintarkastus    &  f = 1 + True      &           & (TypeError)     &   7         \\ \hline          
 Equality\-Comparison\-Runtime\-TypeCheck()             &   staattinen tyypintarkastus    & f x = x == 2             & f           & (throws Exception)                      &  7          \\ \hline          
-%             &                      &                       &           &                      &                            \\ \hline          
+IfThenElse\-TypeCheck()             &   tyypintarkastus      &  f a = if a then 1 else False      &           &  (TypeError)                    &   7                         \\ \hline          
 \end{tabular}
 \end{table}
 

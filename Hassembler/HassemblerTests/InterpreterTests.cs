@@ -337,5 +337,22 @@ namespace HassemblerTests
             hassembler.ParseCode("f x = x == 2");
             Assert.ThrowsException<Hassembler.RuntimeException>(() => hassembler.CallFunction("f", true));
         }
+
+
+        /// <summary>
+        /// Tests that type checking works for if then else expressions (then and else of same type)
+        /// Source code:
+        /// f a = if a then 1 else False
+        /// Input:
+        /// f True
+        /// <returns>
+        /// (RuntimeException)
+        /// </returns> 
+        /// </summary>
+        [TestMethod]
+        public void IfThenElseTypeCheck()
+        {
+            Assert.ThrowsException<Hassembler.TypeError>(() => hassembler.ParseCode("f a = if a then 1 else False"));
+        }
     }
 }
