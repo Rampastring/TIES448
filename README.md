@@ -1,5 +1,4 @@
-# TIES448
-
+# Hassembler project
 Compiler for Haskell-like language implemented for the University of Jyväskylä course TIES448 Kääntäjätekniikka (Compiler technology)
 
 Authors
