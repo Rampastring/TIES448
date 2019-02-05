@@ -313,6 +313,8 @@ namespace Hassembler
         {
             Left.CheckNodeType(typeof(int), "Left side of a sum or subtract expression is not an int");
             Right.CheckNodeType(typeof(int), "Right side of a sum or subtract expression is not an int");
+            Left.TypeCheck();
+            Right.TypeCheck();
             base.TypeCheck();
         }
 
@@ -347,6 +349,8 @@ namespace Hassembler
         {
             Left.CheckNodeType(typeof(int), "Left side of a sum or subtract expression is not an int");
             Right.CheckNodeType(typeof(int), "Right side of a sum or subtract expression is not an int");
+            Left.TypeCheck();
+            Right.TypeCheck();
             base.TypeCheck();
         }
 
@@ -396,6 +400,9 @@ namespace Hassembler
                         throw new VisitException(Context, "Types for equality or inequality comparison operator do not match");
                     break;
             }
+
+            Left.TypeCheck();
+            Right.TypeCheck();
         }
 
         public override Type GetExpectedResultType() => typeof(bool);
