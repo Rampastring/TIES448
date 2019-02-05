@@ -25,7 +25,7 @@ namespace HassemblerTests
         // }
 
     /// <summary>
-    /// Tests basic arithmetic function.
+    /// Tests basic arithmetic function (addition and multiplication).
     /// Source code: f = 1+2*3
     /// Input: f
     /// <returns>
@@ -33,11 +33,27 @@ namespace HassemblerTests
     /// </returns>
     /// </summary>
     [TestMethod]
-        public void ArithFun()
+        public void Arith()
         {
             hassembler.ParseCode("f = 1+2*3");
             Assert.AreEqual("f = 7", hassembler.CallFunction("f", new List<object>()));
         }
+
+        /// <summary>
+        /// Tests basic arithmetic function (division and subtraction)
+        /// Source code: f = (10-1)/3
+        /// Input: f
+        /// <returns>
+        /// f = 3
+        /// </returns>
+        /// </summary>
+        [TestMethod]
+        public void Arith2()
+        {
+            hassembler.ParseCode("f = (10-1)/3");
+            Assert.AreEqual("f = 3", hassembler.CallFunction("f", new List<object>()));
+        }
+
 
         /// <summary>
         /// Tests booleans
@@ -69,6 +85,23 @@ namespace HassemblerTests
             Assert.AreEqual("f = 8", hassembler.CallFunction("f", new List<object>()));
         }
 
+
+        /// <summary>
+        /// Tests LOTS of parentheses
+        /// Source code: f = ((2+(2*30))/(2*1))
+        /// Input: f
+        /// <returns>
+        /// f = 31
+        /// </returns>
+        /// </summary>
+        [TestMethod]
+        public void ParenTest()
+        {
+            hassembler.ParseCode("f = ((2+(2*30))/(2*1))");
+            Assert.AreEqual("f = 31", hassembler.CallFunction("f", new List<object>()));
+        }
+
+
         /// <summary>
         /// Tests the getter for all functions
         /// Source code: 
@@ -79,7 +112,7 @@ namespace HassemblerTests
         /// </returns> 
         /// </summary>
         [TestMethod]
-        public void GetFuncs()
+        public void GetFuns()
         {
             hassembler.ParseCode("a=1+1+1*3\r\nf=2+4");
             string str = "";
@@ -151,7 +184,7 @@ namespace HassemblerTests
         /// </returns> 
         /// </summary>
         [TestMethod]
-        public void FuncWithRef()
+        public void FunWithRef()
         {
             hassembler.ParseCode("a=3\r\nf=a+9");
             Assert.AreEqual("f = 12", hassembler.CallFunction("f", new List<object>()));
@@ -187,7 +220,7 @@ namespace HassemblerTests
         /// </returns> 
         /// </summary>
         [TestMethod]
-        public void FuncNotDefined()
+        public void FunNotDefined()
         {
             hassembler.ParseCode("g = 1 + 3");
             Assert.AreEqual("Function not found: f", hassembler.CallFunction("f", new List<object>() { 1, 1, 10 }));
@@ -236,7 +269,7 @@ namespace HassemblerTests
         /// </returns> 
         /// </summary>
         [TestMethod]
-        public void MultFuncTest()
+        public void MultFunTest()
         {
             Assert.ThrowsException<Hassembler.VisitException>(
                 () => { hassembler.ParseCode("f = 1 + 2 \r\n f = 4"); });

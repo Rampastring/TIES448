@@ -1,2 +1,13 @@
-Sprintti 7: 1/2/2019-
+Sprintti 7: 1/2/2019-5/2/2019
 
+Itsenäistä työskentelyä
+ - testejä
+ - koodin putsaamista
+
+Alkupalaveri ja loppupalaveri 5.2. 
+ - korjattiin puutteita
+ - todettiin, että + ja - -operaattoreihin liittyvät ongelmat liittyvät luultavasti 
+ANTLR:iin (se palautuu joustavasti syntaksivirheistä, lähde: ANTLR-kirja)
+ - ilmeni myös, että välilyönnit rivinvaihtojen ympärillä sekoittavat parseria
+ - jakolaskuun oli lipsahtanut nimittäjä ja osoittaja väärinpäin, korjattiin
+ - tehtiin README.md ja dokumentoitiin siihen ominaisuudet ja tunnetut puutteet
