@@ -109,7 +109,8 @@ namespace HassemblerTests
         /// <summary>
         /// Test function call with non-int parameters
         /// Source code:
-        /// f a = if a then True else False
+        /// f = g True
+        /// g x = x
         ///  Input: f
         ///  <returns>
         ///  True
@@ -118,7 +119,24 @@ namespace HassemblerTests
         [TestMethod]
         public void FunCallWithNaNParameters()
         {
-            hassembler.ParseCode("f = g True \r\ng x = x");
+            hassembler.ParseCode("f = g True\r\ng x = x");
+            Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
+        }
+
+        /// <summary>
+        /// Test function call with spaces around newlines
+        /// Source code:
+        /// f = g True 
+        /// g x = x
+        ///  Input: f
+        ///  <returns>
+        ///  True
+        ///  </returns>
+        /// </summary>
+        [TestMethod]
+        public void FunWithSpacesAroundNewline()
+        {
+            hassembler.ParseCode("f = g True \r\n g x = x");
             Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
         }
 
