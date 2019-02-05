@@ -25,7 +25,7 @@ namespace HassemblerTests
         // }
 
     /// <summary>
-    /// Tests basic arithmetic function.
+    /// Tests basic arithmetic function (addition and multiplication).
     /// Source code: f = 1+2*3
     /// Input: f
     /// <returns>
@@ -33,11 +33,27 @@ namespace HassemblerTests
     /// </returns>
     /// </summary>
     [TestMethod]
-        public void ArithFun()
+        public void Arith()
         {
             hassembler.ParseCode("f = 1+2*3");
             Assert.AreEqual("f = 7", hassembler.CallFunction("f", new List<object>()));
         }
+
+        /// <summary>
+        /// Tests basic arithmetic function (division and subtraction)
+        /// Source code: f = (10-1)/3
+        /// Input: f
+        /// <returns>
+        /// f = 3
+        /// </returns>
+        /// </summary>
+        [TestMethod]
+        public void Arith2()
+        {
+            hassembler.ParseCode("f = (10-1)/3");
+            Assert.AreEqual("f = 3", hassembler.CallFunction("f", new List<object>()));
+        }
+
 
         /// <summary>
         /// Tests booleans
@@ -72,7 +88,7 @@ namespace HassemblerTests
 
         /// <summary>
         /// Tests LOTS of parentheses
-        /// Source code: f = (2+(2*30))/(2*1)
+        /// Source code: f = ((2+(2*30))/(2*1))
         /// Input: f
         /// <returns>
         /// f = 31
@@ -81,7 +97,7 @@ namespace HassemblerTests
         [TestMethod]
         public void ParenTest()
         {
-            hassembler.ParseCode("f = (1+(2/2))/(1)");
+            hassembler.ParseCode("f = ((2+(2*30))/(2*1))");
             Assert.AreEqual("f = 31", hassembler.CallFunction("f", new List<object>()));
         }
 
