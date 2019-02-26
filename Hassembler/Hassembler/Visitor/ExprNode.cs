@@ -8,6 +8,8 @@ namespace Hassembler
     /// </summary>
     public abstract class ExprNode
     {
+        protected const string WasmIntFormat = "i32";
+
         public ExprNode(NodeContext context)
         {
             Context = context;
@@ -76,6 +78,11 @@ namespace Hassembler
         /// Resolves and returns the value of the node.
         /// </summary>
         public abstract Result GetValue();
+
+        /// <summary>
+        /// Generates and returns the WebAssembly (WAT) representation of the node.
+        /// </summary>
+        public abstract string ToWebAssembly();
     }
 
     /// <summary>
@@ -148,6 +155,11 @@ namespace Hassembler
         public override Result GetValue() =>
             Condition.GetValue().GetResult<bool>() 
             ? ThenExpr.GetValue() : ElseExpr.GetValue();
+
+        public override string ToWebAssembly()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -181,6 +193,8 @@ namespace Hassembler
         {
             return Follower.GetValue();
         }
+
+        public override string ToWebAssembly() => Follower.ToWebAssembly();
     }
 
     /// <summary>
@@ -199,6 +213,8 @@ namespace Hassembler
         public override Type GetExpectedResultType() => typeof(int);
 
         public override Result GetValue() => new Result(Value);
+
+        public override string ToWebAssembly() => $"{WasmIntFormat}.const {Value}";
     }
 
     /// <summary>
@@ -216,6 +232,12 @@ namespace Hassembler
         public override Type GetExpectedResultType() => typeof(bool);
 
         public override Result GetValue() => new Result(Value);
+
+        public override string ToWebAssembly()
+        {
+            int i = Value ? 1 : 0;
+            return $"{WasmIntFormat}.const {i}";
+        }
     }
 
     /// <summary>
@@ -281,6 +303,11 @@ namespace Hassembler
             parameterNodes.ForEach(p => parameters.Add(p.GetValue().GetResult()));
             return Env.GetFunctionValue(FunctionName, parameters);
         }
+
+        public override string ToWebAssembly()
+        {
+            throw new NotImplementedException("Cannot convert function calls to WebAssembly yet");
+        }
     }
 
     /// <summary>
@@ -300,6 +327,11 @@ namespace Hassembler
         public override Result GetValue()
         {
             return new Result(Env.GetParam(ParameterName));
+        }
+
+        public override string ToWebAssembly()
+        {
+            return $"get_local ${ParameterName}";
         }
     }
 
@@ -338,6 +370,11 @@ namespace Hassembler
                     return Left.GetValue() - Right.GetValue();
             }
         }
+
+        public override string ToWebAssembly()
+        {
+            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.add\n)";
+        }
     }
 
     /// <summary>
@@ -373,6 +410,11 @@ namespace Hassembler
                 case MultOperation.Divide:
                     return Left.GetValue() / Right.GetValue();
             }
+        }
+
+        public override string ToWebAssembly()
+        {
+            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.mul\n)";
         }
     }
     /// <summary>
@@ -437,6 +479,11 @@ namespace Hassembler
                 default:
                     throw new VisitException(Context, "CompNode.GetValue: Unknown operation type!");
             }
+        }
+
+        public override string ToWebAssembly()
+        {
+            throw new NotImplementedException("Comp expr not implemented yet for wat");
         }
     }
 }
