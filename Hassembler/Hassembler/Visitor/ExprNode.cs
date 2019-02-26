@@ -532,22 +532,22 @@ namespace Hassembler
             switch (Operation)
             {
                 case CompOperation.Less:
-                    c_fun = "lt_s";
+                    c_fun = $"{WasmIntFormat}.lt_s";
                     break;
                 case CompOperation.Greater:
-                    c_fun = "gt_s";
+                    c_fun = $"{WasmIntFormat}.gt_s";
                     break;
                 case CompOperation.LessOrEqual:
-                    c_fun = "le_s";
+                    c_fun = $"{WasmIntFormat}.le_s";
                     break;
                 case CompOperation.GreaterOrEqual:
-                    c_fun = "ge_s";
+                    c_fun = $"{WasmIntFormat}.ge_s";
                     break;
                 case CompOperation.Equal:
-                    c_fun = "eq";
+                    c_fun = $"{WasmIntFormat}.eq";
                     break;
                 case CompOperation.NotEqual:
-                    c_fun = "ne";
+                    c_fun = $"{WasmIntFormat}.ne";
                     break;
                 default:
                     throw new VisitException(Context, "CompNode.ToWebAssembly: Unknown operation type!");
