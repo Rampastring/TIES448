@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 
 namespace Hassembler
 {
@@ -42,6 +43,24 @@ namespace Hassembler
         /// (A copy so you can't edit the original param list)
         /// </summary>
         public List<Parameter> Parameters => new List<Parameter>(parameters);
+
+        /// <summary>
+        /// Generates and returns the WebAssembly representation of this function.
+        /// </summary>
+        public string ToWebAssembly()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append($"(func ${Name} ");
+            foreach (Parameter parameter in Parameters)
+            {
+                sb.Append($"(param ${parameter.Name} i32) ");
+            }
+            sb.Append("(result i32)\n");
+            sb.Append(StartNode.ToWebAssembly());
+            sb.Append(")");
+            sb.Append($"(export \"{Name}\" (func {Name}))");
+            return sb.ToString();
+        }
     }
 
     public struct Parameter
