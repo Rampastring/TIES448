@@ -12,30 +12,30 @@ namespace Hassembler
         {
             Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
 
-            string program;
+            string program = Console.ReadLine();
 
-            while (true)
-            {
-                Console.WriteLine();
-                Console.WriteLine("Input program file path: >");
-                string path = Console.ReadLine();
+            //while (true)
+            //{
+            //    Console.WriteLine();
+            //    Console.WriteLine("Input program file path: >");
+            //    string path = Console.ReadLine();
 
-                if (!File.Exists(path))
-                {
-                    Console.WriteLine("Specified file does not exist!");
-                    continue;
-                }
+            //    if (!File.Exists(path))
+            //    {
+            //        Console.WriteLine("Specified file does not exist!");
+            //        continue;
+            //    }
 
-                try
-                {
-                    program = File.ReadAllText(path);
-                    break;
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine("Reading file failed! Returned message: " + ex.Message);
-                }
-            }
+            //    try
+            //    {
+            //        program = File.ReadAllText(path);
+            //        break;
+            //    }
+            //    catch (IOException ex)
+            //    {
+            //        Console.WriteLine("Reading file failed! Returned message: " + ex.Message);
+            //    }
+            //}
 
             Console.WriteLine("Parsing...");
 
@@ -45,7 +45,21 @@ namespace Hassembler
             Console.WriteLine();
             Console.WriteLine("Found functions: ");
             hassembler.GetFunctions.ForEach(f => Console.WriteLine(f.Name));
-            
+            Console.WriteLine();
+
+            Console.WriteLine("Converting to WebAssembly...");
+            foreach (Function f in hassembler.GetFunctions)
+            {
+                Console.WriteLine();
+                Console.WriteLine(f.ToWebAssembly());
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("Press any key to exit");
+            Console.ReadKey();
+
+            return;
+
             while (true)
             {
                 Console.WriteLine();

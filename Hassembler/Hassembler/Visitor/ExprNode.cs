@@ -9,6 +9,8 @@ namespace Hassembler
     public abstract class ExprNode
     {
         protected const string WasmIntFormat = "i32";
+        private const int InitialWasmLineDepth = 2;
+        private const int WasmBlockDepth = 2;
 
         public ExprNode(NodeContext context)
         {
@@ -83,6 +85,38 @@ namespace Hassembler
         /// Generates and returns the WebAssembly (WAT) representation of the node.
         /// </summary>
         public abstract string ToWebAssembly();
+
+        /// <summary>
+        /// Defines how much this node is indented and indents children 
+        /// when generating WebAssembly code.
+        /// </summary>
+        public virtual int WasmIndentDepth => 1;
+
+        protected string GetWebAsmLine(string contents)
+        {
+            string indent = "";
+            int depth = GetDepth();
+            for (int i = 0; i < depth; i++)
+                indent += " ";
+            return indent + contents + Environment.NewLine;
+        }
+
+        private int GetDepth()
+        {
+            return InitialWasmLineDepth + GetExpressionDepth() * WasmBlockDepth;
+        }
+
+        private int GetExpressionDepth()
+        {
+            int depth = WasmIndentDepth;
+            ExprNode parent = Parent;
+            while (parent != null)
+            {
+                depth += parent.WasmIndentDepth;
+                parent = parent.Parent;
+            }
+            return depth;
+        }
     }
 
     /// <summary>
@@ -214,7 +248,9 @@ namespace Hassembler
 
         public override Result GetValue() => new Result(Value);
 
-        public override string ToWebAssembly() => $"{WasmIntFormat}.const {Value}";
+        public override int WasmIndentDepth => 0;
+
+        public override string ToWebAssembly() => GetWebAsmLine($"{WasmIntFormat}.const {Value}");
     }
 
     /// <summary>
@@ -329,6 +365,8 @@ namespace Hassembler
             return new Result(Env.GetParam(ParameterName));
         }
 
+        public override int WasmIndentDepth => 0;
+
         public override string ToWebAssembly()
         {
             return $"get_local ${ParameterName}";
@@ -373,7 +411,12 @@ namespace Hassembler
 
         public override string ToWebAssembly()
         {
-            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.add\n)";
+            string op = Operation == SumOperation.Sum ? "add" : "sub";
+            return GetWebAsmLine("(") +
+                Left.ToWebAssembly() +
+                Right.ToWebAssembly() +
+                GetWebAsmLine($"{WasmIntFormat}.{op}") + 
+                GetWebAsmLine(")");
         }
     }
 
@@ -391,8 +434,8 @@ namespace Hassembler
 
         public override void TypeCheck()
         {
-            Left.CheckNodeType(typeof(int), "Left side of a sum or subtract expression is not an int");
-            Right.CheckNodeType(typeof(int), "Right side of a sum or subtract expression is not an int");
+            Left.CheckNodeType(typeof(int), "Left side of a multiplication or division expression is not an int");
+            Right.CheckNodeType(typeof(int), "Right side of a multiplication or division expression is not an int");
             Left.TypeCheck();
             Right.TypeCheck();
             base.TypeCheck();
@@ -414,7 +457,8 @@ namespace Hassembler
 
         public override string ToWebAssembly()
         {
-            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.mul\n)";
+            string op = Operation == MultOperation.Multiply ? "mul" : "div_s";
+            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.{op}\n)";
         }
     }
     /// <summary>
