@@ -158,7 +158,8 @@ namespace Hassembler
 
         public override string ToWebAssembly()
         {
-            throw new NotImplementedException();
+            return $"(\n{ThenExpr.ToWebAssembly()}\n{ElseExpr.ToWebAssembly()}"
+            + $"\n{Condition.ToWebAssembly()}\nselect\n)";
         }
     }
 
@@ -483,7 +484,31 @@ namespace Hassembler
 
         public override string ToWebAssembly()
         {
-            throw new NotImplementedException("Comp expr not implemented yet for wat");
+            string c_fun = "";
+            switch (Operation)
+            {
+                case CompOperation.Less:
+                    c_fun = "lt_s";
+                    break;
+                case CompOperation.Greater:
+                    c_fun = "gt_s";
+                    break;
+                case CompOperation.LessOrEqual:
+                    c_fun = "le_s";
+                    break;
+                case CompOperation.GreaterOrEqual:
+                    c_fun = "ge_s";
+                    break;
+                case CompOperation.Equal:
+                    c_fun = "eq";
+                    break;
+                case CompOperation.NotEqual:
+                    c_fun = "ne";
+                    break;
+                default:
+                    throw new VisitException(Context, "CompNode.ToWebAssembly: Unknown operation type!");
+            }
+            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{c_fun}\n)";
         }
     }
 }
