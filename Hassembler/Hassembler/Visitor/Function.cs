@@ -50,15 +50,15 @@ namespace Hassembler
         public string ToWebAssembly()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append($"(func ${Name} ");
+            sb.Append($"  (func ${Name} ");
             foreach (Parameter parameter in Parameters)
             {
                 sb.Append($"(param ${parameter.Name} i32) ");
             }
             sb.Append("(result i32)\n");
             sb.Append(StartNode.ToWebAssembly());
-            sb.Append(")");
-            sb.Append($"(export \"{Name}\" (func {Name}))");
+            sb.Append("  )\n");
+            sb.Append($"  (export \"{Name}\" (func {Name}))");
             return sb.ToString();
         }
     }
