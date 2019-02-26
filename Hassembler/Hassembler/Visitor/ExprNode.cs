@@ -338,6 +338,11 @@ namespace Hassembler
                     return Left.GetValue() - Right.GetValue();
             }
         }
+
+        public override string ToWebAssembly()
+        {
+            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.add\n)";
+        }
     }
 
     /// <summary>
@@ -374,6 +379,12 @@ namespace Hassembler
                     return Left.GetValue() / Right.GetValue();
             }
         }
+
+        public override string ToWebAssembly()
+        {
+            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.mul\n)";
+        }
+
     }
     /// <summary>
     /// An expression node that is a comparative operation.
@@ -437,6 +448,11 @@ namespace Hassembler
                 default:
                     throw new VisitException(Context, "CompNode.GetValue: Unknown operation type!");
             }
+        }
+
+        public override string ToWebAssembly()
+        {
+            throw new NotImplementedException("Comp expr not implemented yet for wat");
         }
     }
 }
