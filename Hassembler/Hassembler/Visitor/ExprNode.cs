@@ -92,12 +92,17 @@ namespace Hassembler
             {
                 sb.Append(' ');
             }
+            string indent = sb.ToString();
             sb.Append('(');
             sb.Append(GetWebAssemblyContent());
+            if (IndentWasmBeforeLastParenthesis)
+                sb.Append(indent);
             sb.Append(')');
 
             return sb.ToString();
         }
+
+        protected virtual bool IndentWasmBeforeLastParenthesis => false;
 
         protected virtual int WasmIndentDepth => 1;
 
