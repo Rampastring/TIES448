@@ -56,7 +56,7 @@ namespace Hassembler
                 sb.Append($"(param ${parameter.Name} i32) ");
             }
             sb.Append("(result i32)\n");
-            sb.Append(StartNode.ToWebAssembly());
+            sb.Append(StartNode.ToWebAssembly() + '\n');
             sb.Append("  )\n");
             sb.Append($"  (export \"{Name}\" (func {Name}))");
             return sb.ToString();
