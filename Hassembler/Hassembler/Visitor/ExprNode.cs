@@ -194,10 +194,10 @@ namespace Hassembler
 
         protected override string GetWebAssemblyContent()
         {
-            return "select" + '\n' +
-                ThenExpr.ToWebAssembly() + '\n' +
-                ElseExpr.ToWebAssembly() + '\n' +
-                Condition.ToWebAssembly() + '\n';
+            return $"if (result {WasmIntFormat})" + '\n' +
+                Condition.ToWebAssembly() + '\n' +
+                $"(then\n{ThenExpr.ToWebAssembly()}\n)\n" +
+                $"(else\n{ElseExpr.ToWebAssembly()}\n)\n";
         }
 
         protected override bool IndentWasmBeforeLastParenthesis => true;
