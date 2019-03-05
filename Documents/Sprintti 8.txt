@@ -1,0 +1,24 @@
+Sprintti 8: 26/2/2019-5/3/2019
+
+Aloituspalaveri 26.2.
+ - Tässä vaiheessa mukana Jose ja Rami, Milla poistui ryhmästä.
+ - Päätimme selvittää webassemblyksi kääntämistä.
+ - Tavoite saada testiesimerkit kääntymään tämän sprintin aikana.
+
+Koodaussessio 26.2.
+ - Perehdyimme webassemblyyn
+ - Saimme lasku- ja vertailuoperaatiot ysinkertaisen pinojärjestyksen mukaisesti
+ - Myös ITE toimi yksinkertaisilla eimerkeillä, monimutkaisemmat lausekkeet aiheuttivat ongelmia
+ - Alustava toteutus webassemblykoodin sisennykselle
+
+Koodaussessio 5.2.
+ - Muutimme webassemblyn toteutuksen enemmän yleisen käytännön mukaiseksi
+ 	(sulutettu järjestys)
+ - Nyt myös ITE toimii monimutkaisemmilla esimerkeillä
+ - Webassemblyn sisennys uuden toteutuksen mukaiseksi
+ - Kääntäjän testailua aikaisempien testittapausten avulla
+ - Tiedoston kirjoittaminen
+
+Loppupalaveri 5.2.
+ - Seuraavassa sprintissä kääntäjän kattava testaus ja palautuksen valmistelu
+ - Tarkoitus palauttaa tehtävä seuraavassa sprintissä
