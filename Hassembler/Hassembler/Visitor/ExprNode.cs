@@ -451,7 +451,7 @@ namespace Hassembler
         protected override string GetWebAssemblyContent()
         {
             string op = Operation == MultOperation.Multiply ? "mul" : "div_s";
-            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.{op}\n)";
+            return $"\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.{op}\n";
         }
     }
     /// <summary>
@@ -544,7 +544,7 @@ namespace Hassembler
                 default:
                     throw new VisitException(Context, "CompNode.ToWebAssembly: Unknown operation type!");
             }
-            return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{c_fun}\n)";
+            return $"{c_fun}\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n)";
         }
     }
 }
