@@ -194,9 +194,13 @@ namespace Hassembler
 
         protected override string GetWebAssemblyContent()
         {
-            return $"(\n{ThenExpr.ToWebAssembly()}\n{ElseExpr.ToWebAssembly()}"
-            + $"\n{Condition.ToWebAssembly()}\nselect\n)";
+            return "select" + '\n' +
+                ThenExpr.ToWebAssembly() + '\n' +
+                ElseExpr.ToWebAssembly() + '\n' +
+                Condition.ToWebAssembly();
         }
+
+        protected override bool IndentWasmBeforeLastParenthesis => true;
     }
 
     /// <summary>
@@ -412,10 +416,12 @@ namespace Hassembler
         protected override string GetWebAssemblyContent()
         {
             string op = Operation == SumOperation.Sum ? "add" : "sub";
-            return Left.ToWebAssembly() +
-                Right.ToWebAssembly() +
-                ($"{WasmIntFormat}.{op}");
+            return ($"{WasmIntFormat}.{op}") +
+                Left.ToWebAssembly() + '\n' +
+                Right.ToWebAssembly() + '\n';
         }
+
+        protected override bool IndentWasmBeforeLastParenthesis => true;
     }
 
     /// <summary>
@@ -456,8 +462,12 @@ namespace Hassembler
         protected override string GetWebAssemblyContent()
         {
             string op = Operation == MultOperation.Multiply ? "mul" : "div_s";
-            return $"\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.{op}\n";
+            return ($"{WasmIntFormat}.{op})") + '\n' +
+                Left.ToWebAssembly() + '\n' +
+                Right.ToWebAssembly() + '\n';
         }
+
+        protected override bool IndentWasmBeforeLastParenthesis => true;
     }
     /// <summary>
     /// An expression node that is a comparative operation.
@@ -549,7 +559,11 @@ namespace Hassembler
                 default:
                     throw new VisitException(Context, "CompNode.ToWebAssembly: Unknown operation type!");
             }
-            return $"{c_fun}\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n)";
+            return c_fun + '\n' +
+                Left.ToWebAssembly() + '\n' +
+                Right.ToWebAssembly() + '\n';
         }
+
+        protected override bool IndentWasmBeforeLastParenthesis => true;
     }
 }
