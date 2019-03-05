@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Hassembler
 {
@@ -9,8 +10,8 @@ namespace Hassembler
     public abstract class ExprNode
     {
         protected const string WasmIntFormat = "i32";
-        private const int InitialWasmLineDepth = 2;
         private const int WasmBlockDepth = 2;
+        private const int WasmInitialDepth = 2;
 
         public ExprNode(NodeContext context)
         {
@@ -84,31 +85,25 @@ namespace Hassembler
         /// <summary>
         /// Generates and returns the WebAssembly (WAT) representation of the node.
         /// </summary>
-        public abstract string ToWebAssembly();
-
-        /// <summary>
-        /// Defines how much this node is indented and indents children 
-        /// when generating WebAssembly code.
-        /// </summary>
-        public virtual int WasmIndentDepth => 1;
-
-        protected string GetWebAsmLine(string contents)
+        public string ToWebAssembly()
         {
-            string indent = "";
-            int depth = GetDepth();
-            for (int i = 0; i < depth; i++)
-                indent += " ";
-            return indent + contents + Environment.NewLine;
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < GetExpressionDepth() * WasmBlockDepth; i++)
+            {
+                sb.Append(' ');
+            }
+            sb.Append('(');
+            sb.Append(GetWebAssemblyContent());
+            sb.Append(')');
+
+            return sb.ToString();
         }
 
-        private int GetDepth()
-        {
-            return InitialWasmLineDepth + GetExpressionDepth() * WasmBlockDepth;
-        }
+        protected virtual int WasmIndentDepth => 1;
 
         private int GetExpressionDepth()
         {
-            int depth = WasmIndentDepth;
+            int depth = WasmInitialDepth;
             ExprNode parent = Parent;
             while (parent != null)
             {
@@ -117,6 +112,8 @@ namespace Hassembler
             }
             return depth;
         }
+
+        protected abstract string GetWebAssemblyContent();
     }
 
     /// <summary>
@@ -190,7 +187,7 @@ namespace Hassembler
             Condition.GetValue().GetResult<bool>() 
             ? ThenExpr.GetValue() : ElseExpr.GetValue();
 
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
             return $"(\n{ThenExpr.ToWebAssembly()}\n{ElseExpr.ToWebAssembly()}"
             + $"\n{Condition.ToWebAssembly()}\nselect\n)";
@@ -229,7 +226,9 @@ namespace Hassembler
             return Follower.GetValue();
         }
 
-        public override string ToWebAssembly() => Follower.ToWebAssembly();
+        protected override int WasmIndentDepth => 0;
+
+        protected override string GetWebAssemblyContent() => Follower.ToWebAssembly();
     }
 
     /// <summary>
@@ -249,9 +248,7 @@ namespace Hassembler
 
         public override Result GetValue() => new Result(Value);
 
-        public override int WasmIndentDepth => 0;
-
-        public override string ToWebAssembly() => GetWebAsmLine($"{WasmIntFormat}.const {Value}");
+        protected override string GetWebAssemblyContent() => ($"{WasmIntFormat}.const {Value}");
     }
 
     /// <summary>
@@ -270,10 +267,9 @@ namespace Hassembler
 
         public override Result GetValue() => new Result(Value);
 
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
-            int i = Value ? 1 : 0;
-            return $"{WasmIntFormat}.const {i}";
+            return $"{WasmIntFormat}.const {(Value ? 1 : 0)}";
         }
     }
 
@@ -341,7 +337,7 @@ namespace Hassembler
             return Env.GetFunctionValue(FunctionName, parameters);
         }
 
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
             throw new NotImplementedException("Cannot convert function calls to WebAssembly yet");
         }
@@ -366,9 +362,7 @@ namespace Hassembler
             return new Result(Env.GetParam(ParameterName));
         }
 
-        public override int WasmIndentDepth => 0;
-
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
             return $"get_local ${ParameterName}";
         }
@@ -410,14 +404,12 @@ namespace Hassembler
             }
         }
 
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
             string op = Operation == SumOperation.Sum ? "add" : "sub";
-            return GetWebAsmLine("(") +
-                Left.ToWebAssembly() +
+            return Left.ToWebAssembly() +
                 Right.ToWebAssembly() +
-                GetWebAsmLine($"{WasmIntFormat}.{op}") + 
-                GetWebAsmLine(")");
+                ($"{WasmIntFormat}.{op}");
         }
     }
 
@@ -456,7 +448,7 @@ namespace Hassembler
             }
         }
 
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
             string op = Operation == MultOperation.Multiply ? "mul" : "div_s";
             return $"(\n{Left.ToWebAssembly()}\n{Right.ToWebAssembly()}\n{WasmIntFormat}.{op}\n)";
@@ -526,7 +518,7 @@ namespace Hassembler
             }
         }
 
-        public override string ToWebAssembly()
+        protected override string GetWebAssemblyContent()
         {
             string c_fun = "";
             switch (Operation)
