@@ -197,7 +197,7 @@ namespace Hassembler
             return "select" + '\n' +
                 ThenExpr.ToWebAssembly() + '\n' +
                 ElseExpr.ToWebAssembly() + '\n' +
-                Condition.ToWebAssembly();
+                Condition.ToWebAssembly() + '\n';
         }
 
         protected override bool IndentWasmBeforeLastParenthesis => true;
@@ -428,7 +428,7 @@ namespace Hassembler
         protected override string GetWebAssemblyContent()
         {
             string op = Operation == SumOperation.Sum ? "add" : "sub";
-            return ($"{WasmIntFormat}.{op}") +
+            return ($"{WasmIntFormat}.{op}") + '\n' +
                 Left.ToWebAssembly() + '\n' +
                 Right.ToWebAssembly() + '\n';
         }
