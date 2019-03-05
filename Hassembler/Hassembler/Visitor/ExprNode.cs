@@ -346,9 +346,21 @@ namespace Hassembler
             return Env.GetFunctionValue(FunctionName, parameters);
         }
 
+        protected override bool IndentWasmBeforeLastParenthesis => parameterNodes.Count > 0;
+
         protected override string GetWebAssemblyContent()
         {
-            throw new NotImplementedException("Cannot convert function calls to WebAssembly yet");
+            StringBuilder sb = new StringBuilder("call $" + FunctionName);
+            if (parameterNodes.Count > 0)
+            {
+                sb.Append('\n');
+                foreach (ExprNode child in parameterNodes)
+                {
+                    sb.Append(child.ToWebAssembly() + '\n');
+                }
+                sb.Append('\n');
+            }
+            return sb.ToString();
         }
     }
 
