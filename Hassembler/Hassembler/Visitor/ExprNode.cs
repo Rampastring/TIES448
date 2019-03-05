@@ -85,7 +85,7 @@ namespace Hassembler
         /// <summary>
         /// Generates and returns the WebAssembly (WAT) representation of the node.
         /// </summary>
-        public string ToWebAssembly()
+        public virtual string ToWebAssembly()
         {
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < GetExpressionDepth() * WasmBlockDepth; i++)
@@ -237,6 +237,8 @@ namespace Hassembler
 
         protected override int WasmIndentDepth => 0;
 
+        public override string ToWebAssembly() => Follower.ToWebAssembly();
+
         protected override string GetWebAssemblyContent() => Follower.ToWebAssembly();
     }
 
@@ -358,7 +360,6 @@ namespace Hassembler
                 {
                     sb.Append(child.ToWebAssembly() + '\n');
                 }
-                sb.Append('\n');
             }
             return sb.ToString();
         }
