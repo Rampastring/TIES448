@@ -8,6 +8,8 @@ namespace Hassembler
 {
     class Program
     {
+        private static Hassembler hassembler;
+
         static void Main(string[] args)
         {
             Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
@@ -40,7 +42,7 @@ namespace Hassembler
 
             Console.WriteLine("Parsing...");
 
-            Hassembler hassembler = new Hassembler();
+            hassembler = new Hassembler();
             hassembler.ParseCode(program);
 
             Console.WriteLine();
@@ -48,15 +50,60 @@ namespace Hassembler
             hassembler.GetFunctions.ForEach(f => Console.WriteLine(f.Name));
             Console.WriteLine();
 
-            Console.WriteLine("Converting to WebAssembly...");
-            Console.WriteLine(hassembler.GetInWebAssemblyTextFormat());
+            ConvertToWebAsm();
 
             Console.WriteLine();
-            //Console.WriteLine("Press any key to exit");
-            //Console.ReadKey();
 
-            //return;
+            Interpret();
+        }
 
+        static void ConvertToWebAsm()
+        {
+            while (true)
+            {
+                Console.WriteLine("Convert to WebAssembly? (y / n) >");
+
+                string answer = Console.ReadLine();
+
+                Console.WriteLine();
+
+                if (answer == "y")
+                {
+                    Console.WriteLine("Converting to WebAssembly...");
+                    string webAssemblyCode = hassembler.GetInWebAssemblyTextFormat();
+                    Console.WriteLine(webAssemblyCode);
+                    Console.WriteLine();
+
+                    while (true)
+                    {
+                        Console.WriteLine("Output file path: >");
+                        string outputPath = Console.ReadLine();
+
+                        Console.WriteLine();
+
+                        try
+                        {
+                            File.WriteAllText(outputPath, webAssemblyCode);
+                            Console.WriteLine("File written succesfully! Proceeding to evaluation.");
+                            break;
+                        }
+                        catch (IOException ex)
+                        {
+                            Console.WriteLine("Writing file failed! Returned message: " + ex.Message);
+                        }
+                    }
+
+                    break;
+                }
+                else if (answer == "n")
+                {
+                    break;
+                }
+            }
+        }
+
+        static void Interpret()
+        {
             while (true)
             {
                 Console.WriteLine();
@@ -101,7 +148,14 @@ namespace Hassembler
                 if (paramParseFailed)
                     continue;
 
-                Console.WriteLine(hassembler.CallFunction(parts[0], parameters));
+                try
+                {
+                    Console.WriteLine(hassembler.CallFunction(parts[0], parameters));
+                }
+                catch (TypeError ex)
+                {
+                    Console.WriteLine("TypeError: " + ex.Message);
+                }
             }
         }
     }
