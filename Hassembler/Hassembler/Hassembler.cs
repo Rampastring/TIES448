@@ -38,6 +38,25 @@ namespace Hassembler
         }
 
         /// <summary>
+        /// Compiles the parsed code into WebAssembly Text Format (WAT) and returns 
+        /// the generated WAT as a string.
+        /// </summary>
+        public string GetInWebAssemblyTextFormat()
+        {
+            if (visitor == null)
+            {
+                throw new InvalidOperationException("You need to parse some " +
+                    "code before you can compile it to WebAssembly.");
+            }
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("(module" + '\n');
+            visitor.Functions.ForEach(f => { sb.Append(f.ToWebAssembly()); sb.Append("\n\n"); } );
+            sb.Append(")");
+            return sb.ToString();
+        }
+
+        /// <summary>
         /// Returns a list of functions defined in the parsed code.
         /// </summary>
         public List<Function> GetFunctions => visitor.Functions;
