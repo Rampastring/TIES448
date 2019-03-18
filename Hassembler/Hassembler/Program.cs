@@ -13,8 +13,8 @@ namespace Hassembler
         static void Main(string[] args)
         {
             Console.WriteLine("Haskell-- (Haskell-minus-minus) interpreter");
+            Console.WriteLine("https://github.com/Rampastring/TIES448");
 
-            //string program = Console.ReadLine();
             string program;
 
             while (true)
@@ -57,6 +57,10 @@ namespace Hassembler
             Interpret();
         }
 
+        /// <summary>
+        /// Asks the user whether they want to convert their program to WebAssembly
+        /// and performs the conversion if needed.
+        /// </summary>
         static void ConvertToWebAsm()
         {
             while (true)
@@ -76,10 +80,13 @@ namespace Hassembler
 
                     while (true)
                     {
-                        Console.WriteLine("Output file path: >");
+                        Console.WriteLine("Output file path (empty for no output): >");
                         string outputPath = Console.ReadLine();
 
                         Console.WriteLine();
+
+                        if (outputPath == "")
+                            break;
 
                         try
                         {
@@ -102,6 +109,9 @@ namespace Hassembler
             }
         }
 
+        /// <summary>
+        /// Asks the user for input and interprets it.
+        /// </summary>
         static void Interpret()
         {
             while (true)
@@ -155,6 +165,10 @@ namespace Hassembler
                 catch (TypeError ex)
                 {
                     Console.WriteLine("TypeError: " + ex.Message);
+                }
+                catch (RuntimeException ex)
+                {
+                    Console.WriteLine("RuntimeException: " + ex.Message);
                 }
             }
         }
