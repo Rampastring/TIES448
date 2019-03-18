@@ -86,6 +86,8 @@ namespace Hassembler
             if (f == null)
                 return $"Function not found: {functionName}";
 
+            visitor.Env.CleanupParams();
+
             var functionParams = f.Parameters;
 
             if (parameters.Count != functionParams.Count)
