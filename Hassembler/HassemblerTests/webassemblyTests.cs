@@ -14,14 +14,37 @@ namespace HassemblerTests
         /// Source code: f = 1+2*3
         /// Input: f
         /// <returns>
-        /// f = 7
+        /// (module
+        ///   (func $f (result i32)
+        ///     (i32.add
+        ///       (i32.const 1)
+        ///       (i32.mul
+        ///         (i32.const 2)
+        ///         (i32.const 3)
+        ///       )
+        ///     )
+        ///   )
+        /// )
         /// </returns>
         /// </summary>
         [TestMethod]
         public void Arith()
-        {
+        {   
+            string tc1 = 
+            "(module" +
+            "  (func $f (result i32\n" +
+            "    (i32.add\n" +
+            "      (i32.const 1)\n" +
+            "      (i32.mul\n" +
+            "        (i32.const 2)\n" +
+            "        (i32.const 3)\n" +
+            "      )\n" +
+            "    )\n" +
+            "  )\n" +
+            ")\n";
+
             hassembler.ParseCode("f = 1+2*3");
-            Assert.AreEqual("f = 7", hassembler.CallFunction("f", new List<object>()));
+            Assert.AreEqual(tc1, hassembler.GetInWebAssemblyTextFormat());
         }
 
         /// <summary>
