@@ -52,6 +52,7 @@ namespace Hassembler
             StringBuilder sb = new StringBuilder();
             sb.Append("(module" + '\n');
             visitor.Functions.ForEach(f => { sb.Append(f.ToWebAssembly()); sb.Append("\n\n"); } );
+            sb.Remove(sb.Length - 1, 1);
             sb.Append(")");
             return sb.ToString();
         }

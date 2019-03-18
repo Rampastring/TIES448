@@ -50,6 +50,8 @@ namespace Hassembler
         /// </summary>
         public virtual bool CanAcceptChildNode() => false;
 
+        #region Type checking
+
         /// <summary>
         /// Statically checks that the type of this
         /// expression and sub-expressions make sense.
@@ -77,18 +79,25 @@ namespace Hassembler
         /// </summary>
         public virtual Type GetExpectedResultType() => typeof(object);
 
+        #endregion
+
         /// <summary>
         /// Resolves and returns the value of the node.
         /// </summary>
         public abstract Result GetValue();
 
+        #region WebAssembly Text Format Compilation
+
         /// <summary>
         /// Generates and returns the WebAssembly (WAT) representation of the node.
+        /// Automatically adds start and end parentheses and indentation.
         /// </summary>
-        public virtual string ToWebAssembly()
+        /// <param name="depthOffset">Indentation offset.</param>
+        public virtual string ToWebAssembly(int depthOffset = 0)
         {
+            this.depthOffset = depthOffset;
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < GetExpressionDepth() * WasmBlockDepth; i++)
+            for (int i = 0; i < GetExpressionDepth(depthOffset) * WasmBlockDepth; i++)
             {
                 sb.Append(' ');
             }
@@ -102,23 +111,63 @@ namespace Hassembler
             return sb.ToString();
         }
 
+        /// <summary>
+        /// If overriden in a derived class and set to true, the last parenthesis
+        /// of this node is automatically indented when generating WebAssembly code.
+        /// </summary>
         protected virtual bool IndentWasmBeforeLastParenthesis => false;
 
+        /// <summary>
+        /// How many layers of depth this node adds to the WebAssembly code.
+        /// Used for indentation.
+        /// </summary>
         protected virtual int WasmIndentDepth => 1;
 
-        private int GetExpressionDepth()
+        private int TotalWasmIndentDepth => WasmIndentDepth + depthOffset;
+
+        /// <summary>
+        /// Stores the depth offset given to ToWebAssembly
+        /// so it can be used for indenting children correctly.
+        /// </summary>
+        private int depthOffset = 0;
+
+        /// <summary>
+        /// Calculates the indentation of the WebAssembly code for this node.
+        /// </summary>
+        /// <param name="depthOffset">Indentation offset.</param>
+        private int GetExpressionDepth(int depthOffset = 0)
         {
-            int depth = WasmInitialDepth;
+            int depth = WasmInitialDepth + depthOffset;
             ExprNode parent = Parent;
             while (parent != null)
             {
-                depth += parent.WasmIndentDepth;
+                depth += parent.TotalWasmIndentDepth;
                 parent = parent.Parent;
             }
             return depth;
         }
 
+        /// <summary>
+        /// Generates and returns the indendation spaces for this node.
+        /// </summary>
+        /// <param name="depthOffset">Indentation offset.</param>
+        protected string GetIndent(int depthOffset = 0)
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < (GetExpressionDepth(depthOffset)) * WasmBlockDepth; i++)
+            {
+                sb.Append(' ');
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Generates and returns the actual WebAssembly code for this node,
+        /// not including indentation or start and end parentheses.
+        /// </summary>
         protected abstract string GetWebAssemblyContent();
+
+        #endregion
     }
 
     /// <summary>
@@ -188,6 +237,8 @@ namespace Hassembler
             }
         }
 
+        protected override int WasmIndentDepth => 2;
+
         public override Result GetValue() =>
             Condition.GetValue().GetResult<bool>() 
             ? ThenExpr.GetValue() : ElseExpr.GetValue();
@@ -195,9 +246,9 @@ namespace Hassembler
         protected override string GetWebAssemblyContent()
         {
             return $"if (result {WasmIntFormat})" + '\n' +
-                Condition.ToWebAssembly() + '\n' +
-                $"(then\n{ThenExpr.ToWebAssembly()}\n)\n" +
-                $"(else\n{ElseExpr.ToWebAssembly()}\n)\n";
+                Condition.ToWebAssembly(-1) + '\n' +
+                $"{GetIndent(1)}(then\n{ThenExpr.ToWebAssembly()}\n{GetIndent(1)})\n" +
+                $"{GetIndent(1)}(else\n{ElseExpr.ToWebAssembly()}\n{GetIndent(1)})\n";
         }
 
         protected override bool IndentWasmBeforeLastParenthesis => true;
@@ -237,7 +288,7 @@ namespace Hassembler
 
         protected override int WasmIndentDepth => 0;
 
-        public override string ToWebAssembly() => Follower.ToWebAssembly();
+        public override string ToWebAssembly(int depthOffset = 0) => Follower.ToWebAssembly();
 
         protected override string GetWebAssemblyContent() => Follower.ToWebAssembly();
     }
