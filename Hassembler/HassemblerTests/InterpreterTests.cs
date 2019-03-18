@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace HassemblerTests
 {
+    /// <summary>
+    /// Tests the interpreter.
+    /// </summary>
     [TestClass]
     public class InterpreterTests
     {
@@ -24,15 +27,15 @@ namespace HassemblerTests
         // currently the interpreter does not handle basic arithmetics outside functions 
         // }
 
-    /// <summary>
-    /// Tests basic arithmetic function (addition and multiplication).
-    /// Source code: f = 1+2*3
-    /// Input: f
-    /// <returns>
-    /// f = 7
-    /// </returns>
-    /// </summary>
-    [TestMethod]
+        /// <summary>
+        /// Tests basic arithmetic function (addition and multiplication).
+        /// Source code: f = 1+2*3
+        /// Input: f
+        /// <returns>
+        /// f = 7
+        /// </returns>
+        /// </summary>
+        [TestMethod]
         public void Arith()
         {
             hassembler.ParseCode("f = 1+2*3");

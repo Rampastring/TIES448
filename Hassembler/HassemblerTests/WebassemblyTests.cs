@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace HassemblerTests
 {
+    /// <summary>
+    /// Tests the WebAssembly compiler.
+    /// </summary>
     [TestClass]
     public class WebassemblyTests
     {
@@ -12,27 +15,13 @@ namespace HassemblerTests
         /// <summary>
         /// Tests basic arithmetic function (addition and multiplication).
         /// Source code: f = 1+2*3
-        /// Input: f
-        /// <returns>
-        /// (module
-        ///   (func $f (result i32)
-        ///     (i32.add
-        ///       (i32.const 1)
-        ///       (i32.mul
-        ///         (i32.const 2)
-        ///         (i32.const 3)
-        ///       )
-        ///     )
-        ///   )
-        /// )
-        /// </returns>
         /// </summary>
         [TestMethod]
         public void Arith()
         {   
-            string tc1 = 
-            "(module" +
-            "  (func $f (result i32\n" +
+            string expectedOutput = 
+            "(module\n" +
+            "  (func $f (result i32)\n" +
             "    (i32.add\n" +
             "      (i32.const 1)\n" +
             "      (i32.mul\n" +
@@ -41,25 +30,37 @@ namespace HassemblerTests
             "      )\n" +
             "    )\n" +
             "  )\n" +
-            ")\n";
+            "  (export \"f\" (func $f))\n" +
+            ")";
 
             hassembler.ParseCode("f = 1+2*3");
-            Assert.AreEqual(tc1, hassembler.GetInWebAssemblyTextFormat());
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
         /// <summary>
         /// Tests basic arithmetic function (division and subtraction)
         /// Source code: f = (10-1)/3
-        /// Input: f
-        /// <returns>
-        /// f = 3
-        /// </returns>
         /// </summary>
         [TestMethod]
         public void Arith2()
         {
             hassembler.ParseCode("f = (10-1)/3");
-            Assert.AreEqual("f = 3", hassembler.CallFunction("f", new List<object>()));
+
+            string expectedOutput =
+             "(module\n" +
+             "  (func $f (result i32)\n" +
+             "    (i32.div_s)\n" +
+             "      (i32.sub\n" +
+             "        (i32.const 10)\n" +
+             "        (i32.const 1)\n" +
+             "      )\n" +
+             "      (i32.const 3)\n" +
+             "    )\n" +
+             "  )\n" +
+             "  (export \"f\" (func $f))\n" +
+             ")";
+
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
 
@@ -75,7 +76,19 @@ namespace HassemblerTests
         public void BoolTest()
         {
             hassembler.ParseCode("f = 2 == 2");
-            Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
+
+            string expectedOutput =
+             "(module\n" +
+             "  (func $f (result i32)\n" +
+             "    (i32.eq\n" +
+             "      (i32.const 2)\n" +
+             "      (i32.const 2)\n" +
+             "    )\n" +
+             "  )\n" +
+             "  (export \"f\" (func $f))\n" +
+             ")";
+
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
         /// <summary>
@@ -89,8 +102,33 @@ namespace HassemblerTests
         [TestMethod]
         public void ITETest()
         {
+            string expectedOutput =
+             "(module\n" +
+             "  (func $f (result i32)\n" +
+             "    (if (result i32)\n" +
+             "      (i32.lt_s\n" +
+             "        (i32.const 1)\n" +
+             "        (i32.const 3)\n" +
+             "      )\n" +
+             "      (then\n" +
+             "        (i32.add\n" +
+             "          (i32.const 4)\n" +
+             "          (i32.const 4)\n" +
+             "        )\n" +
+             "      )\n" +
+             "      (else\n" +
+             "        (i32.add\n" +
+             "          (i32.const 2)\n" +
+             "          (i32.const 3)\n" +
+             "        )\n" +
+             "      )\n" +
+             "    )\n" +
+             "  )\n" +
+             "  (export \"f\" (func $f))\n" +
+             ")";
+
             hassembler.ParseCode("f = if 1 < 3 then 4+4 else 2 + 3");
-            Assert.AreEqual("f = 8", hassembler.CallFunction("f", new List<object>()));
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
 
