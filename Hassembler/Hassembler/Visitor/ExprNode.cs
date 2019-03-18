@@ -526,7 +526,7 @@ namespace Hassembler
         protected override string GetWebAssemblyContent()
         {
             string op = Operation == MultOperation.Multiply ? "mul" : "div_s";
-            return ($"{WasmIntFormat}.{op})") + '\n' +
+            return ($"{WasmIntFormat}.{op}") + '\n' +
                 Left.ToWebAssembly() + '\n' +
                 Right.ToWebAssembly() + '\n';
         }
