@@ -1,13 +1,14 @@
 Sprintti 9: 6/3/2019-18/3/2019
 
 Aloituspalaveri 18.3.
- - Tekemässä Jose ja Rami.
- - Teemme testit webassemblykääntäjälle ja palautamme työn.
- - Tavoite saada valmis työ palautettua sprintin aikana.
+ - Tekemässä Jose ja Rami
+ - Teemme testit WebAssembly-kääntäjälle ja palautamme työn
+ - Tavoite saada valmis työ palautettua sprintin aikana
 
 Koodaussessio 18.3.
- - Teimme webassemblykääntäjälle yksikkötestit
+ - Teimme WebAssembly-kääntäjälle yksikkötestit
     * Testit paljastivat muutaman bugin jotka korjasimme
+ - Testasimme kääntäjän tuottaman WebAssembly-koodin WebAssembly studiolla
  - Päivitimme ohjeet kääntäjän käyttämiseksi
  - Palautimme projektin tarkastettavaksi
 
