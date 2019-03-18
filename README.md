@@ -73,6 +73,7 @@ To use
 2. enter the path for source file (at this point, the file is not .hs but a regular .txt file)
  * example-code.txt is an example program
  * you may choose to compile to WebAssembly, if you do, a name for the destination file will be asked
+ * there is no functionality for testing the generated WebAssembly code, you'll have to test it manually or on your favourite WebAssembly code testing site
  * see syntax examples in Description
 
 Tests
@@ -80,7 +81,7 @@ Tests
 
 Unit tests for the interpreter are located in the folder HassemblerTests. 
 
-Unit tests for the Compiler are located in the same folder.
+Unit tests for the WebAssembly compiler are located in the same folder.
 
 A table of tests (test_plan.pdf) is located in the folder Documents.
 
