@@ -153,7 +153,7 @@ namespace HassemblerTests
                           "    )\n" +
                           "  )\n" +
                           "  (export \"f\" (func $f))\n" +
-                          ")\n";
+                          ")";
 
             hassembler.ParseCode("f = ((2+(2*30))/(2*1))");
             Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
@@ -224,7 +224,6 @@ namespace HassemblerTests
         }
     
 
-
         /// <summary>
         /// Tests recursive function with fibonacci (giving end condition)
         /// Source code: 
@@ -261,118 +260,6 @@ namespace HassemblerTests
 
             hassembler.ParseCode("f x y end = if y < end then f y (x+y) end else y");
             Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
-        }
-
-        /// <summary>
-        /// Tests that syntax errors produce an exception
-        /// Source code: 
-        /// "f == 1 + 2"
-        /// <returns>
-        /// (VisitException)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void SyntaxErrorTest2()
-        {
-            Assert.ThrowsException<Hassembler.VisitException>(
-                () => { hassembler.ParseCode("f == 1 + 2"); });
-            
-        }
-
-        /// <summary>
-        /// Tests that function can only be defined once
-        /// Source code: 
-        /// f = 1 + 2 
-        /// f = 4
-        /// <returns>
-        /// (VisitException)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void MultFunTest()
-        {
-            Assert.ThrowsException<Hassembler.VisitException>(
-                () => { hassembler.ParseCode("f = 1 + 2 \r\n f = 4"); });
-
-        }
-
-        /// <summary>
-        /// Tests that negative integers cannot be given
-        /// Source code: 
-        /// f = -2-2
-        /// <returns>
-        /// (VisitException)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void NegativeInt()
-        {
-            Assert.ThrowsException<Hassembler.VisitException>(
-                () => { hassembler.ParseCode("f = -2+2"); });
-        }
-
-        /// <summary>
-        /// Tests that comments are acceptable (and skipped by parser)
-        /// Source code: 
-        /// -- t�m� on kommentti
-        /// f = 4+4
-        /// <returns>
-        /// f = 4
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void CommentTest()
-        {
-            hassembler.ParseCode("-- t�m� on kommentti \r\n f = 2+2");
-            Assert.AreEqual("f = 4", hassembler.CallFunction("f", new List<object>()));
-        }
-
-        /// <summary>
-        /// Tests that static type checking works
-        /// Source code:
-        /// f = 1 + True
-        /// <returns>
-        /// (TypeError)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void TypeCheckTest()
-        {
-            Assert.ThrowsException<Hassembler.TypeError>(() => hassembler.ParseCode("f = True + 1"));
-        }
-
-        /// <summary>
-        /// Tests that runtime type checking works for equality comparisons
-        /// Source code:
-        /// f = x = x == 2
-        /// Input:
-        /// f True
-        /// <returns>
-        /// (RuntimeException)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void EqualityComparisonRuntimeTypeCheck()
-        {
-            hassembler.ParseCode("f x = x == 2");
-            Assert.ThrowsException<Hassembler.RuntimeException>(() => hassembler.CallFunction("f", true));
-        }
-
-
-        /// <summary>
-        /// Tests that type checking works for if then else expressions (then and else of same type)
-        /// Source code:
-        /// f a = if a then 1 else False
-        /// Input:
-        /// f True
-        /// <returns>
-        /// (RuntimeException)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void IfThenElseTypeCheck()
-        {
-            Assert.ThrowsException<Hassembler.TypeError>(() => hassembler.ParseCode("f a = if a then 1 else False"));
         }
     }
 }
