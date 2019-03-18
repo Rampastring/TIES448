@@ -30,7 +30,8 @@ Host language: C#
 Target language: WebAssembly
 
 Properties (as of 5.2.2019):
-- Interpreter (No compiler yet)
+- Interpreter
+- Compiler
 - Arithmetic operations (+,-,*,/)
 - Line comments (denoted by --)
 - Parenthesized expressions
@@ -71,6 +72,7 @@ To use
 > dotnet run
 2. enter the path for source file (at this point, the file is not .hs but a regular .txt file)
  * example-code.txt is an example program
+ * you may choose to compile to WebAssembly, if you do, a name for the destination file will be asked
  * see syntax examples in Description
 
 Tests
@@ -78,7 +80,7 @@ Tests
 
 Unit tests for the interpreter are located in the folder HassemblerTests. 
 
-Tests for compiler are located in the folder Hassembler/tests.
+Unit tests for the Compiler are located in the same folder.
 
 A table of tests (test_plan.pdf) is located in the folder Documents.
 
