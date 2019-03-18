@@ -6,6 +6,10 @@ namespace HassemblerTests
 {
     /// <summary>
     /// Tests the WebAssembly compiler.
+    /// Includes all tests from <see cref="InterpreterTests"/>
+    /// in a way that tests the WebAssembly compiler instead of the interpreter.
+    /// Tests that are heavily interpreter-specific (such as tests that
+    /// test parameter delivery) have been cut out.
     /// </summary>
     [TestClass]
     public class WebassemblyTests
@@ -49,7 +53,7 @@ namespace HassemblerTests
             string expectedOutput =
              "(module\n" +
              "  (func $f (result i32)\n" +
-             "    (i32.div_s)\n" +
+             "    (i32.div_s\n" +
              "      (i32.sub\n" +
              "        (i32.const 10)\n" +
              "        (i32.const 1)\n" +
@@ -67,10 +71,6 @@ namespace HassemblerTests
         /// <summary>
         /// Tests booleans
         /// Source code: f = 2 == 2
-        /// Input: f
-        /// <returns>
-        /// f = True
-        /// </returns>
         /// </summary>
         [TestMethod]
         public void BoolTest()
@@ -94,10 +94,6 @@ namespace HassemblerTests
         /// <summary>
         /// Tests condition statements (if then else)
         /// Source code: f = if 1 < 3 then 4+4 else 2 + 3
-        /// Input: f
-        /// <returns>
-        /// f = 8
-        /// </returns>
         /// </summary>
         [TestMethod]
         public void ITETest()
@@ -135,88 +131,67 @@ namespace HassemblerTests
         /// <summary>
         /// Tests LOTS of parentheses
         /// Source code: f = ((2+(2*30))/(2*1))
-        /// Input: f
-        /// <returns>
-        /// f = 31
-        /// </returns>
         /// </summary>
         [TestMethod]
         public void ParenTest()
         {
+            string expectedOutput =
+                          "(module\n" +
+                          "  (func $f (result i32)\n" +
+                          "    (i32.div_s\n" +
+                          "      (i32.add\n" +
+                          "        (i32.const 2)\n" +
+                          "        (i32.mul\n" +
+                          "          (i32.const 2)\n" +
+                          "          (i32.const 30)\n" +
+                          "        )\n" +
+                          "      )\n" +
+                          "      (i32.mul\n" +
+                          "        (i32.const 2)\n" +
+                          "        (i32.const 1)\n" +
+                          "      )\n" +
+                          "    )\n" +
+                          "  )\n" +
+                          "  (export \"f\" (func $f))\n" +
+                          ")\n";
+
             hassembler.ParseCode("f = ((2+(2*30))/(2*1))");
-            Assert.AreEqual("f = 31", hassembler.CallFunction("f", new List<object>()));
-        }
-
-
-        /// <summary>
-        /// Tests the getter for all functions
-        /// Source code: 
-        /// a=1+1+1*3
-        /// f=2+4
-        /// <returns>
-        /// a f
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void GetFuns()
-        {
-            hassembler.ParseCode("a=1+1+1*3\r\nf=2+4");
-            string str = "";
-            foreach (Hassembler.Function f in hassembler.GetFunctions)
-                str += f.Name + ' ';
-            Assert.AreEqual("a f ", str);
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
         /// <summary>
-        /// Test function call with parameters
+        /// Test multiple functions and parameters
         /// Source code:
         /// "fabulous a b = a + b
-        ///  y=4 + fabulous 2 3
-        ///  "
-        ///  Input: y
-        ///  <returns>
-        ///  
-        ///  </returns>
+        /// y=4 + fabulous 2 3"
         /// </summary>
         [TestMethod]
         public void FunCallWithParameters()
         {
+            string expectedOutput =
+                          "(module\n" +
+                          "  (func $fabulous (param $a i32) (param $b i32) (result i32)\n" +
+                          "    (i32.add\n" +
+                          "      (get_local $a)\n" +
+                          "      (get_local $b)\n" +
+                          "    )\n" +
+                          "  )\n" +
+                          "  (export \"fabulous\" (func $fabulous))\n" +
+                          "\n" +
+                          "  (func $y (result i32)\n" +
+                          "    (i32.add\n" +
+                          "      (i32.const 4)\n" +
+                          "      (call $fabulous\n" +
+                          "        (i32.const 2)\n" +
+                          "        (i32.const 3)\n" +
+                          "      )\n" +
+                          "    )\n" +
+                          "  )\n" +
+                          "  (export \"y\" (func $y))\n" +
+                          ")";
+
             hassembler.ParseCode("fabulous a b = a + b\ny=4 + fabulous 2 3\n");
-            Assert.AreEqual("y = 9", hassembler.CallFunction("y", new List<object>()));
-        }
-
-        /// <summary>
-        /// Test function call with non-int parameters
-        /// Source code:
-        /// f = g True
-        /// g x = x
-        ///  Input: f
-        ///  <returns>
-        ///  True
-        ///  </returns>
-        /// </summary>
-        [TestMethod]
-        public void FunCallWithNaNParameters()
-        {
-            hassembler.ParseCode("f = g True\r\ng x = x");
-            Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
-        }
-
-        /// <summary>
-        /// Test function call with spaces around newlines
-        /// Source code:
-        /// f = g True 
-        /// g x = x
-        ///  Input: f
-        ///  <returns>
-        ///  True
-        ///  </returns>
-        /// </summary>
-        [TestMethod]
-        public void FunWithSpacesAroundNewline()
-        {
-            hassembler.ParseCode("f = g True \r\n g x = x");
-            Assert.AreEqual("f = True", hassembler.CallFunction("f", new List<object>()));
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
         /// <summary>
@@ -224,16 +199,28 @@ namespace HassemblerTests
         /// Source code: 
         /// a=3
         /// f=a+9
-        /// Input: f
-        /// <returns>
-        /// f = 12
-        /// </returns> 
         /// </summary>
         [TestMethod]
         public void FunWithRef()
         {
+            string expectedOutput =
+                          "(module\n" +
+                          "  (func $a (result i32)\n" +
+                          "    (i32.const 3)\n" +
+                          "  )\n" +
+                          "  (export \"a\" (func $a))\n" +
+                          "\n" +
+                          "  (func $f (result i32)\n" +
+                          "    (i32.add\n" +
+                          "      (call $a)\n" +
+                          "      (i32.const 9)\n" +
+                          "    )\n" +
+                          "  )\n" +
+                          "  (export \"f\" (func $f))\n" +
+                          ")";
+
             hassembler.ParseCode("a=3\r\nf=a+9");
-            Assert.AreEqual("f = 12", hassembler.CallFunction("f", new List<object>()));
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
     
 
@@ -242,51 +229,38 @@ namespace HassemblerTests
         /// Tests recursive function with fibonacci (giving end condition)
         /// Source code: 
         /// "f x y end = if y < end then f y (x+y) end else y"
-        /// Input: 
-        /// f 1 1 10
-        /// <returns>
-        /// f = 13
-        /// </returns> 
         /// </summary>
         [TestMethod]
         public void Recursion()
         {
+            string expectedOutput =
+                          "(module\n" +
+                          "  (func $f (param $x i32) (param $y i32) (param $end i32) (result i32)\n" +
+                          "    (if (result i32)\n" +
+                          "      (i32.lt_s\n" +
+                          "        (get_local $y)\n" +
+                          "        (get_local $end)\n" +
+                          "      )\n" +
+                          "      (then\n" +
+                          "        (call $f\n" +
+                          "          (get_local $y)\n" +
+                          "          (i32.add\n" +
+                          "            (get_local $x)\n" +
+                          "            (get_local $y)\n" +
+                          "          )\n" +
+                          "          (get_local $end)\n" +
+                          "        )\n" +
+                          "      )\n" +
+                          "      (else\n" +
+                          "        (get_local $y)\n" +
+                          "      )\n" +
+                          "    )\n" +
+                          "  )\n" +
+                          "  (export \"f\" (func $f))\n" +
+                          ")";
+
             hassembler.ParseCode("f x y end = if y < end then f y (x+y) end else y");
-            Assert.AreEqual("f 1 1 10 = 13", hassembler.CallFunction("f", 1, 1, 10));
-        }
-
-        /// <summary>
-        /// Tests function call to undefined function 
-        /// Source code: 
-        /// "g = 1 + 3"
-        /// Input: 
-        /// f
-        /// <returns>
-        /// "Function not found"
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void FunNotDefined()
-        {
-            hassembler.ParseCode("g = 1 + 3");
-            Assert.AreEqual("Function not found: f", hassembler.CallFunction("f", 1, 1, 10));
-        }
-
-        /// <summary>
-        /// Tests that syntax errors produce an exception
-        /// Source code: 
-        /// "f = 1 ++ 2"
-        /// <returns>
-        /// (HassemblerException)
-        /// </returns> 
-        /// </summary>
-        [TestMethod]
-        public void SyntaxErrorTest()
-        {
-            //Assert.ThrowsException<Hassembler.HassemblerException>(
-            //    () => { hassembler.ParseCode("f = 1 ++ 2"); });
-            hassembler.ParseCode("g = 1 ++ 3");
-            Assert.AreEqual("g = -1", hassembler.CallFunction("g", new List<object>()));
+            Assert.AreEqual(expectedOutput, hassembler.GetInWebAssemblyTextFormat());
         }
 
         /// <summary>
