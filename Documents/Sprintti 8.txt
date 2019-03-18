@@ -11,7 +11,7 @@ Koodaussessio 26.2.
  - Myös ITE toimi yksinkertaisilla eimerkeillä, monimutkaisemmat lausekkeet aiheuttivat ongelmia
  - Alustava toteutus webassemblykoodin sisennykselle
 
-Koodaussessio 5.2.
+Koodaussessio 5.3.
  - Muutimme webassemblyn toteutuksen enemmän yleisen käytännön mukaiseksi
  	(sulutettu järjestys)
  - Nyt myös ITE toimii monimutkaisemmilla esimerkeillä
@@ -19,6 +19,6 @@ Koodaussessio 5.2.
  - Kääntäjän testailua aikaisempien testittapausten avulla
  - Tiedoston kirjoittaminen
 
-Loppupalaveri 5.2.
+Loppupalaveri 5.3.
  - Seuraavassa sprintissä kääntäjän kattava testaus ja palautuksen valmistelu
  - Tarkoitus palauttaa tehtävä seuraavassa sprintissä
